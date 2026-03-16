@@ -1,0 +1,7 @@
+lexik_jwt_authentication:
+    # Using symmetric HMAC-SHA256 (simple shared secret).
+    # For RSA asymmetric keys in production, swap to secret_key/public_key.
+    secret_key: '%env(JWT_SECRET)%'
+    token_ttl:  '%env(int:JWT_ACCESS_TTL)%'
+    encoder:
+        signature_algorithm: HS256

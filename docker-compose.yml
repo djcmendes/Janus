@@ -1,0 +1,135 @@
+version: '3.9'
+
+networks:
+  janus_network:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+  redis_data:
+  rabbitmq_data:
+
+services:
+
+  # ── Database ───────────────────────────────────────────────────────────────
+  mariadb:
+    image: mariadb:11.4
+    container_name: janus_mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-rootpassword}
+      MYSQL_DATABASE: ${DB_NAME:-janus}
+      MYSQL_USER: ${DB_USER:-janus}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-januspassword}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - janus_network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Cache ──────────────────────────────────────────────────────────────────
+  redis:
+    image: redis:7.4-alpine
+    container_name: janus_redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redispassword}
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - janus_network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redispassword}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ── Message Broker ─────────────────────────────────────────────────────────
+  rabbitmq:
+    image: rabbitmq:3.13-management-alpine
+    container_name: janus_rabbitmq
+    restart: unless-stopped
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-janus}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-januspassword}
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    networks:
+      - janus_network
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  # ── Backend (Symfony PHP-FPM) ──────────────────────────────────────────────
+  backend:
+    build:
+      context: ./backend.janus.com
+      dockerfile: Dockerfile
+    container_name: janus_backend
+    restart: unless-stopped
+    volumes:
+      - ./backend.janus.com:/var/www/backend
+    environment:
+      APP_ENV: ${APP_ENV:-dev}
+      APP_SECRET: ${APP_SECRET:-changethis}
+      DATABASE_URL: mysql://${DB_USER:-janus}:${DB_PASSWORD:-januspassword}@mariadb:3306/${DB_NAME:-janus}?serverVersion=mariadb-11.4.0
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redispassword}@redis:6379
+      RABBITMQ_DSN: amqp://${RABBITMQ_USER:-janus}:${RABBITMQ_PASSWORD:-januspassword}@rabbitmq:5672
+      JWT_SECRET: ${JWT_SECRET:-changethis_jwt_secret}
+      JWT_ACCESS_TTL: ${JWT_ACCESS_TTL:-900}
+      JWT_REFRESH_TTL: ${JWT_REFRESH_TTL:-604800}
+      CORS_ALLOW_ORIGIN: ${CORS_ALLOW_ORIGIN:-http://janus.com}
+    networks:
+      - janus_network
+    depends_on:
+      mariadb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+
+  # ── Frontend (Angular dev server) ──────────────────────────────────────────
+  frontend:
+    build:
+      context: ./janus.com
+      dockerfile: Dockerfile.dev
+    container_name: janus_frontend
+    restart: unless-stopped
+    volumes:
+      - ./janus.com:/var/www/frontend
+      - /var/www/frontend/node_modules
+    environment:
+      API_URL: http://backend.janus.com
+    networks:
+      - janus_network
+    depends_on:
+      - backend
+
+  # ── Nginx Reverse Proxy ────────────────────────────────────────────────────
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: janus_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./backend.janus.com/public:/var/www/backend/public:ro
+    networks:
+      - janus_network
+    depends_on:
+      - backend
+      - frontend
