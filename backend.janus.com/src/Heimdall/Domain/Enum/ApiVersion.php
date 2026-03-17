@@ -6,8 +6,8 @@ namespace App\Heimdall\Domain\Enum;
 
 enum ApiVersion: string
 {
-    case V1 = 'v1';
-    case V2 = 'v2';
+    case V100 = 'v100';
+    case V200 = 'v200';
 
     /**
      * Checks if this version is less than a given version.
