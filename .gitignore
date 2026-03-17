@@ -1,0 +1,9 @@
+.worktrees/
+worktrees/
+.agents/
+.gemini/
+.idea/
+.vscode/
+node_modules/
+vendor/
+.env
