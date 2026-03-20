@@ -18,7 +18,7 @@ final class GetVersionsHandler
         return [
             'data'  => array_map(
                 VersionDto::fromEntity(...),
-                $this->repository->findAll($query->limit, $query->offset, $query->collection, $query->item),
+                $this->repository->findPaginated($query->limit, $query->offset, $query->collection, $query->item),
             ),
             'total' => $this->repository->countAll($query->collection, $query->item),
         ];

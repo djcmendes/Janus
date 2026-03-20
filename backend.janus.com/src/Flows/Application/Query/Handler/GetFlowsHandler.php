@@ -15,7 +15,7 @@ final class GetFlowsHandler
     /** @return array{data: FlowDto[], total: int} */
     public function handle(GetFlowsQuery $query): array
     {
-        $flows = $this->repository->findAll($query->limit, $query->offset, $query->status);
+        $flows = $this->repository->findPaginated($query->limit, $query->offset, $query->status);
         $total = $this->repository->countAll($query->status);
 
         return [

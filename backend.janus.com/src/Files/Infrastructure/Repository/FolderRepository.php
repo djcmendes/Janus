@@ -39,7 +39,7 @@ final class FolderRepository extends ServiceEntityRepository implements FolderRe
     }
 
     /** @return Folder[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['name' => 'ASC'], $limit, $offset);
     }

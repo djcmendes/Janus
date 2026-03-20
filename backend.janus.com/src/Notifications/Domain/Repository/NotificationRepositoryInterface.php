@@ -15,7 +15,7 @@ interface NotificationRepositoryInterface
     public function findById(string $id): ?Notification;
 
     /** @return Notification[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $recipientId = null,

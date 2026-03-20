@@ -15,7 +15,7 @@ final class GetExtensionsHandler
     /** @return array{data: ExtensionDto[], total: int} */
     public function handle(GetExtensionsQuery $query): array
     {
-        $extensions = $this->repository->findAll($query->limit, $query->offset, $query->type, $query->enabled);
+        $extensions = $this->repository->findPaginated($query->limit, $query->offset, $query->type, $query->enabled);
         $total      = $this->repository->countAll($query->type, $query->enabled);
 
         return [

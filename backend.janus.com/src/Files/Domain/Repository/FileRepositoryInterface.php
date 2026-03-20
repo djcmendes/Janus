@@ -13,6 +13,6 @@ interface FileRepositoryInterface
     public function findById(string $id): ?File;
 
     /** @return File[] */
-    public function findAll(int $limit, int $offset, ?string $folderId = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $folderId = null): array;
     public function countAll(?string $folderId = null): int;
 }

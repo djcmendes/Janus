@@ -15,7 +15,7 @@ interface RoleRepositoryInterface
     public function findByName(string $name): ?Role;
 
     /** @return Role[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
 
     public function count(): int;
 

@@ -26,6 +26,6 @@ final class GetItemsHandler
             throw new CollectionNotFoundException($query->collection);
         }
 
-        return $this->itemsService->findAll($query->collection, $query->limit, $query->offset);
+        return $this->itemsService->findPaginated($query->collection, $query->limit, $query->offset);
     }
 }

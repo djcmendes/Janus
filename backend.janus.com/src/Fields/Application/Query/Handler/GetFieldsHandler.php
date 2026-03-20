@@ -17,7 +17,7 @@ final class GetFieldsHandler
     /** @return array{data: FieldDto[], total: int} */
     public function handle(GetFieldsQuery $query): array
     {
-        $fields = $this->repository->findAll($query->limit, $query->offset);
+        $fields = $this->repository->findPaginated($query->limit, $query->offset);
         $total  = $this->repository->countAll();
 
         return [

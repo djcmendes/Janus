@@ -18,7 +18,7 @@ final class GetAccessHandler
     public function handle(GetAccessQuery $query): array
     {
         return [
-            'data'  => array_map(AccessDto::fromEntity(...), $this->repository->findAll($query->limit, $query->offset)),
+            'data'  => array_map(AccessDto::fromEntity(...), $this->repository->findPaginated($query->limit, $query->offset)),
             'total' => $this->repository->count(),
         ];
     }

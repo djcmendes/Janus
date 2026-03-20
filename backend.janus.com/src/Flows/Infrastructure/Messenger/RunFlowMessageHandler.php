@@ -35,7 +35,7 @@ final class RunFlowMessageHandler
             return;
         }
 
-        $operations = $this->operationRepository->findAll(1000, 0, $message->flowId);
+        $operations = $this->operationRepository->findPaginated(1000, 0, $message->flowId);
 
         $this->logger->info('Running flow', [
             'flow_id'        => $flow->getId(),

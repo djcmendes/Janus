@@ -29,16 +29,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/versions', name: 'versions_')]
 final class VersionsController extends AbstractController
 {
     public function __construct(
         private readonly RequestGuard        $guard,
-        private readonly SerializerInterface $serializer,
-        private readonly ValidatorInterface  $validator,
     ) {}
 
     /** GET /versions */

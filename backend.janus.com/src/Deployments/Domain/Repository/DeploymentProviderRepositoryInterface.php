@@ -13,6 +13,6 @@ interface DeploymentProviderRepositoryInterface
     public function findById(string $id): ?DeploymentProvider;
 
     /** @return DeploymentProvider[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
     public function countAll(): int;
 }

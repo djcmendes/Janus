@@ -15,7 +15,7 @@ interface FlowRepositoryInterface
     public function findById(string $id): ?Flow;
 
     /** @return Flow[] */
-    public function findAll(int $limit, int $offset, ?string $status = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $status = null): array;
 
     public function countAll(?string $status = null): int;
 }

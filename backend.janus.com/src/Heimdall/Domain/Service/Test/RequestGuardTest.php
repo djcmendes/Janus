@@ -12,6 +12,7 @@ use App\Heimdall\Domain\Service\RequestGuard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,10 +30,12 @@ final class RequestGuardTest extends TestCase
 
     private function makeGuard(string $clientType = 'web'): RequestGuard
     {
-        // Use a real Request value object — no need to mock it.
         $request = Request::create('/', 'GET', [], [], [], ['HTTP_X_CLIENT_TYPE' => $clientType]);
 
-        return new RequestGuard($this->tokenStorage, $request);
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        return new RequestGuard($this->tokenStorage, $requestStack);
     }
 
     private function makeAuthenticatedToken(?UserInterface $user = null): TokenInterface&MockObject

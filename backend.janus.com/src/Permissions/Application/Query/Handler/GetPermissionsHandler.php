@@ -19,7 +19,7 @@ final class GetPermissionsHandler
     {
         $items = $query->policyId !== null
             ? $this->repository->findByPolicy($query->policyId, $query->limit, $query->offset)
-            : $this->repository->findAll($query->limit, $query->offset);
+            : $this->repository->findPaginated($query->limit, $query->offset);
 
         return [
             'data'  => array_map(PermissionDto::fromEntity(...), $items),

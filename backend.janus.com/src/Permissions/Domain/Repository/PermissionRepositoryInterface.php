@@ -15,7 +15,7 @@ interface PermissionRepositoryInterface
     public function findById(string $id): ?Permission;
 
     /** @return Permission[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
 
     /** @return Permission[] */
     public function findByPolicy(string $policyId, int $limit, int $offset): array;

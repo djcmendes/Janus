@@ -35,7 +35,7 @@ final class DeploymentProviderRepository extends ServiceEntityRepository impleme
         return $this->find($id);
     }
 
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->createQueryBuilder('p')
             ->orderBy('p.createdAt', 'DESC')

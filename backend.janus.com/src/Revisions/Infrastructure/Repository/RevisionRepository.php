@@ -44,7 +44,7 @@ final class RevisionRepository extends ServiceEntityRepository implements Revisi
     }
 
     /** @return Revision[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

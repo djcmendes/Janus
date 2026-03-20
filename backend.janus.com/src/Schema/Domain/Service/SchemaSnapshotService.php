@@ -41,9 +41,9 @@ final class SchemaSnapshotService
 
     public function snapshot(): array
     {
-        $collections = $this->collectionRepository->findAll(self::MAX_ROWS, 0);
-        $allFields   = $this->fieldRepository->findAll(self::MAX_ROWS, 0);
-        $relations   = $this->relationRepository->findAll(self::MAX_ROWS, 0);
+        $collections = $this->collectionRepository->findPaginated(self::MAX_ROWS, 0);
+        $allFields   = $this->fieldRepository->findPaginated(self::MAX_ROWS, 0);
+        $relations   = $this->relationRepository->findPaginated(self::MAX_ROWS, 0);
 
         // Index fields by collection for fast lookup
         $fieldsByCollection = [];

@@ -17,7 +17,7 @@ interface PolicyRepositoryInterface
     public function findByName(string $name): ?Policy;
 
     /** @return Policy[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
 
     public function count(): int;
 }

@@ -39,7 +39,7 @@ final class RelationRepository extends ServiceEntityRepository implements Relati
     }
 
     /** @return Relation[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['manyCollection' => 'ASC', 'manyField' => 'ASC'], $limit, $offset);
     }

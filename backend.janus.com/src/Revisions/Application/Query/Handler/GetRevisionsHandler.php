@@ -17,7 +17,7 @@ final class GetRevisionsHandler
     /** @return array{data: RevisionDto[], total: int} */
     public function handle(GetRevisionsQuery $query): array
     {
-        $revisions = $this->repository->findAll(
+        $revisions = $this->repository->findPaginated(
             $query->limit,
             $query->offset,
             $query->collection,

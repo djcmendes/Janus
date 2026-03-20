@@ -29,7 +29,7 @@ final class DeploymentRepository extends ServiceEntityRepository implements Depl
         return $this->find($id);
     }
 
-    public function findAll(int $limit, int $offset, ?string $providerId = null): array
+    public function findPaginated(int $limit, int $offset, ?string $providerId = null): array
     {
         $qb = $this->createQueryBuilder('d')->orderBy('d.startedAt', 'DESC');
 

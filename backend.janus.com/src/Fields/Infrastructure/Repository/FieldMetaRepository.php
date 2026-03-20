@@ -45,7 +45,7 @@ final class FieldMetaRepository extends ServiceEntityRepository implements Field
     }
 
     /** @return FieldMeta[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['collection' => 'ASC', 'sortOrder' => 'ASC'], $limit, $offset);
     }

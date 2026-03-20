@@ -39,7 +39,7 @@ final class FileRepository extends ServiceEntityRepository implements FileReposi
     }
 
     /** @return File[] */
-    public function findAll(int $limit, int $offset, ?string $folderId = null): array
+    public function findPaginated(int $limit, int $offset, ?string $folderId = null): array
     {
         $criteria = $folderId !== null ? ['folder' => $folderId] : [];
         return $this->findBy($criteria, ['createdAt' => 'DESC'], $limit, $offset);

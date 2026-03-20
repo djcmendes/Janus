@@ -37,7 +37,7 @@ final class PresetRepository extends ServiceEntityRepository implements PresetRe
     }
 
     /** @return Preset[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

@@ -44,7 +44,7 @@ final class RoleRepository extends ServiceEntityRepository implements RoleReposi
     }
 
     /** @return Role[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['createdAt' => 'ASC'], $limit, $offset);
     }

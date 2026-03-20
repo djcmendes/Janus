@@ -15,7 +15,7 @@ final class GetPanelsHandler
     /** @return array{data: PanelDto[], total: int} */
     public function handle(GetPanelsQuery $query): array
     {
-        $panels = $this->repository->findAll($query->limit, $query->offset, $query->dashboardId);
+        $panels = $this->repository->findPaginated($query->limit, $query->offset, $query->dashboardId);
         $total  = $this->repository->countAll($query->dashboardId);
 
         return [

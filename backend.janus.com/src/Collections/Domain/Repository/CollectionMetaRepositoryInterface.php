@@ -13,6 +13,6 @@ interface CollectionMetaRepositoryInterface
     public function findByName(string $name): ?CollectionMeta;
 
     /** @return CollectionMeta[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
     public function count(array $criteria = []): int;
 }

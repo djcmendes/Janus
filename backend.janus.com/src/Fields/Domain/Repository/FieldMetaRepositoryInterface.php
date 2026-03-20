@@ -16,7 +16,7 @@ interface FieldMetaRepositoryInterface
     public function findByCollection(string $collection): array;
 
     /** @return FieldMeta[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
     public function countAll(): int;
 
     /** Delete all fields belonging to a collection */

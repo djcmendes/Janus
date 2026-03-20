@@ -25,7 +25,7 @@ final class ItemsService
     /**
      * @return array{data: array[], total: int}
      */
-    public function findAll(string $collection, int $limit, int $offset): array
+    public function findPaginated(string $collection, int $limit, int $offset): array
     {
         $table = $this->quoteIdentifier($collection);
 

@@ -42,7 +42,7 @@ final class ShareRepository extends ServiceEntityRepository implements ShareRepo
     }
 
     /** @return Share[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

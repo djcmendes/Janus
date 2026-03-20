@@ -28,16 +28,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/shares', name: 'shares_')]
 final class SharesController extends AbstractController
 {
     public function __construct(
         private readonly RequestGuard        $guard,
-        private readonly SerializerInterface $serializer,
-        private readonly ValidatorInterface  $validator,
     ) {}
 
     /** GET /shares */

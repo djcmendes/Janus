@@ -17,7 +17,7 @@ final class GetActivityHandler
     /** @return array{data: ActivityDto[], total: int} */
     public function handle(GetActivityQuery $query): array
     {
-        $items = $this->repository->findAll(
+        $items = $this->repository->findPaginated(
             $query->limit,
             $query->offset,
             $query->collection,

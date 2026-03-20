@@ -37,7 +37,7 @@ final class FlowRepository extends ServiceEntityRepository implements FlowReposi
     }
 
     /** @return Flow[] */
-    public function findAll(int $limit, int $offset, ?string $status = null): array
+    public function findPaginated(int $limit, int $offset, ?string $status = null): array
     {
         $qb = $this->createQueryBuilder('f')
             ->orderBy('f.createdAt', 'DESC')

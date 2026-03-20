@@ -18,7 +18,7 @@ final class GetPoliciesHandler
     public function handle(GetPoliciesQuery $query): array
     {
         return [
-            'data'  => array_map(PolicyDto::fromEntity(...), $this->repository->findAll($query->limit, $query->offset)),
+            'data'  => array_map(PolicyDto::fromEntity(...), $this->repository->findPaginated($query->limit, $query->offset)),
             'total' => $this->repository->count(),
         ];
     }

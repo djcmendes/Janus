@@ -17,7 +17,7 @@ interface ShareRepositoryInterface
     public function findByToken(string $token): ?Share;
 
     /** @return Share[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

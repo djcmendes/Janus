@@ -37,7 +37,7 @@ final class PanelRepository extends ServiceEntityRepository implements PanelRepo
     }
 
     /** @return Panel[] */
-    public function findAll(int $limit, int $offset, ?string $dashboardId = null): array
+    public function findPaginated(int $limit, int $offset, ?string $dashboardId = null): array
     {
         $qb = $this->createQueryBuilder('p')
             ->orderBy('p.positionY', 'ASC')

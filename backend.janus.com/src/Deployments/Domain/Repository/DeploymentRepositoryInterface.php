@@ -12,6 +12,6 @@ interface DeploymentRepositoryInterface
     public function findById(string $id): ?Deployment;
 
     /** @return Deployment[] */
-    public function findAll(int $limit, int $offset, ?string $providerId = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $providerId = null): array;
     public function countAll(?string $providerId = null): int;
 }

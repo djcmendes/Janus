@@ -13,7 +13,7 @@ interface RevisionRepositoryInterface
     public function findLatestForItem(string $collection, string $item): ?Revision;
 
     /** @return Revision[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

@@ -17,7 +17,7 @@ final class GetCommentsHandler
     /** @return array{data: CommentDto[], total: int} */
     public function handle(GetCommentsQuery $query): array
     {
-        $comments = $this->repository->findAll(
+        $comments = $this->repository->findPaginated(
             $query->limit,
             $query->offset,
             $query->collection,

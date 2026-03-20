@@ -13,7 +13,7 @@ interface RelationRepositoryInterface
     public function findByCollectionAndField(string $manyCollection, string $manyField): ?Relation;
 
     /** @return Relation[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
     public function count(array $criteria = []): int;
 
     /** Delete all relations belonging to a collection (either side) */

@@ -14,6 +14,6 @@ interface VersionRepositoryInterface
     public function findByCollectionItemAndKey(string $collection, string $item, string $key): ?Version;
 
     /** @return Version[] */
-    public function findAll(int $limit, int $offset, ?string $collection = null, ?string $item = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $collection = null, ?string $item = null): array;
     public function countAll(?string $collection = null, ?string $item = null): int;
 }

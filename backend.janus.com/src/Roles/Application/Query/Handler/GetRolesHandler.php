@@ -17,7 +17,7 @@ final class GetRolesHandler
     /** @return array{data: RoleDto[], total: int} */
     public function handle(GetRolesQuery $query): array
     {
-        $roles = $this->repository->findAll($query->limit, $query->offset);
+        $roles = $this->repository->findPaginated($query->limit, $query->offset);
         $total = $this->repository->count();
 
         return [

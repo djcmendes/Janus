@@ -13,7 +13,7 @@ interface CommentRepositoryInterface
     public function findById(string $id): ?Comment;
 
     /** @return Comment[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

@@ -19,10 +19,12 @@ final class CommentRepository extends ServiceEntityRepository implements Comment
         parent::__construct($registry, Comment::class);
     }
 
-    public function save(Comment $comment): void
+    public function save(Comment $comment, bool $flush = true): void
     {
         $this->getEntityManager()->persist($comment);
-        $this->getEntityManager()->flush();
+        if ($flush) {
+            $this->getEntityManager()->flush();
+        }
     }
 
     public function delete(Comment $comment): void
@@ -37,7 +39,7 @@ final class CommentRepository extends ServiceEntityRepository implements Comment
     }
 
     /** @return Comment[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

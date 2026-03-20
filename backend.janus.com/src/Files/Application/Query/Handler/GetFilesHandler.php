@@ -15,7 +15,7 @@ final class GetFilesHandler
     /** @return array{data: FileDto[], total: int} */
     public function handle(GetFilesQuery $query): array
     {
-        $files = $this->repository->findAll($query->limit, $query->offset, $query->folderId);
+        $files = $this->repository->findPaginated($query->limit, $query->offset, $query->folderId);
         $total = $this->repository->countAll($query->folderId);
 
         return [

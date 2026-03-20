@@ -15,7 +15,7 @@ interface PresetRepositoryInterface
     public function findById(string $id): ?Preset;
 
     /** @return Preset[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

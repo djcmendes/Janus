@@ -44,7 +44,7 @@ final class PolicyRepository extends ServiceEntityRepository implements PolicyRe
     }
 
     /** @return Policy[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['createdAt' => 'ASC'], $limit, $offset);
     }

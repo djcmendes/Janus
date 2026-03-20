@@ -18,7 +18,7 @@ final class GetDeploymentsHandler
         return [
             'data'  => array_map(
                 DeploymentProviderDto::fromEntity(...),
-                $this->repository->findAll($query->limit, $query->offset),
+                $this->repository->findPaginated($query->limit, $query->offset),
             ),
             'total' => $this->repository->countAll(),
         ];

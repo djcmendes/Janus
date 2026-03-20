@@ -15,7 +15,7 @@ interface ExtensionRepositoryInterface
     public function findById(string $id): ?Extension;
 
     /** @return Extension[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $type    = null,

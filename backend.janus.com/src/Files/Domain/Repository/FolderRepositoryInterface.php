@@ -13,6 +13,6 @@ interface FolderRepositoryInterface
     public function findById(string $id): ?Folder;
 
     /** @return Folder[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
     public function count(array $criteria = []): int;
 }

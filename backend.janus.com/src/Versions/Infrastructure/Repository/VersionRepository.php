@@ -40,7 +40,7 @@ final class VersionRepository extends ServiceEntityRepository implements Version
         return $this->findOneBy(['collection' => $collection, 'item' => $item, 'key' => $key]);
     }
 
-    public function findAll(int $limit, int $offset, ?string $collection = null, ?string $item = null): array
+    public function findPaginated(int $limit, int $offset, ?string $collection = null, ?string $item = null): array
     {
         $qb = $this->createQueryBuilder('v')->orderBy('v.createdAt', 'DESC');
 

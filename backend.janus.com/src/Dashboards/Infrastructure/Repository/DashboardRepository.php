@@ -37,7 +37,7 @@ final class DashboardRepository extends ServiceEntityRepository implements Dashb
     }
 
     /** @return Dashboard[] */
-    public function findAll(int $limit, int $offset, ?string $userId = null): array
+    public function findPaginated(int $limit, int $offset, ?string $userId = null): array
     {
         $qb = $this->createQueryBuilder('d')
             ->orderBy('d.createdAt', 'DESC')

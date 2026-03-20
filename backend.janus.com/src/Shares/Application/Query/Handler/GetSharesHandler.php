@@ -15,7 +15,7 @@ final class GetSharesHandler
     /** @return array{data: ShareDto[], total: int} */
     public function handle(GetSharesQuery $query): array
     {
-        $shares = $this->repository->findAll($query->limit, $query->offset, $query->collection, $query->userId);
+        $shares = $this->repository->findPaginated($query->limit, $query->offset, $query->collection, $query->userId);
         $total  = $this->repository->countAll($query->collection, $query->userId);
 
         return [

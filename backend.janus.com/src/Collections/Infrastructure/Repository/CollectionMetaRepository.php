@@ -39,7 +39,7 @@ final class CollectionMetaRepository extends ServiceEntityRepository implements 
     }
 
     /** @return CollectionMeta[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['createdAt' => 'ASC'], $limit, $offset);
     }

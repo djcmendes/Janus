@@ -15,7 +15,7 @@ final class GetTranslationsHandler
     /** @return array{data: TranslationDto[], total: int} */
     public function handle(GetTranslationsQuery $query): array
     {
-        $translations = $this->repository->findAll($query->limit, $query->offset, $query->language, $query->key);
+        $translations = $this->repository->findPaginated($query->limit, $query->offset, $query->language, $query->key);
         $total        = $this->repository->countAll($query->language, $query->key);
 
         return [

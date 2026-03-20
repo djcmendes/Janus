@@ -37,7 +37,7 @@ final class ExtensionRepository extends ServiceEntityRepository implements Exten
     }
 
     /** @return Extension[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $type    = null,

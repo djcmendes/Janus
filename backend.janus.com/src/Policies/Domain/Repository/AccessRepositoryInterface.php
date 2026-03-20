@@ -17,7 +17,7 @@ interface AccessRepositoryInterface
     public function findByRoleAndPolicy(string $roleId, string $policyId): ?Access;
 
     /** @return Access[] */
-    public function findAll(int $limit, int $offset): array;
+    public function findPaginated(int $limit, int $offset): array;
 
     public function count(): int;
 }

@@ -17,7 +17,7 @@ final class GetCollectionsHandler
     /** @return array{data: CollectionDto[], total: int} */
     public function handle(GetCollectionsQuery $query): array
     {
-        $collections = $this->repository->findAll($query->limit, $query->offset);
+        $collections = $this->repository->findPaginated($query->limit, $query->offset);
         $total       = $this->repository->count();
 
         return [

@@ -42,7 +42,7 @@ final class TranslationRepository extends ServiceEntityRepository implements Tra
     }
 
     /** @return Translation[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $language = null,

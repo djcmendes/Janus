@@ -15,7 +15,7 @@ interface DashboardRepositoryInterface
     public function findById(string $id): ?Dashboard;
 
     /** @return Dashboard[] */
-    public function findAll(int $limit, int $offset, ?string $userId = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $userId = null): array;
 
     public function countAll(?string $userId = null): int;
 }

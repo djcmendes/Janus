@@ -15,7 +15,7 @@ final class GetFoldersHandler
     /** @return array{data: FolderDto[], total: int} */
     public function handle(GetFoldersQuery $query): array
     {
-        $folders = $this->repository->findAll($query->limit, $query->offset);
+        $folders = $this->repository->findPaginated($query->limit, $query->offset);
         $total   = $this->repository->count();
 
         return [

@@ -26,16 +26,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/extensions', name: 'extensions_')]
 final class ExtensionsController extends AbstractController
 {
     public function __construct(
         private readonly RequestGuard        $guard,
-        private readonly SerializerInterface $serializer,
-        private readonly ValidatorInterface  $validator,
     ) {}
 
     /** GET /extensions — authenticated users can browse the registry */

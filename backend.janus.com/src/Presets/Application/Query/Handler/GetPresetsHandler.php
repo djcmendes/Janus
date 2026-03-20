@@ -15,7 +15,7 @@ final class GetPresetsHandler
     /** @return array{data: PresetDto[], total: int} */
     public function handle(GetPresetsQuery $query): array
     {
-        $presets = $this->repository->findAll($query->limit, $query->offset, $query->collection, $query->userId);
+        $presets = $this->repository->findPaginated($query->limit, $query->offset, $query->collection, $query->userId);
         $total   = $this->repository->countAll($query->collection, $query->userId);
 
         return [

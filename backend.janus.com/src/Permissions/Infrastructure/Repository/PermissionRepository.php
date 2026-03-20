@@ -39,7 +39,7 @@ final class PermissionRepository extends ServiceEntityRepository implements Perm
     }
 
     /** @return Permission[] */
-    public function findAll(int $limit, int $offset): array
+    public function findPaginated(int $limit, int $offset): array
     {
         return $this->findBy([], ['createdAt' => 'ASC'], $limit, $offset);
     }

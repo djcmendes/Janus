@@ -15,7 +15,7 @@ interface OperationRepositoryInterface
     public function findById(string $id): ?Operation;
 
     /** @return Operation[] */
-    public function findAll(int $limit, int $offset, ?string $flowId = null): array;
+    public function findPaginated(int $limit, int $offset, ?string $flowId = null): array;
 
     public function countAll(?string $flowId = null): int;
 

@@ -37,7 +37,7 @@ final class OperationRepository extends ServiceEntityRepository implements Opera
     }
 
     /** @return Operation[] */
-    public function findAll(int $limit, int $offset, ?string $flowId = null): array
+    public function findPaginated(int $limit, int $offset, ?string $flowId = null): array
     {
         $qb = $this->createQueryBuilder('o')
             ->orderBy('o.sortOrder', 'ASC')

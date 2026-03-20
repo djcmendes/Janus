@@ -17,7 +17,7 @@ final class GetRelationsHandler
     /** @return array{data: RelationDto[], total: int} */
     public function handle(GetRelationsQuery $query): array
     {
-        $relations = $this->repository->findAll($query->limit, $query->offset);
+        $relations = $this->repository->findPaginated($query->limit, $query->offset);
         $total     = $this->repository->count();
 
         return [

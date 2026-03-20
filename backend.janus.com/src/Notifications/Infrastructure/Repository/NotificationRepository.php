@@ -37,7 +37,7 @@ final class NotificationRepository extends ServiceEntityRepository implements No
     }
 
     /** @return Notification[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $recipientId = null,

@@ -15,7 +15,7 @@ final class GetOperationsHandler
     /** @return array{data: OperationDto[], total: int} */
     public function handle(GetOperationsQuery $query): array
     {
-        $operations = $this->repository->findAll($query->limit, $query->offset, $query->flowId);
+        $operations = $this->repository->findPaginated($query->limit, $query->offset, $query->flowId);
         $total      = $this->repository->countAll($query->flowId);
 
         return [

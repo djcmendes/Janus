@@ -15,7 +15,7 @@ final class GetNotificationsHandler
     /** @return array{data: NotificationDto[], total: int} */
     public function handle(GetNotificationsQuery $query): array
     {
-        $notifications = $this->repository->findAll($query->limit, $query->offset, $query->recipientId, $query->read);
+        $notifications = $this->repository->findPaginated($query->limit, $query->offset, $query->recipientId, $query->read);
         $total         = $this->repository->countAll($query->recipientId, $query->read);
 
         return [

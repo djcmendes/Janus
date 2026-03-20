@@ -31,7 +31,7 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
     }
 
     /** @return Activity[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $collection = null,

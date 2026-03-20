@@ -15,7 +15,7 @@ final class GetDashboardsHandler
     /** @return array{data: DashboardDto[], total: int} */
     public function handle(GetDashboardsQuery $query): array
     {
-        $dashboards = $this->repository->findAll($query->limit, $query->offset, $query->userId);
+        $dashboards = $this->repository->findPaginated($query->limit, $query->offset, $query->userId);
         $total      = $this->repository->countAll($query->userId);
 
         return [

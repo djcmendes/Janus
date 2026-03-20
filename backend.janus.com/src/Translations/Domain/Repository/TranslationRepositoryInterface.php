@@ -17,7 +17,7 @@ interface TranslationRepositoryInterface
     public function findByLanguageAndKey(string $language, string $key): ?Translation;
 
     /** @return Translation[] */
-    public function findAll(
+    public function findPaginated(
         int     $limit,
         int     $offset,
         ?string $language = null,

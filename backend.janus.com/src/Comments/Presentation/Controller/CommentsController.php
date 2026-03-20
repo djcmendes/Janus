@@ -16,8 +16,6 @@ use App\Comments\Application\Query\Handler\GetCommentByIdHandler;
 use App\Comments\Application\Query\Handler\GetCommentsHandler;
 use App\Comments\Domain\Exception\CommentForbiddenException;
 use App\Comments\Domain\Exception\CommentNotFoundException;
-use App\Comments\Presentation\DTO\CreateCommentRequest;
-use App\Comments\Presentation\DTO\UpdateCommentRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
@@ -27,16 +25,12 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
 
 #[Route('/comments', name: 'comments_')]
 final class CommentsController extends AbstractController
 {
     public function __construct(
-        private readonly RequestGuard        $guard,
-        private readonly SerializerInterface $serializer,
-        private readonly ValidatorInterface  $validator,
+        private readonly RequestGuard $guard,
     ) {}
 
     /** GET /comments */
@@ -89,30 +83,19 @@ final class CommentsController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId = $this->guard->validate_authenticated_user_id();
 
-        $body = $request->getContent();
+        $data       = json_decode($request->getContent(), true) ?? [];
+        $comment    = trim($data['comment'] ?? '');
+        $collection = $data['collection'] ?? null;
+        $item       = $data['item'] ?? null;
 
-        /** @var CreateCommentRequest $dto */
-        $dto = $this->serializer->deserialize($body, CreateCommentRequest::class, 'json');
-
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        if ($comment === '' || $collection === null || $item === null) {
             return $this->json(
-                ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
+                ['errors' => [['message' => 'comment, collection, and item are required.', 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
                 Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
 
-        $collection = json_decode($body, true)['collection'] ?? null;
-        $item       = json_decode($body, true)['item'] ?? null;
-
-        if ($collection === null || $item === null) {
-            return $this->json(
-                ['errors' => [['message' => 'collection and item are required.', 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
-                Response::HTTP_UNPROCESSABLE_ENTITY,
-            );
-        }
-
-        $result = $handler->handle(new CreateCommentCommand($collection, $item, $dto->comment, $userId));
+        $result = $handler->handle(new CreateCommentCommand($collection, $item, $comment, $userId));
 
         return $this->json(['data' => $result], Response::HTTP_CREATED);
     }
@@ -126,19 +109,18 @@ final class CommentsController extends AbstractController
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
 
-        /** @var UpdateCommentRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), UpdateCommentRequest::class, 'json');
+        $data    = json_decode($request->getContent(), true) ?? [];
+        $comment = trim($data['comment'] ?? '');
 
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        if ($comment === '') {
             return $this->json(
-                ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
+                ['errors' => [['message' => 'comment is required.', 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
                 Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
 
         try {
-            $result = $handler->handle(new UpdateCommentCommand($id, $dto->comment, $userId, $isAdmin));
+            $result = $handler->handle(new UpdateCommentCommand($id, $comment, $userId, $isAdmin));
         } catch (CommentNotFoundException $e) {
             return $this->json(
                 ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'NOT_FOUND']]]],
