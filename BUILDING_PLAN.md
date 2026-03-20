@@ -198,19 +198,15 @@ Each module must follow the full Onion structure:
 
 > Generic CRUD against any dynamic collection
 
-- [~] `Presentation/Controller/ItemsController.php` — stub exists
-- [ ] `Domain/Service/ItemsService.php` (dynamic collection resolver)
-- [ ] `Application/Query/GetItemsQuery.php` + Handler
-- [ ] `Application/Query/GetItemByIdQuery.php` + Handler
-- [ ] `Application/Command/CreateItemCommand.php` + Handler
-- [ ] `Application/Command/UpdateItemCommand.php` + Handler
-- [ ] `Application/Command/DeleteItemCommand.php` + Handler
-- [ ] `Application/DTO/ItemDto.php`
-- [ ] Implement `GET /items/:collection`
-- [ ] Implement `POST /items/:collection`
-- [ ] Implement `GET /items/:collection/:id`
-- [ ] Implement `PATCH /items/:collection/:id`
-- [ ] Implement `DELETE /items/:collection/:id`
+- [x] `Domain/Service/ItemsService.php` — DBAL-based dynamic CRUD (no Doctrine entities)
+- [x] `Domain/Exception/ItemNotFoundException.php`
+- [x] `Application/Query/GetItemsQuery.php` + Handler (validates collection exists)
+- [x] `Application/Query/GetItemByIdQuery.php` + Handler
+- [x] `Application/Command/CreateItemCommand.php` + Handler (generates UUID v7, filters by janus_fields)
+- [x] `Application/Command/UpdateItemCommand.php` + Handler
+- [x] `Application/Command/DeleteItemCommand.php` + Handler
+- [x] `Presentation/Controller/ItemsController.php` — `GET/POST /items/:collection`, `GET/PATCH/DELETE /items/:collection/:id`
+- [x] No migration needed — tables created dynamically via SchemaManagerService
 
 ### 3.8 Relations
 
@@ -665,7 +661,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Permissions/       ~ Stub
 │       ├── Collections/       ✅ Full CRUD + DDL
 │       ├── Fields/            ✅ Full CRUD + DDL
-│       ├── Items/             ~ Stub
+│       ├── Items/             ✅ Dynamic DBAL CRUD
 │       ├── Relations/         ~ Stub
 │       ├── Files/             ~ Stub
 │       ├── Activity/          ~ Partial
