@@ -363,19 +363,19 @@ Each module must follow the full Onion structure:
 
 > Dashboard layouts + panel widgets
 
-- [~] `Presentation/Controller/DashboardsController.php` — stub exists
-- [~] `Presentation/Controller/PanelsController.php` — stub exists
-- [ ] `Domain/Entity/Dashboard.php`
-- [ ] `Domain/Entity/Panel.php`
-- [ ] `Application/Command/CreateDashboardCommand.php` + Handler
-- [ ] `Application/Command/UpdateDashboardCommand.php` + Handler
-- [ ] `Application/Command/DeleteDashboardCommand.php` + Handler
-- [ ] `Application/Query/GetDashboardsQuery.php` + Handler
-- [ ] `Application/DTO/DashboardDto.php`
-- [ ] `Application/DTO/PanelDto.php`
-- [ ] Doctrine migrations for `dashboards`, `panels` tables
-- [ ] Implement `GET /dashboards`, `POST /dashboards`, `PATCH /dashboards/:id`, `DELETE /dashboards/:id`
-- [ ] Implement `GET /panels`, `POST /panels`, `PATCH /panels/:id`, `DELETE /panels/:id`
+- [x] `Dashboards/Domain/Entity/Dashboard.php` — name, icon, note, userId; `isOwnedBy()`
+- [x] `Panels/Domain/Entity/Panel.php` — dashboardId, type, name, note, options (JSON), positionX/Y, width, height
+- [x] `Dashboards/Domain/Repository/DashboardRepositoryInterface.php`
+- [x] `Panels/Domain/Repository/PanelRepositoryInterface.php` — includes `deleteByDashboard()`
+- [x] `Dashboards/Domain/Exception/DashboardNotFoundException.php`
+- [x] `Panels/Domain/Exception/PanelNotFoundException.php`
+- [x] Application DTOs, queries, and commands for both Dashboard and Panel (full CRUD)
+- [x] `DeleteDashboardHandler` — cascades: calls `panelRepository->deleteByDashboard()` before removing dashboard
+- [x] `CreatePanelHandler` — validates dashboard exists before inserting panel
+- [x] Infrastructure repositories for Dashboard and Panel
+- [x] `Dashboards/Presentation/Controller/DashboardsController.php` — ROLE_ADMIN for write; list scopes to current user
+- [x] `Panels/Presentation/Controller/PanelsController.php` — ROLE_ADMIN for write; supports `?dashboard=` filter
+- [x] Doctrine migration `Version20260320000014`: `dashboards` + `panels` (FK with CASCADE DELETE)
 
 ### 3.18 Flows & Operations
 
