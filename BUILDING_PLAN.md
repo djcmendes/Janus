@@ -264,17 +264,16 @@ Each module must follow the full Onion structure:
 
 > Read-only activity log
 
-- [~] `Domain/Entity/Activity.php` — exists
-- [~] `Infrastructure/Repository/ActivityRepository.php` — exists
-- [~] `Presentation/Controller/ActivityController.php` — stub exists
-- [ ] `Domain/Repository/ActivityRepositoryInterface.php`
-- [ ] `Domain/Service/ActivityLogger.php` (auto-log from event listeners)
-- [ ] `Application/Query/GetActivityQuery.php` + Handler
-- [ ] `Application/Query/GetActivityByIdQuery.php` + Handler
-- [ ] `Application/DTO/ActivityDto.php`
-- [ ] Doctrine migration for `activity` table
-- [ ] Implement `GET /activity`
-- [ ] Implement `GET /activity/:id`
+- [x] `Domain/Entity/Activity.php` — action, collection, item, userId, ip, userAgent, timestamp
+- [x] `Domain/Repository/ActivityRepositoryInterface.php` — findAll/countAll with collection, action, userId filters
+- [x] `Domain/Exception/ActivityNotFoundException.php`
+- [x] `Domain/Service/ActivityLogger.php` — injectable; auto-captures IP + User-Agent from RequestStack
+- [x] `Application/DTO/ActivityDto.php`
+- [x] `Application/Query/GetActivityQuery.php` (collection/action/user filters) + Handler
+- [x] `Application/Query/GetActivityByIdQuery.php` + Handler
+- [x] `Infrastructure/Repository/ActivityRepository.php` — implements interface, QueryBuilder filtering
+- [x] `Presentation/Controller/ActivityController.php` — RequestGuard + CQRS, ROLE_ADMIN only
+- [x] Doctrine migration `Version20260320000008`: create `activity` table with indexes
 
 ### 3.12 Revisions
 
@@ -677,7 +676,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Items/             ✅ Dynamic DBAL CRUD
 │       ├── Relations/         ✅ Full CRUD (metadata only)
 │       ├── Files/             ✅ Upload + folders + local storage
-│       ├── Activity/          ~ Partial
+│       ├── Activity/          ✅ Read-only log + ActivityLogger
 │       ├── Revisions/         ~ Stub
 │       ├── Comments/          ~ Stub
 │       ├── Presets/           ~ Stub
