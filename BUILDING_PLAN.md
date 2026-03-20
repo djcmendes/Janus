@@ -133,20 +133,33 @@ Each module must follow the full Onion structure:
 
 > Full CRUD, access checks
 
-- [~] `Presentation/Controller/PermissionsController.php` — stub exists
-- [ ] `Domain/Entity/Permission.php`
-- [ ] `Domain/Entity/Policy.php`
-- [ ] `Domain/Repository/PermissionRepositoryInterface.php`
-- [ ] `Infrastructure/Repository/PermissionRepository.php`
-- [ ] `Application/Query/GetPermissionsQuery.php` + Handler
-- [ ] `Application/Command/CreatePermissionCommand.php` + Handler
-- [ ] `Application/Command/UpdatePermissionCommand.php` + Handler
-- [ ] `Application/Command/DeletePermissionCommand.php` + Handler
-- [ ] `Application/DTO/PermissionDto.php`
-- [ ] Doctrine migrations for `permissions`, `policies`, `access` tables
-- [ ] Implement `GET /permissions`, `POST /permissions`, `PATCH /permissions/:id`, `DELETE /permissions/:id`
-- [ ] Implement `GET /policies`, `POST /policies`, `PATCH /policies/:id`, `DELETE /policies/:id`
-- [ ] Implement `GET /access`
+**`src/Policies/` module — Policy entity + Access junction**
+- [x] `Domain/Entity/Policy.php` — id(UUID), name(unique), description, icon, enforceTfa, adminAccess, appAccess, ipAccess(JSON)
+- [x] `Domain/Entity/Access.php` — junction: role(nullable ManyToOne) + policy(ManyToOne), createdAt
+- [x] `Domain/Repository/PolicyRepositoryInterface.php`
+- [x] `Domain/Repository/AccessRepositoryInterface.php` — findByRoleAndPolicy for duplicate guard
+- [x] `Domain/Exception/PolicyNotFoundException`, `PolicyAlreadyExistsException`, `AccessNotFoundException`, `AccessAlreadyExistsException`
+- [x] `Application/DTO/PolicyDto.php`, `AccessDto.php`
+- [x] `Application/Query/GetPoliciesQuery` + `Handler`, `GetPolicyByIdQuery` + `Handler`, `GetAccessQuery` + `Handler`
+- [x] `Application/Command/CreatePolicyCommand` + `Handler`, `UpdatePolicyCommand` + `Handler`, `DeletePolicyCommand` + `Handler`
+- [x] `Application/Command/CreateAccessCommand` + `Handler` (resolves role+policy, duplicate check), `DeleteAccessCommand` + `Handler`
+- [x] `Infrastructure/Repository/PolicyRepository.php`, `AccessRepository.php`
+- [x] `Presentation/DTO/CreatePolicyRequest.php`, `UpdatePolicyRequest.php`, `CreateAccessRequest.php`
+- [x] `Presentation/Controller/PoliciesController.php` — `GET/POST /policies`, `GET/PATCH/DELETE /policies/{id}`
+- [x] `Presentation/Controller/AccessController.php` — `GET/POST /access`, `DELETE /access/{id}`
+
+**`src/Permissions/` module — Permission rules within a policy**
+- [x] `Domain/Enum/PermissionAction.php` — create|read|update|delete|share|sort
+- [x] `Domain/Entity/Permission.php` — id(UUID), policy(ManyToOne), collection(?), action(enum), fields(JSON?), permissionsFilter(JSON?), validation(JSON?), presets(JSON?)
+- [x] `Domain/Repository/PermissionRepositoryInterface.php` — findByPolicy for policy-scoped listing
+- [x] `Domain/Exception/PermissionNotFoundException`
+- [x] `Application/DTO/PermissionDto.php`
+- [x] `Application/Query/GetPermissionsQuery` (optional policyId filter) + `Handler`, `GetPermissionByIdQuery` + `Handler`
+- [x] `Application/Command/CreatePermissionCommand` + `Handler` (validates action enum, resolves policy), `UpdatePermissionCommand` + `Handler`, `DeletePermissionCommand` + `Handler`
+- [x] `Infrastructure/Repository/PermissionRepository.php` — findByPolicy via QueryBuilder
+- [x] `Presentation/DTO/CreatePermissionRequest.php`, `UpdatePermissionRequest.php`
+- [x] `Presentation/Controller/PermissionsController.php` — `GET/POST /permissions`, `GET/PATCH/DELETE /permissions/{id}`; supports `?policy=<id>` filter
+- [x] Doctrine migration `Version20260320000004`: create `policies`, `permissions`, `access` tables
 
 ### 3.6 Collections & Fields
 
