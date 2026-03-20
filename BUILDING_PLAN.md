@@ -294,15 +294,18 @@ Each module must follow the full Onion structure:
 
 > Threaded item comments
 
-- [~] `Presentation/Controller/CommentsController.php` — stub exists
-- [ ] `Domain/Entity/Comment.php`
-- [ ] `Application/Command/CreateCommentCommand.php` + Handler
-- [ ] `Application/Command/UpdateCommentCommand.php` + Handler
-- [ ] `Application/Command/DeleteCommentCommand.php` + Handler
-- [ ] `Application/Query/GetCommentsQuery.php` + Handler
-- [ ] `Application/DTO/CommentDto.php`
-- [ ] Doctrine migration for `comments` table
-- [ ] Implement `GET /comments`, `POST /comments`, `PATCH /comments/:id`, `DELETE /comments/:id`
+- [x] `Domain/Entity/Comment.php` — collection, item, comment (text), userId; `isOwnedBy()`, `setComment()`
+- [x] `Domain/Repository/CommentRepositoryInterface.php`
+- [x] `Domain/Exception/CommentNotFoundException.php` + `CommentForbiddenException.php`
+- [x] `Application/DTO/CommentDto.php`
+- [x] `Application/Query/GetCommentsQuery.php` + `GetCommentByIdQuery.php` + Handlers
+- [x] `Application/Command/CreateCommentCommand.php` + Handler
+- [x] `Application/Command/UpdateCommentCommand.php` + Handler — ownership check via `isOwnedBy()` or `isAdmin`
+- [x] `Application/Command/DeleteCommentCommand.php` + Handler — ownership check via `isOwnedBy()` or `isAdmin`
+- [x] `Infrastructure/Repository/CommentRepository.php`
+- [x] `Presentation/DTO/CreateCommentRequest.php` + `UpdateCommentRequest.php`
+- [x] `Presentation/Controller/CommentsController.php` — full CRUD with auth + ownership
+- [x] Doctrine migration `Version20260320000010`: create `comments` table with indexes on `(collection, item)` and `user_id`
 
 ### 3.14 Presets
 
