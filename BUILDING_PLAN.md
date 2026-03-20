@@ -40,10 +40,10 @@ The `examples/` folder is a local clone of the Directus monorepo used as **refer
 - [x] `Application/DTO/AuthDto.php`
 - [x] `Presentation/Controller/AuthController.php`
   - [x] `POST /auth/login`
-  - [ ] `POST /auth/refresh`
-  - [ ] `POST /auth/logout`
-  - [ ] `POST /auth/password/request`
-  - [ ] `POST /auth/password/reset`
+  - [x] `POST /auth/refresh`
+  - [x] `POST /auth/logout`
+  - [x] `POST /auth/password/request`
+  - [x] `POST /auth/password/reset`
 
 ---
 
@@ -526,7 +526,7 @@ Each module must follow the full Onion structure:
 - [x] Verify `logout` calls `POST /auth/logout` and clears JWT
 - [x] Verify `auth.guard.ts` reads `AuthService.isAuthenticated()` correctly
 - [x] Verify `auth.interceptor.ts` injects Bearer token on all API calls
-- [ ] Verify auto-refresh via `POST /auth/refresh` when access token expires
+- [x] Verify auto-refresh via `POST /auth/refresh` when access token expires
 
 ---
 
