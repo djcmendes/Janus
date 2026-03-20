@@ -56,11 +56,11 @@ Each module must follow the full Onion structure:
 
 > `GET /server/ping`, `GET /server/info`, `GET /server/health`
 
-- [~] `Presentation/Controller/ServerController.php` — stub exists
-- [ ] `Domain/Service/ServerService.php`
-- [ ] Implement `GET /server/ping` → `{"data": "pong"}`
-- [ ] Implement `GET /server/info` → version, node info
-- [ ] Implement `GET /server/health` → service health checks (DB, Redis, RabbitMQ)
+- [x] `Presentation/Controller/ServerController.php` — ping (PUBLIC), info (AUTHENTICATED), health (AUTHENTICATED)
+- [x] `Domain/Service/ServerService.php`
+- [x] Implement `GET /server/ping` → `{"data": "pong"}`
+- [x] Implement `GET /server/info` → version, node info
+- [x] Implement `GET /server/health` → service health checks (DB, Redis, RabbitMQ)
 
 ### 3.2 Settings
 
@@ -696,7 +696,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 ├── backend.janus.com/         ← Symfony (Onion + CQRS)
 │   └── src/
 │       ├── Heimdall/          ✓ Complete
-│       ├── Server/            ~ Stub
+│       ├── Server/            ✅ ping + info + health
 │       ├── Settings/          ~ Partial
 │       ├── Users/             ~ Partial
 │       ├── Roles/             ~ Stub

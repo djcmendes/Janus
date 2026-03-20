@@ -29,3 +29,8 @@ services:
     App\Heimdall\Infrastructure\JWT\JwtService:
         arguments:
             $refreshTtl: '%env(int:JWT_REFRESH_TTL)%'
+
+    App\Server\Domain\Service\ServerService:
+        arguments:
+            $redisUrl:    '%env(REDIS_URL)%'
+            $rabbitmqDsn: '%env(RABBITMQ_DSN)%'
