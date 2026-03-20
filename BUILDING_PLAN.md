@@ -697,30 +697,31 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │   └── src/
 │       ├── Heimdall/          ✓ Complete
 │       ├── Server/            ✅ ping + info + health
-│       ├── Settings/          ~ Partial
-│       ├── Users/             ~ Partial
-│       ├── Roles/             ~ Stub
-│       ├── Permissions/       ~ Stub
+│       ├── Settings/          ✅ Singleton CRUD
+│       ├── Users/             ✅ Full CRUD + invite
+│       ├── Roles/             ✅ Full CRUD
+│       ├── Permissions/       ✅ Full CRUD (Policies + Permissions + Access)
 │       ├── Collections/       ✅ Full CRUD + DDL
 │       ├── Fields/            ✅ Full CRUD + DDL
 │       ├── Items/             ✅ Dynamic DBAL CRUD
 │       ├── Relations/         ✅ Full CRUD (metadata only)
 │       ├── Files/             ✅ Upload + folders + local storage
+│       ├── Assets/            ✅ Transform/resize endpoint
 │       ├── Activity/          ✅ Read-only log + ActivityLogger
 │       ├── Revisions/         ✅ Read-only + RevisionRecorder
-│       ├── Comments/          ~ Stub
-│       ├── Presets/           ~ Stub
-│       ├── Notifications/     ~ Stub
-│       ├── Shares/            ~ Stub
-│       ├── Dashboards/        ~ Stub
-│       ├── Panels/            ~ Stub
-│       ├── Flows/             ~ Stub
-│       ├── Extensions/        ~ Stub
-│       ├── Translations/      ~ Stub
-│       ├── Schema/            ~ Stub
-│       ├── Versions/          ~ Stub
-│       ├── Deployments/       ~ Stub
-│       └── Utils/             ~ Stub
+│       ├── Comments/          ✅ Threaded CRUD + ownership
+│       ├── Presets/           ✅ User bookmark CRUD
+│       ├── Notifications/     ✅ Full CRUD + markAsRead
+│       ├── Shares/            ✅ Token-based public links
+│       ├── Dashboards/        ✅ Full CRUD + panel cascade
+│       ├── Panels/            ✅ Full CRUD
+│       ├── Flows/             ✅ Full CRUD + async trigger (Messenger)
+│       ├── Extensions/        ✅ Full CRUD
+│       ├── Translations/      ✅ Full CRUD (GET public)
+│       ├── Schema/            ✅ snapshot + diff + apply
+│       ├── Versions/          ✅ Full CRUD + promote
+│       ├── Deployments/       ✅ Full CRUD + run trigger
+│       └── Utils/             ✅ sort/hash/cache/random utilities
 └── janus.com/                 ← Angular 19
     └── src/app/
         ├── core/              ✓ Complete

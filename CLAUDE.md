@@ -195,30 +195,32 @@ Angular 19 **standalone components only** — no NgModules.
 | Module | Status | Key Classes | Endpoints |
 |---|---|---|---|
 | **Heimdall** | ✅ Complete | `RequestGuard`, `JwtService`, `AuthController`, `ApiScope`, `ApiVersion`, `Client` | `POST /auth/login`, `POST /auth/logout`, `GET /auth/me`, `POST /auth/password/request` |
-| **Users** | ✅ Complete | `User` (Entity, UUID, soft-delete), `UserRepository`, `UsersController` | `GET/POST /users`, `GET/PATCH/DELETE /users/{id}` |
-| **Settings** | ✅ Complete | `Settings` (singleton entity), `SettingsRepository` (`getOrCreate()`), `SettingsController` | `GET /settings` (public), `PATCH /settings` (ROLE_ADMIN) |
-| **Activity** | ✅ Complete | `Activity` (Entity, action/collection/item/userId/ip/userAgent), `ActivityRepository` (`record()`), `ActivityController` | `GET /activity`, `GET /activity/{id}` |
-| **Server** | ✅ Complete | `ServerController` | `GET /server/ping` (public), `GET /server/info` (auth) |
-| **Collections** | 🔲 Stub | `CollectionsController` (empty) | Routes declared, return empty |
-| **Fields** | 🔲 Stub | `FieldsController` (empty) | Routes declared, return empty |
-| **Items** | 🔲 Stub | `ItemsController` (empty) | Routes declared, return empty |
-| **Roles** | 🔲 Stub | `RolesController` (empty) | Routes declared, return empty |
-| **Permissions** | 🔲 Stub | `PermissionsController` (empty) | Routes declared, return empty |
-| **Relations** | 🔲 Stub | `RelationsController` (empty) | Routes declared, return empty |
-| **Files** | 🔲 Stub | `FilesController` (empty) | Routes declared, return empty |
-| **Comments** | 🔲 Stub | `CommentsController` (empty) | Routes declared, return empty |
-| **Dashboards** | 🔲 Stub | `DashboardsController` (empty) | Routes declared, return empty |
-| **Panels** | 🔲 Stub | `PanelsController` (empty) | Routes declared, return empty |
-| **Deployments** | 🔲 Stub | `DeploymentsController` (empty) | Routes declared, return empty |
-| **Flows** | 🔲 Stub | `FlowsController` (empty) | Routes declared, return empty |
-| **Notifications** | 🔲 Stub | `NotificationsController` (empty) | Routes declared, return empty |
-| **Presets** | 🔲 Stub | `PresetsController` (empty) | Routes declared, return empty |
-| **Revisions** | 🔲 Stub | `RevisionsController` (empty) | Routes declared, return empty |
-| **Schema** | 🔲 Stub | `SchemaController` (empty) | Routes declared, return empty |
-| **Shares** | 🔲 Stub | `SharesController` (empty) | Routes declared, return empty |
-| **Translations** | 🔲 Stub | `TranslationsController` (empty) | Routes declared, return empty |
-| **Utils** | 🔲 Stub | `UtilsController` (empty) | Routes declared, return empty |
-| **Versions** | 🔲 Stub | `VersionsController` (empty) | Routes declared, return empty |
+| **Users** | ✅ Complete | `User` (UUID, soft-delete), `UserRepository`, `UsersController`, `InviteUserHandler` | `GET/POST /users`, `GET/PATCH/DELETE /users/{id}`, `POST /users/invite` |
+| **Settings** | ✅ Complete | `Settings` (singleton), `SettingsRepository` (`getOrCreate()`), `SettingsController` | `GET /settings` (auth), `PATCH /settings` (ROLE_ADMIN) |
+| **Activity** | ✅ Complete | `Activity`, `ActivityLogger` (auto-captures IP/UA), `ActivityController` | `GET /activity`, `GET /activity/{id}` |
+| **Server** | ✅ Complete | `ServerService` (DB/Redis/RabbitMQ health), `ServerController` | `GET /server/ping` (public), `GET /server/info`, `GET /server/health` |
+| **Roles** | ✅ Complete | `Role`, `RoleRepository`, `RolesController` | `GET/POST /roles`, `GET/PATCH/DELETE /roles/{id}` |
+| **Permissions** | ✅ Complete | `Permission`, `Policy`, `Access`, `PoliciesController`, `PermissionsController`, `AccessController` | `GET/POST /policies`, `GET/PATCH/DELETE /policies/{id}`, `GET/POST /permissions`, `GET/PATCH/DELETE /permissions/{id}`, `GET/POST /access`, `DELETE /access/{id}` |
+| **Collections** | ✅ Complete | `CollectionMeta`, `SchemaManagerService` (DDL), `CollectionsController` | `GET/POST /collections`, `GET/PATCH/DELETE /collections/{name}` |
+| **Fields** | ✅ Complete | `FieldMeta`, `FieldType` (enum), `FieldsController` | `GET /fields`, `GET /fields/{collection}`, `GET/POST/PATCH/DELETE /fields/{collection}/{field}` |
+| **Items** | ✅ Complete | Dynamic DBAL CRUD against any collection | `GET/POST /items/{collection}`, `GET/PATCH/DELETE /items/{collection}/{id}` |
+| **Relations** | ✅ Complete | Relation metadata (no FK DDL) | `GET/POST /relations`, `GET/PATCH/DELETE /relations/{collection}/{field}` |
+| **Files** | ✅ Complete | `FileStorageService` (local disk), `FilesController`, `FoldersController` | `GET/POST /files`, `GET/PATCH/DELETE /files/{id}`, `GET/POST /folders`, `GET/PATCH/DELETE /folders/{id}` |
+| **Assets** | ✅ Complete | `AssetTransformService` (resize/crop/format), `AssetsController` | `GET /assets/{id}?width=&height=&fit=&format=` |
+| **Revisions** | ✅ Complete | `Revision`, `RevisionRecorder` (auto delta/version), `RevisionsController` | `GET /revisions`, `GET /revisions/{id}` |
+| **Comments** | ✅ Complete | `Comment` (`isOwnedBy()`), `CommentsController` (ownership enforcement) | `GET/POST /comments`, `GET/PATCH/DELETE /comments/{id}` |
+| **Presets** | ✅ Complete | `Preset` (bookmark/view prefs, scoped to user), `PresetsController` | `GET/POST /presets`, `GET/PATCH/DELETE /presets/{id}` |
+| **Notifications** | ✅ Complete | `Notification` (`markAsRead()`), `NotificationsController` | `GET/POST /notifications`, `GET/PATCH/DELETE /notifications/{id}` |
+| **Shares** | ✅ Complete | `Share` (token, password, expiry, maxUses), `ShareTokenService`, `SharesController` | `GET/POST /shares`, `DELETE /shares/{id}`, `POST /shares/auth` (public) |
+| **Dashboards** | ✅ Complete | `Dashboard`, `DashboardsController` (cascade-deletes panels) | `GET/POST /dashboards`, `GET/PATCH/DELETE /dashboards/{id}` |
+| **Panels** | ✅ Complete | `Panel` (posX/Y/width/height/options), `PanelsController` | `GET/POST /panels`, `GET/PATCH/DELETE /panels/{id}` |
+| **Flows** | ✅ Complete | `Flow`, `Operation` (linked-list graph), `FlowRunnerService` (Messenger async), `FlowsController` | `GET/POST /flows`, `GET/PATCH/DELETE /flows/{id}`, `POST /flows/{id}/trigger`, `GET/POST /operations`, `GET/PATCH/DELETE /operations/{id}` |
+| **Extensions** | ✅ Complete | `Extension`, `ExtensionType` (enum), `ExtensionsController` | `GET/POST /extensions`, `GET/PATCH/DELETE /extensions/{id}` |
+| **Translations** | ✅ Complete | `Translation` (BCP47 language, dot-notation key), `TranslationsController` | `GET/POST /translations` (GET public), `GET/PATCH/DELETE /translations/{id}` |
+| **Schema** | ✅ Complete | `SchemaSnapshotService`, `SchemaDiffService`, `SchemaController` | `GET /schema/snapshot`, `POST /schema/diff`, `POST /schema/apply` |
+| **Versions** | ✅ Complete | `Version`, `VersionService`, `VersionsController` | `GET/POST /versions`, `GET/PATCH/DELETE /versions/{id}`, `POST /versions/{id}/promote` |
+| **Deployments** | ✅ Complete | `Deployment`, `DeploymentProvider`, `TriggerDeploymentHandler` (HttpClient), `DeploymentsController` | `GET/POST /deployments`, `GET/DELETE /deployments/{id}`, `POST /deployments/{id}/run` |
+| **Utils** | ✅ Complete | `UtilsController` | `POST /utils/sort/{collection}`, `GET /utils/hash/generate`, `GET /utils/hash/verify`, `POST /utils/cache/clear`, `GET /utils/random/string` |
 
 ---
 
