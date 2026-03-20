@@ -279,13 +279,16 @@ Each module must follow the full Onion structure:
 
 > Read-only revision history
 
-- [~] `Presentation/Controller/RevisionsController.php` — stub exists
-- [ ] `Domain/Entity/Revision.php`
-- [ ] `Domain/Service/RevisionService.php` (capture diffs on item save)
-- [ ] `Application/Query/GetRevisionsQuery.php` + Handler
-- [ ] `Application/DTO/RevisionDto.php`
-- [ ] Doctrine migration for `revisions` table
-- [ ] Implement `GET /revisions`, `GET /revisions/:id`
+- [x] `Domain/Entity/Revision.php` — collection, item, data (JSON snapshot), delta (JSON diff), version, activity_id
+- [x] `Domain/Repository/RevisionRepositoryInterface.php` — `findLatestForItem()`, `findAll/countAll` with collection+item filters
+- [x] `Domain/Exception/RevisionNotFoundException.php`
+- [x] `Domain/Service/RevisionRecorder.php` — injectable; auto-increments version, computes delta from previous snapshot
+- [x] `Application/DTO/RevisionDto.php`
+- [x] `Application/Query/GetRevisionsQuery.php` (collection/item filters) + Handler
+- [x] `Application/Query/GetRevisionByIdQuery.php` + Handler
+- [x] `Infrastructure/Repository/RevisionRepository.php` — `findLatestForItem()` uses ORDER BY version DESC LIMIT 1
+- [x] `Presentation/Controller/RevisionsController.php` — read-only, ROLE_ADMIN; `GET /revisions`, `GET /revisions/:id`
+- [x] Doctrine migration `Version20260320000009`: create `revisions` table with composite indexes
 
 ### 3.13 Comments
 
@@ -677,7 +680,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Relations/         ✅ Full CRUD (metadata only)
 │       ├── Files/             ✅ Upload + folders + local storage
 │       ├── Activity/          ✅ Read-only log + ActivityLogger
-│       ├── Revisions/         ~ Stub
+│       ├── Revisions/         ✅ Read-only + RevisionRecorder
 │       ├── Comments/          ~ Stub
 │       ├── Presets/           ~ Stub
 │       ├── Notifications/     ~ Stub
