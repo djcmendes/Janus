@@ -328,15 +328,18 @@ Each module must follow the full Onion structure:
 
 > User notification system
 
-- [~] `Presentation/Controller/NotificationsController.php` — stub exists
-- [ ] `Domain/Entity/Notification.php`
-- [ ] `Application/Command/CreateNotificationCommand.php` + Handler
-- [ ] `Application/Command/MarkNotificationReadCommand.php` + Handler
-- [ ] `Application/Command/DeleteNotificationCommand.php` + Handler
-- [ ] `Application/Query/GetNotificationsQuery.php` + Handler
-- [ ] `Application/DTO/NotificationDto.php`
-- [ ] Doctrine migration for `notifications` table
-- [ ] Implement `GET /notifications`, `POST /notifications`, `PATCH /notifications/:id`, `DELETE /notifications/:id`
+- [x] `Domain/Entity/Notification.php` — recipientId, subject, message, senderId, collection, item, read (bool); `markAsRead()`, `isOwnedBy()`
+- [x] `Domain/Repository/NotificationRepositoryInterface.php`
+- [x] `Domain/Exception/NotificationNotFoundException.php` + `NotificationForbiddenException.php`
+- [x] `Application/DTO/NotificationDto.php`
+- [x] `Application/Query/GetNotificationsQuery.php` + `GetNotificationByIdQuery.php` + Handlers
+- [x] `Application/Command/CreateNotificationCommand.php` + Handler
+- [x] `Application/Command/MarkNotificationReadCommand.php` + Handler — ownership enforced
+- [x] `Application/Command/DeleteNotificationCommand.php` + Handler — ownership enforced
+- [x] `Infrastructure/Repository/NotificationRepository.php` — filterable by recipientId + read status
+- [x] `Presentation/DTO/CreateNotificationRequest.php`
+- [x] `Presentation/Controller/NotificationsController.php` — POST is ROLE_ADMIN only; PATCH marks as read; list scopes to current user
+- [x] Doctrine migration `Version20260320000012`: create `notifications` table with indexes on `recipient_id` and `(recipient_id, read)`
 
 ### 3.16 Shares
 
