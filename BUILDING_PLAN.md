@@ -434,14 +434,14 @@ Each module must follow the full Onion structure:
 
 > Snapshot, diff, apply
 
-- [~] `Presentation/Controller/SchemaController.php` — stub exists
-- [ ] `Domain/Service/SchemaSnapshotService.php`
-- [ ] `Domain/Service/SchemaDiffService.php`
-- [ ] `Application/Command/ApplySchemaCommand.php` + Handler
-- [ ] `Application/Query/GetSchemaSnapshotQuery.php` + Handler
-- [ ] Implement `GET /schema/snapshot`
-- [ ] Implement `POST /schema/diff`
-- [ ] Implement `POST /schema/apply`
+- [x] `Presentation/Controller/SchemaController.php`
+- [x] `Domain/Service/SchemaSnapshotService.php`
+- [x] `Domain/Service/SchemaDiffService.php`
+- [x] `Application/Command/ApplySchemaCommand.php` + Handler
+- [x] `Application/Query/GetSchemaSnapshotQuery.php` + Handler
+- [x] Implement `GET /schema/snapshot`
+- [x] Implement `POST /schema/diff`
+- [x] Implement `POST /schema/apply`
 
 ### 3.22 Versions
 
@@ -641,7 +641,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 
 > **Verification:** All unit tests pass; E2E login + CRUD test passes.
 
-### Backend (PHPUnit)
+### Backend (PHPUnit) (replan this sections)
 
 - [ ] Unit tests for `Heimdall/Domain/Service/RequestGuard.php`
 - [ ] Unit tests for `Heimdall/Infrastructure/JWT/JwtService.php`
@@ -653,7 +653,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [ ] Feature tests for `GET /settings`, `PATCH /settings`
 - [ ] Integration tests for `ActivityLogger` auto-logging
 
-### Frontend (Vitest + Playwright)
+### Frontend (Vitest + Playwright) (replan this sections after implmenting the frontend)
 
 - [ ] Unit tests for `AuthService` (login, logout, token refresh)
 - [ ] Unit tests for `ApiService` (request building, error handling)
