@@ -66,17 +66,17 @@ Each module must follow the full Onion structure:
 
 > `GET /settings`, `PATCH /settings`
 
-- [~] `Domain/Entity/Settings.php` — exists
-- [~] `Infrastructure/Repository/SettingsRepository.php` — exists
-- [~] `Presentation/Controller/SettingsController.php` — stub exists
-- [ ] `Domain/Repository/SettingsRepositoryInterface.php`
-- [ ] `Application/Query/GetSettingsQuery.php` + Handler
-- [ ] `Application/Command/UpdateSettingsCommand.php` + Handler
-- [ ] `Application/DTO/SettingsDto.php`
-- [ ] `Presentation/DTO/UpdateSettingsRequest.php`
-- [ ] Doctrine migration for `settings` table
-- [ ] Implement `GET /settings`
-- [ ] Implement `PATCH /settings`
+- [x] `Domain/Entity/Settings.php` — singleton, projectName, defaultLanguage, defaultAppearance, projectUrl/Logo/Color, updatedAt
+- [x] `Domain/Repository/SettingsRepositoryInterface.php`
+- [x] `Infrastructure/Repository/SettingsRepository.php` — implements interface, `getOrCreate()`, `save()`
+- [x] `Application/DTO/SettingsDto.php` — `fromEntity()`, `toArray()`
+- [x] `Application/Query/GetSettingsQuery.php` + `GetSettingsHandler`
+- [x] `Application/Command/UpdateSettingsCommand.php` (UNCHANGED sentinel for nullable fields) + `UpdateSettingsHandler`
+- [x] `Presentation/DTO/UpdateSettingsRequest.php` — validates `default_appearance`, UNCHANGED sentinel passthrough
+- [x] `Presentation/Controller/SettingsController.php` — uses RequestGuard + Application handlers
+- [x] Doctrine migration for `settings` table (`migrations/Version20260320000002.php`)
+- [x] Implement `GET /settings` (authenticated, all clients)
+- [x] Implement `PATCH /settings` (ROLE_ADMIN, WEB only)
 
 ### 3.3 Users
 

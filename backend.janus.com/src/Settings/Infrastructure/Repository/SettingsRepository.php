@@ -5,10 +5,14 @@ declare(strict_types=1);
 namespace App\Settings\Infrastructure\Repository;
 
 use App\Settings\Domain\Entity\Settings;
+use App\Settings\Domain\Repository\SettingsRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
-class SettingsRepository extends ServiceEntityRepository
+/**
+ * @extends ServiceEntityRepository<Settings>
+ */
+final class SettingsRepository extends ServiceEntityRepository implements SettingsRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
