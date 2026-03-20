@@ -256,9 +256,9 @@ Each module must follow the full Onion structure:
 
 > Image transform/resizing endpoint
 
-- [ ] `Domain/Service/AssetTransformService.php` (resize, crop, format)
-- [ ] `Application/Query/GetAssetQuery.php` + Handler
-- [ ] Implement `GET /assets/:id?width=&height=&fit=&format=`
+- [x] `Domain/Service/AssetTransformService.php` (resize, crop, format)
+- [x] `Application/Query/GetAssetQuery.php` + Handler
+- [x] Implement `GET /assets/:id?width=&height=&fit=&format=`
 
 ### 3.11 Activity
 
