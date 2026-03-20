@@ -464,16 +464,19 @@ Each module must follow the full Onion structure:
 
 > Deployment provider integrations
 
-- [~] `Presentation/Controller/DeploymentsController.php` — stub exists
-- [ ] `Domain/Entity/Deployment.php`
-- [ ] `Domain/Entity/DeploymentProvider.php`
-- [ ] `Application/Command/CreateDeploymentCommand.php` + Handler
-- [ ] `Application/Command/TriggerDeploymentCommand.php` + Handler
-- [ ] `Application/Query/GetDeploymentsQuery.php` + Handler
-- [ ] `Application/DTO/DeploymentDto.php`
-- [ ] Doctrine migrations for `deployments`, `deployment_providers` tables
-- [ ] Implement `GET /deployments`, `POST /deployments`, `GET /deployments/:id`, `DELETE /deployments/:id`
-- [ ] Implement `POST /deployments/:id/run`
+- [x] `Presentation/Controller/DeploymentsController.php`
+- [x] `Domain/Entity/Deployment.php` (run log record)
+- [x] `Domain/Entity/DeploymentProvider.php` (provider config)
+- [x] `Domain/Enum/DeploymentProviderType.php` — webhook|netlify|vercel|custom
+- [x] `Domain/Enum/DeploymentRunStatus.php` — pending|running|success|failure
+- [x] `Application/Command/CreateDeploymentCommand.php` + Handler
+- [x] `Application/Command/DeleteDeploymentCommand.php` + Handler
+- [x] `Application/Command/TriggerDeploymentCommand.php` + Handler (Symfony HttpClient)
+- [x] `Application/Query/GetDeploymentsQuery.php` + Handler
+- [x] `Application/DTO/DeploymentProviderDto.php` + `DeploymentDto.php`
+- [x] Doctrine migration `Version20260320000019`: `deployment_providers` + `deployments` tables
+- [x] Implement `GET /deployments`, `POST /deployments`, `GET /deployments/:id`, `DELETE /deployments/:id`
+- [x] Implement `POST /deployments/:id/run`
 
 ### 3.24 Utils
 
