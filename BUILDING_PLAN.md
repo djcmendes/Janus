@@ -212,15 +212,19 @@ Each module must follow the full Onion structure:
 
 > O2M, M2O, M2M schema management
 
-- [~] `Presentation/Controller/RelationsController.php` — stub exists
-- [ ] `Domain/Entity/Relation.php`
-- [ ] `Domain/Service/RelationService.php`
-- [ ] `Application/Query/GetRelationsQuery.php` + Handler
-- [ ] `Application/Command/CreateRelationCommand.php` + Handler
-- [ ] `Application/Command/UpdateRelationCommand.php` + Handler
-- [ ] `Application/Command/DeleteRelationCommand.php` + Handler
-- [ ] Doctrine migration for `relations` table
-- [ ] Implement `GET /relations`, `POST /relations`, `GET /relations/:collection/:field`, `PATCH /relations/:collection/:field`, `DELETE /relations/:collection/:field`
+- [x] `Domain/Entity/Relation.php` — many_collection, many_field, one_collection, one_field, junction_collection
+- [x] `Domain/Repository/RelationRepositoryInterface.php` — includes `deleteByCollection()` for cascade
+- [x] `Domain/Exception/RelationNotFoundException.php` + `RelationAlreadyExistsException.php`
+- [x] `Application/DTO/RelationDto.php`
+- [x] `Application/Query/GetRelationsQuery.php` + Handler
+- [x] `Application/Query/GetRelationByCollectionAndFieldQuery.php` + Handler
+- [x] `Application/Command/CreateRelationCommand.php` + Handler
+- [x] `Application/Command/UpdateRelationCommand.php` + Handler (UNCHANGED sentinel)
+- [x] `Application/Command/DeleteRelationCommand.php` + Handler
+- [x] `Infrastructure/Repository/RelationRepository.php`
+- [x] `Presentation/DTO/CreateRelationRequest.php` + `UpdateRelationRequest.php`
+- [x] `Presentation/Controller/RelationsController.php` — `GET /relations`, `POST /relations`, `GET/PATCH/DELETE /relations/:collection/:field`
+- [x] Doctrine migration `Version20260320000006`: create `janus_relations` table
 
 ### 3.9 Files & Folders
 
@@ -662,7 +666,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Collections/       ✅ Full CRUD + DDL
 │       ├── Fields/            ✅ Full CRUD + DDL
 │       ├── Items/             ✅ Dynamic DBAL CRUD
-│       ├── Relations/         ~ Stub
+│       ├── Relations/         ✅ Full CRUD (metadata only)
 │       ├── Files/             ~ Stub
 │       ├── Activity/          ~ Partial
 │       ├── Revisions/         ~ Stub
