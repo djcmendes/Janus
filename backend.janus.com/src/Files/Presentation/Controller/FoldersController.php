@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Files\Presentation\Controller;
 
-use App\Files\Application\Command\DeleteFileCommand;
-use App\Files\Application\Command\Handler\DeleteFileHandler;
-use App\Files\Application\Command\Handler\UpdateFileHandler;
-use App\Files\Application\Command\Handler\UploadFileHandler;
-use App\Files\Application\Command\UpdateFileCommand;
-use App\Files\Application\Command\UploadFileCommand;
-use App\Files\Application\Query\GetFileByIdQuery;
-use App\Files\Application\Query\GetFilesQuery;
-use App\Files\Application\Query\Handler\GetFileByIdHandler;
-use App\Files\Application\Query\Handler\GetFilesHandler;
-use App\Files\Domain\Exception\FileNotFoundException;
+use App\Files\Application\Command\CreateFolderCommand;
+use App\Files\Application\Command\DeleteFolderCommand;
+use App\Files\Application\Command\Handler\CreateFolderHandler;
+use App\Files\Application\Command\Handler\DeleteFolderHandler;
+use App\Files\Application\Command\Handler\UpdateFolderHandler;
+use App\Files\Application\Command\UpdateFolderCommand;
+use App\Files\Application\Query\GetFolderByIdQuery;
+use App\Files\Application\Query\GetFoldersQuery;
+use App\Files\Application\Query\Handler\GetFolderByIdHandler;
+use App\Files\Application\Query\Handler\GetFoldersHandler;
 use App\Files\Domain\Exception\FolderNotFoundException;
-use App\Files\Presentation\DTO\UpdateFileRequest;
+use App\Files\Presentation\DTO\CreateFolderRequest;
+use App\Files\Presentation\DTO\UpdateFolderRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
@@ -27,30 +27,29 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/files', name: 'files_')]
-final class FilesController extends AbstractController
+#[Route('/folders', name: 'folders_')]
+final class FoldersController extends AbstractController
 {
     public function __construct(
-        private readonly RequestGuard       $guard,
-        private readonly GetFilesHandler    $getFilesHandler,
-        private readonly GetFileByIdHandler $getFileByIdHandler,
-        private readonly UploadFileHandler  $uploadFileHandler,
-        private readonly UpdateFileHandler  $updateFileHandler,
-        private readonly DeleteFileHandler  $deleteFileHandler,
+        private readonly RequestGuard         $guard,
+        private readonly GetFoldersHandler    $getFoldersHandler,
+        private readonly GetFolderByIdHandler $getFolderByIdHandler,
+        private readonly CreateFolderHandler  $createFolderHandler,
+        private readonly UpdateFolderHandler  $updateFolderHandler,
+        private readonly DeleteFolderHandler  $deleteFolderHandler,
     ) {}
 
-    /** GET /files */
+    /** GET /folders */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
-        $limit    = min((int) $request->query->get('limit', 25), 100);
-        $offset   = (int) $request->query->get('offset', 0);
-        $folderId = $request->query->get('folder') ?: null;
+        $limit  = min((int) $request->query->get('limit', 25), 100);
+        $offset = (int) $request->query->get('offset', 0);
 
-        $result = $this->getFilesHandler->handle(new GetFilesQuery($limit, $offset, $folderId));
+        $result = $this->getFoldersHandler->handle(new GetFoldersQuery($limit, $offset));
 
         return $this->json([
             'data' => array_map(fn ($dto) => $dto->toArray(), $result['data']),
@@ -58,7 +57,7 @@ final class FilesController extends AbstractController
         ]);
     }
 
-    /** GET /files/:id */
+    /** GET /folders/:id */
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $id): JsonResponse
     {
@@ -66,66 +65,54 @@ final class FilesController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
-            $dto = $this->getFileByIdHandler->handle(new GetFileByIdQuery($id));
-        } catch (FileNotFoundException $e) {
+            $dto = $this->getFolderByIdHandler->handle(new GetFolderByIdQuery($id));
+        } catch (FolderNotFoundException $e) {
             return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
         }
 
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** POST /files — multipart/form-data upload */
-    #[Route('', name: 'upload', methods: ['POST'])]
-    public function upload(Request $request): JsonResponse
+    /** POST /folders */
+    #[Route('', name: 'create', methods: ['POST'])]
+    public function create(Request $request): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
-        $uploaded = $request->files->get('file');
-
-        if ($uploaded === null) {
-            return $this->json(
-                $this->validationError('No file uploaded. Send the file under the "file" field.'),
-                Response::HTTP_UNPROCESSABLE_ENTITY,
-            );
+        try {
+            $req = CreateFolderRequest::fromArray(json_decode($request->getContent(), true) ?? []);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json($this->validationError($e->getMessage()), Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
-        $userId = $this->guard->validate_authenticated_user_id();
-
         try {
-            $dto = $this->uploadFileHandler->handle(new UploadFileCommand(
-                file:       $uploaded,
-                title:      $request->request->get('title'),
-                folderId:   $request->request->get('folder'),
-                uploadedBy: $userId,
+            $dto = $this->createFolderHandler->handle(new CreateFolderCommand(
+                name:     $req->name,
+                parentId: $req->parentId,
             ));
         } catch (FolderNotFoundException $e) {
             return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
-        } catch (\RuntimeException $e) {
-            return $this->json($this->error($e->getMessage(), 'UPLOAD_FAILED'), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
 
         return $this->json(['data' => $dto->toArray()], Response::HTTP_CREATED);
     }
 
-    /** PATCH /files/:id */
+    /** PATCH /folders/:id */
     #[Route('/{id}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $id, Request $request): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
-        $req = UpdateFileRequest::fromArray(json_decode($request->getContent(), true) ?? []);
+        $req = UpdateFolderRequest::fromArray(json_decode($request->getContent(), true) ?? []);
 
         try {
-            $dto = $this->updateFileHandler->handle(new UpdateFileCommand(
-                id:               $id,
-                title:            $req->title,
-                filenameDownload: $req->filenameDownload,
-                folderId:         $req->folderId,
+            $dto = $this->updateFolderHandler->handle(new UpdateFolderCommand(
+                id:       $id,
+                name:     $req->name,
+                parentId: $req->parentId,
             ));
-        } catch (FileNotFoundException $e) {
-            return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
         } catch (FolderNotFoundException $e) {
             return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
         }
@@ -133,7 +120,7 @@ final class FilesController extends AbstractController
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** DELETE /files/:id */
+    /** DELETE /folders/:id */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $id): JsonResponse
     {
@@ -141,8 +128,8 @@ final class FilesController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
-            $this->deleteFileHandler->handle(new DeleteFileCommand($id));
-        } catch (FileNotFoundException $e) {
+            $this->deleteFolderHandler->handle(new DeleteFolderCommand($id));
+        } catch (FolderNotFoundException $e) {
             return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
         }
 
@@ -157,10 +144,5 @@ final class FilesController extends AbstractController
     private function validationError(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'VALIDATION_ERROR']]]];
-    }
-
-    private function error(string $message, string $code): array
-    {
-        return ['errors' => [['message' => $message, 'extensions' => ['code' => $code]]]];
     }
 }

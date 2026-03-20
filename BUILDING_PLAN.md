@@ -230,18 +230,27 @@ Each module must follow the full Onion structure:
 
 > File upload + folder management
 
-- [~] `Presentation/Controller/FilesController.php` — stub exists
-- [ ] `Domain/Entity/File.php`
-- [ ] `Domain/Entity/Folder.php`
-- [ ] `Domain/Service/FileStorageService.php` (local disk + S3 strategy)
-- [ ] `Application/Command/UploadFileCommand.php` + Handler
-- [ ] `Application/Command/UpdateFileCommand.php` + Handler
-- [ ] `Application/Command/DeleteFileCommand.php` + Handler
-- [ ] `Application/Query/GetFilesQuery.php` + Handler
-- [ ] `Application/DTO/FileDto.php`
-- [ ] Doctrine migrations for `files`, `folders` tables
-- [ ] Implement `GET /files`, `POST /files`, `GET /files/:id`, `PATCH /files/:id`, `DELETE /files/:id`
-- [ ] Implement `GET /folders`, `POST /folders`, `GET /folders/:id`, `PATCH /folders/:id`, `DELETE /folders/:id`
+- [x] `Domain/Entity/Folder.php` — self-referential parent_id (SET NULL on delete)
+- [x] `Domain/Entity/File.php` — storage, filename_disk, filename_download, title, type, filesize, width, height, uploaded_by, folder FK
+- [x] `Domain/Repository/FileRepositoryInterface.php` + `FolderRepositoryInterface.php`
+- [x] `Domain/Exception/FileNotFoundException.php` + `FolderNotFoundException.php`
+- [x] `Application/DTO/FileDto.php` + `FolderDto.php`
+- [x] `Application/Query/GetFilesQuery.php` (supports `?folder=` filter) + Handler
+- [x] `Application/Query/GetFileByIdQuery.php` + Handler
+- [x] `Application/Query/GetFoldersQuery.php` + Handler
+- [x] `Application/Query/GetFolderByIdQuery.php` + Handler
+- [x] `Application/Command/UploadFileCommand.php` + Handler (image dimensions via getimagesize)
+- [x] `Application/Command/UpdateFileCommand.php` + Handler (UNCHANGED sentinel for title, filename_download, folder)
+- [x] `Application/Command/DeleteFileCommand.php` + Handler (removes DB record + disk file)
+- [x] `Application/Command/CreateFolderCommand.php` + Handler
+- [x] `Application/Command/UpdateFolderCommand.php` + Handler (UNCHANGED sentinel for parent)
+- [x] `Application/Command/DeleteFolderCommand.php` + Handler
+- [x] `Infrastructure/Repository/FileRepository.php` + `FolderRepository.php`
+- [x] `Infrastructure/Storage/FileStorageService.php` — local disk storage; S3 placeholder
+- [x] `config/services.yaml` — wires `$storagePath` to `%kernel.project_dir%/var/storage`
+- [x] `Presentation/Controller/FilesController.php` — multipart POST upload, `GET/PATCH/DELETE /files/:id`
+- [x] `Presentation/Controller/FoldersController.php` — `GET/POST /folders`, `GET/PATCH/DELETE /folders/:id`
+- [x] Doctrine migration `Version20260320000007`: create `folders` and `files` tables
 
 ### 3.10 Assets
 
@@ -667,7 +676,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Fields/            ✅ Full CRUD + DDL
 │       ├── Items/             ✅ Dynamic DBAL CRUD
 │       ├── Relations/         ✅ Full CRUD (metadata only)
-│       ├── Files/             ~ Stub
+│       ├── Files/             ✅ Upload + folders + local storage
 │       ├── Activity/          ~ Partial
 │       ├── Revisions/         ~ Stub
 │       ├── Comments/          ~ Stub
