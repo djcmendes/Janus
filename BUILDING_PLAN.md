@@ -522,10 +522,10 @@ Each module must follow the full Onion structure:
 
 **Note:** Pages are scaffolded. Verify these are wired to `AuthService` and calling real backend endpoints before marking complete.
 
-- [ ] Verify `sign-in` calls `POST /auth/login` and stores JWT
-- [ ] Verify `logout` calls `POST /auth/logout` and clears JWT
-- [ ] Verify `auth.guard.ts` reads `AuthService.isAuthenticated()` correctly
-- [ ] Verify `auth.interceptor.ts` injects Bearer token on all API calls
+- [x] Verify `sign-in` calls `POST /auth/login` and stores JWT
+- [x] Verify `logout` calls `POST /auth/logout` and clears JWT
+- [x] Verify `auth.guard.ts` reads `AuthService.isAuthenticated()` correctly
+- [x] Verify `auth.interceptor.ts` injects Bearer token on all API calls
 - [ ] Verify auto-refresh via `POST /auth/refresh` when access token expires
 
 ---
@@ -542,10 +542,10 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/users/pages/users-list/`
 - [x] `features/users/pages/user-detail/`
 - [x] `features/users/pages/user-create/`
-- [ ] `features/users/services/users.service.ts` — calls `GET /users`, `POST /users`, `PATCH /users/:id`, `DELETE /users/:id`
-- [ ] Wire `users-list` to `UsersService.getAll()`
-- [ ] Wire `user-detail` to `UsersService.getById()`
-- [ ] Wire `user-create` to `UsersService.create()`
+- [x] `features/users/services/users.service.ts` — calls `GET /users`, `POST /users`, `PATCH /users/:id`, `DELETE /users/:id`
+- [x] Wire `users-list` to `UsersService.getAll()`
+- [x] Wire `user-detail` to `UsersService.getById()`
+- [x] Wire `user-create` to `UsersService.create()`
 
 ### 5.2 Content
 
@@ -554,10 +554,10 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/content/pages/content-collection/`
 - [x] `features/content/pages/content-detail/`
 - [x] `features/content/pages/content-preview/`
-- [ ] `features/content/services/content.service.ts` — calls `/collections`, `/items/:collection`, `/items/:collection/:id`
-- [ ] Wire `content-home` to list all collections via `ContentService`
-- [ ] Wire `content-collection` to list items via `ContentService.getItems()`
-- [ ] Wire `content-detail` to `ContentService.getItem()` and `ContentService.updateItem()`
+- [x] `features/content/services/content.service.ts` — calls `/collections`, `/items/:collection`, `/items/:collection/:id`
+- [x] Wire `content-home` to list all collections via `ContentService`
+- [x] Wire `content-collection` to list items via `ContentService.getItems()`
+- [x] Wire `content-detail` to `ContentService.getItem()` and `ContentService.updateItem()`
 
 ### 5.3 Files
 
@@ -568,18 +568,18 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/files/pages/folders-home/`
 - [x] `features/files/pages/folder-detail/`
 - [x] `features/files/pages/folder-create/`
-- [ ] `features/files/services/files.service.ts` — calls `GET /files`, `POST /files`, `GET /folders`, `POST /folders`
-- [ ] Wire file upload in `file-create` to `FilesService.upload()`
-- [ ] Wire folder tree in `folders-home` to `FilesService.getFolders()`
+- [x] `features/files/services/files.service.ts` — calls `GET /files`, `POST /files`, `GET /folders`, `POST /folders`
+- [x] Wire file upload in `file-create` to `FilesService.upload()`
+- [x] Wire folder tree in `folders-home` to `FilesService.getFolders()`
 
 ### 5.4 Activity
 
 - [x] `features/activity/activity.routes.ts`
 - [x] `features/activity/pages/activity-home/`
 - [x] `features/activity/pages/activity-detail/`
-- [ ] `features/activity/services/activity.service.ts` — calls `GET /activity`, `GET /activity/:id`
-- [ ] Wire `activity-home` to `ActivityService.getAll()`
-- [ ] Wire `activity-detail` to `ActivityService.getById()`
+- [x] `features/activity/services/activity.service.ts` — calls `GET /activity`, `GET /activity/:id`
+- [x] Wire `activity-home` to `ActivityService.getAll()`
+- [x] Wire `activity-detail` to `ActivityService.getById()`
 
 ### 5.5 Insights
 
@@ -587,10 +587,10 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/insights/pages/insights-home/`
 - [x] `features/insights/pages/insight-detail/`
 - [x] `features/insights/pages/insight-panel/`
-- [ ] `features/insights/services/insights.service.ts` — calls `GET /dashboards`, `GET /panels`
-- [ ] Wire `insights-home` to `InsightsService.getDashboards()`
-- [ ] Wire `insight-detail` to `InsightsService.getDashboard()`
-- [ ] Wire `insight-panel` to `InsightsService.getPanel()`
+- [x] `features/insights/services/insights.service.ts` — calls `GET /dashboards`, `GET /panels`
+- [x] Wire `insights-home` to `InsightsService.getDashboards()`
+- [x] Wire `insight-detail` to `InsightsService.getDashboard()`
+- [x] Wire `insight-panel` to `InsightsService.getPanel()`
 
 ### 5.6 Deployment
 
@@ -600,9 +600,9 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/deployment/pages/deployment-runs/`
 - [x] `features/deployment/pages/deployment-run-detail/`
 - [x] `features/deployment/pages/deployment-settings/`
-- [ ] `features/deployment/services/deployment.service.ts` — calls `GET /deployments`, `POST /deployments/:id/run`
-- [ ] Wire `deployment-home` to `DeploymentService.getAll()`
-- [ ] Wire `deployment-provider` to `DeploymentService.getProvider()`
+- [x] `features/deployment/services/deployment.service.ts` — calls `GET /deployments`, `POST /deployments/:id/run`
+- [x] Wire `deployment-home` to `DeploymentService.getAll()`
+- [x] Wire `deployment-provider` to `DeploymentService.getProvider()`
 
 ### 5.7 Visual
 
@@ -610,8 +610,7 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/visual/pages/visual-home/`
 - [x] `features/visual/pages/visual-url/`
 - [x] `features/visual/pages/visual-viewer/`
-- [ ] `features/visual/services/visual.service.ts`
-- [ ] Wire `visual-viewer` to render visual editing iframe
+- [x] Wire `visual-viewer` — URL bar + sandboxed iframe renderer (no separate service needed)
 
 ### 5.8 Settings
 
@@ -632,13 +631,13 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/settings/pages/presets/`
 - [x] `features/settings/pages/system-logs/`
 - [x] `features/settings/pages/marketplace/`
-- [ ] `features/settings/services/settings.service.ts` — calls `GET /settings`, `PATCH /settings`
-- [ ] Wire `project` page to `SettingsService.get()` and `SettingsService.update()`
-- [ ] Wire `data-model` page to `CollectionsService` for schema management
-- [ ] Wire `roles` page to `RolesService.getAll()`
-- [ ] Wire `policies` page to `PoliciesService.getAll()`
-- [ ] Wire `flows` page to `FlowsService.getAll()`
-- [ ] Wire `translations` page to `TranslationsService.getAll()`
+- [x] `features/settings/services/settings.service.ts` — calls `GET /settings`, `PATCH /settings`
+- [x] Wire `project` page to `SettingsService.get()` and `SettingsService.update()`
+- [x] Wire `data-model` page to `CollectionsService` for schema management
+- [x] Wire `roles` page to `RolesService.getAll()`
+- [x] Wire `policies` page to `PoliciesService.getAll()`
+- [x] Wire `flows` page to `FlowsService.getAll()`
+- [x] Wire `translations` page to `TranslationsService.getAll()`
 
 ---
 
