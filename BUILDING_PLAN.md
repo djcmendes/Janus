@@ -82,27 +82,30 @@ Each module must follow the full Onion structure:
 
 > Full CRUD + invite + TFA
 
-- [~] `Domain/Entity/User.php` — exists
-- [~] `Infrastructure/Repository/UserRepository.php` — exists
-- [~] `Presentation/Controller/UsersController.php` — stub exists
-- [ ] `Domain/Repository/UserRepositoryInterface.php`
-- [ ] `Domain/Service/UserService.php` (invite, TFA, password)
-- [ ] `Application/Query/GetUsersQuery.php` + Handler
-- [ ] `Application/Query/GetUserByIdQuery.php` + Handler
-- [ ] `Application/Command/CreateUserCommand.php` + Handler
-- [ ] `Application/Command/UpdateUserCommand.php` + Handler
-- [ ] `Application/Command/DeleteUserCommand.php` + Handler
-- [ ] `Application/Command/InviteUserCommand.php` + Handler
-- [ ] `Application/DTO/UserDto.php`
-- [ ] `Presentation/DTO/CreateUserRequest.php`
-- [ ] `Presentation/DTO/UpdateUserRequest.php`
-- [ ] Doctrine migration for `users` table
-- [ ] Implement `GET /users`
-- [ ] Implement `GET /users/:id`
-- [ ] Implement `POST /users`
-- [ ] Implement `PATCH /users/:id`
-- [ ] Implement `DELETE /users/:id`
-- [ ] Implement `POST /users/invite`
+- [x] `Domain/Entity/User.php` — id(UUID), email, roles, password, status, firstName, lastName, inviteToken, timestamps
+- [x] `Domain/Repository/UserRepositoryInterface.php`
+- [x] `Domain/Exception/UserNotFoundException.php`
+- [x] `Domain/Exception/UserAlreadyExistsException.php`
+- [x] `Infrastructure/Repository/UserRepository.php` — implements interface, findAllActive, countActive, findByInviteToken
+- [x] `Application/DTO/UserDto.php` — `fromEntity()`, `toArray()`
+- [x] `Application/Query/GetUsersQuery.php` + `GetUsersHandler`
+- [x] `Application/Query/GetUserByIdQuery.php` + `GetUserByIdHandler`
+- [x] `Application/Command/CreateUserCommand.php` + `CreateUserHandler`
+- [x] `Application/Command/UpdateUserCommand.php` + `UpdateUserHandler`
+- [x] `Application/Command/DeleteUserCommand.php` + `DeleteUserHandler`
+- [x] `Application/Command/InviteUserCommand.php` + `InviteUserHandler` (generates 48h token, status=invited)
+- [x] `Presentation/DTO/CreateUserRequest.php`
+- [x] `Presentation/DTO/UpdateUserRequest.php`
+- [x] `Presentation/DTO/InviteUserRequest.php`
+- [x] `Presentation/Controller/UsersController.php` — uses RequestGuard + all Application handlers
+- [x] Doctrine migration for `users` table (`migrations/Version20260320000001.php`)
+- [x] Implement `GET /users`
+- [x] Implement `GET /users/:id`
+- [x] Implement `POST /users`
+- [x] Implement `PATCH /users/:id`
+- [x] Implement `DELETE /users/:id`
+- [x] Implement `POST /users/invite`
+- [ ] TFA setup (future — requires TOTP library)
 
 ### 3.4 Roles
 
