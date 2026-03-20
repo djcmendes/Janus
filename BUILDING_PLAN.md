@@ -401,11 +401,18 @@ Each module must follow the full Onion structure:
 
 > Extension registry
 
-- [~] `Presentation/Controller/` — stub exists
-- [ ] `Domain/Entity/Extension.php`
-- [ ] `Application/Query/GetExtensionsQuery.php` + Handler
-- [ ] `Application/DTO/ExtensionDto.php`
-- [ ] Implement `GET /extensions`
+- [x] `Domain/Enum/ExtensionType.php` — interface|endpoint|hook|operation|display|layout|module|panel
+- [x] `Domain/Entity/Extension.php` — name, type, version, enabled, description, meta (JSON); unique on (name, type)
+- [x] `Domain/Repository/ExtensionRepositoryInterface.php`
+- [x] `Domain/Exception/ExtensionNotFoundException.php`
+- [x] `Application/DTO/ExtensionDto.php`
+- [x] `Application/Query/GetExtensionsQuery.php` + `GetExtensionByIdQuery.php` + Handlers — filterable by type and enabled
+- [x] `Application/Command/RegisterExtensionCommand.php` + Handler
+- [x] `Application/Command/UpdateExtensionCommand.php` + Handler — UNCHANGED sentinel; updates enabled, version, meta
+- [x] `Application/Command/DeleteExtensionCommand.php` + Handler
+- [x] `Infrastructure/Repository/ExtensionRepository.php`
+- [x] `Presentation/Controller/ExtensionsController.php` — GET open to all authenticated; POST/PATCH/DELETE ROLE_ADMIN only
+- [x] Doctrine migration `Version20260320000016`: `extensions` table with unique index on `(name, type)`
 
 ### 3.20 Translations
 
