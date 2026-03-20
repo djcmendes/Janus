@@ -25,3 +25,7 @@ services:
     App\Files\Infrastructure\Storage\FileStorageService:
         arguments:
             $storagePath: '%kernel.project_dir%/var/storage'
+
+    App\Heimdall\Infrastructure\JWT\JwtService:
+        arguments:
+            $refreshTtl: '%env(int:JWT_REFRESH_TTL)%'
