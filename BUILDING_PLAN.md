@@ -311,15 +311,18 @@ Each module must follow the full Onion structure:
 
 > User bookmarks and view preferences
 
-- [~] `Presentation/Controller/PresetsController.php` — stub exists
-- [ ] `Domain/Entity/Preset.php`
-- [ ] `Application/Command/CreatePresetCommand.php` + Handler
-- [ ] `Application/Command/UpdatePresetCommand.php` + Handler
-- [ ] `Application/Command/DeletePresetCommand.php` + Handler
-- [ ] `Application/Query/GetPresetsQuery.php` + Handler
-- [ ] `Application/DTO/PresetDto.php`
-- [ ] Doctrine migration for `presets` table
-- [ ] Implement `GET /presets`, `POST /presets`, `GET /presets/:id`, `PATCH /presets/:id`, `DELETE /presets/:id`
+- [x] `Domain/Entity/Preset.php` — collection, layout, layoutOptions/Query/filter (JSON), search, bookmark, userId (nullable for global presets); `isOwnedBy()`
+- [x] `Domain/Repository/PresetRepositoryInterface.php`
+- [x] `Domain/Exception/PresetNotFoundException.php` + `PresetForbiddenException.php`
+- [x] `Application/DTO/PresetDto.php`
+- [x] `Application/Query/GetPresetsQuery.php` + `GetPresetByIdQuery.php` + Handlers
+- [x] `Application/Command/CreatePresetCommand.php` + Handler
+- [x] `Application/Command/UpdatePresetCommand.php` + Handler — UNCHANGED sentinel; ownership enforced
+- [x] `Application/Command/DeletePresetCommand.php` + Handler — ownership enforced
+- [x] `Infrastructure/Repository/PresetRepository.php`
+- [x] `Presentation/DTO/CreatePresetRequest.php` + `UpdatePresetRequest.php`
+- [x] `Presentation/Controller/PresetsController.php` — full CRUD; list scopes to current user unless admin
+- [x] Doctrine migration `Version20260320000011`: create `presets` table
 
 ### 3.15 Notifications
 
