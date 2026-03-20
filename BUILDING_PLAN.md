@@ -482,12 +482,12 @@ Each module must follow the full Onion structure:
 
 > Sort, hash, cache-clear utilities
 
-- [~] `Presentation/Controller/UtilsController.php` — stub exists
-- [ ] Implement `POST /utils/sort/:collection`
-- [ ] Implement `GET /utils/hash/generate`
-- [ ] Implement `GET /utils/hash/verify`
-- [ ] Implement `POST /utils/cache/clear`
-- [ ] Implement `GET /utils/random/string`
+- [x] `Presentation/Controller/UtilsController.php`
+- [x] Implement `POST /utils/sort/:collection`
+- [x] Implement `GET /utils/hash/generate`
+- [x] Implement `GET /utils/hash/verify`
+- [x] Implement `POST /utils/cache/clear`
+- [x] Implement `GET /utils/random/string`
 
 ---
 
