@@ -653,9 +653,9 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] Unit tests for `Settings/Application/Query/Handler/GetSettingsHandler.php` (2 tests)
 - [x] Unit tests for `Settings/Application/Command/Handler/UpdateSettingsHandler.php` (8 tests)
 - [x] Integration tests for `Activity/Domain/Service/ActivityLogger.php` (5 tests)
-- [ ] Feature tests for `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`
-- [ ] Feature tests for `GET /users`, `POST /users`, `PATCH /users/:id`, `DELETE /users/:id`
-- [ ] Feature tests for `GET /settings`, `PATCH /settings`
+- [x] Feature tests for `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`, `GET /auth/me` (9 tests)
+- [x] Feature tests for `GET /users`, `POST /users`, `PATCH /users/:id`, `DELETE /users/:id` (12 tests)
+- [x] Feature tests for `GET /settings`, `PATCH /settings` (6 tests)
 
 ### Frontend (Karma + Jasmine)
 
