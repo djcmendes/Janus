@@ -665,9 +665,9 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] Unit tests for `auth.interceptor.ts` (token injection, 401 refresh, redirect)
 - [x] Unit tests for `UsersService`
 - [x] Unit tests for `ActivityService`
-- [ ] E2E: Login flow (valid credentials → redirect to dashboard)
-- [ ] E2E: Create + read + delete a content item
-- [ ] E2E: Upload a file
+- [x] E2E: Login flow — redirect, form, wrong credentials, success, logout (5 tests)
+- [x] E2E: Create + read + delete a user via UI (Users is the fully-implemented CRUD module) (5 tests)
+- [x] E2E: Upload a file — navigate, file input, upload, delete (4 tests)
 
 ---
 
