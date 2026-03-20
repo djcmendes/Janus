@@ -645,26 +645,26 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 
 > **Verification:** All unit tests pass; E2E login + CRUD test passes.
 
-### Backend (PHPUnit) (replan this sections)
+### Backend (PHPUnit)
 
-- [ ] Unit tests for `Heimdall/Domain/Service/RequestGuard.php`
-- [ ] Unit tests for `Heimdall/Infrastructure/JWT/JwtService.php`
+- [x] Unit tests for `Heimdall/Domain/Service/RequestGuard.php` (9 tests)
+- [x] Unit tests for `Heimdall/Infrastructure/JWT/JwtService.php` (10 tests)
+- [x] Unit tests for `Users/Application/Command/Handler/CreateUserHandler.php` (5 tests)
+- [x] Unit tests for `Settings/Application/Query/Handler/GetSettingsHandler.php` (2 tests)
+- [x] Unit tests for `Settings/Application/Command/Handler/UpdateSettingsHandler.php` (8 tests)
+- [x] Integration tests for `Activity/Domain/Service/ActivityLogger.php` (5 tests)
 - [ ] Feature tests for `POST /auth/login`, `POST /auth/refresh`, `POST /auth/logout`
 - [ ] Feature tests for `GET /users`, `POST /users`, `PATCH /users/:id`, `DELETE /users/:id`
-- [ ] Feature tests for `GET /collections`, `POST /collections`
-- [ ] Feature tests for `GET /items/:collection`, `POST /items/:collection`
-- [ ] Feature tests for `GET /files`, `POST /files`
 - [ ] Feature tests for `GET /settings`, `PATCH /settings`
-- [ ] Integration tests for `ActivityLogger` auto-logging
 
-### Frontend (Vitest + Playwright) (replan this sections after implmenting the frontend)
+### Frontend (Karma + Jasmine)
 
-- [ ] Unit tests for `AuthService` (login, logout, token refresh)
-- [ ] Unit tests for `ApiService` (request building, error handling)
-- [ ] Unit tests for `auth.guard.ts`
-- [ ] Unit tests for `auth.interceptor.ts`
-- [ ] Unit tests for `UsersService`
-- [ ] Unit tests for `ContentService`
+- [x] Unit tests for `AuthService` (login, logout, token storage, refresh)
+- [x] Unit tests for `ApiService` (GET/POST/PATCH/DELETE request building)
+- [x] Unit tests for `auth.guard.ts`
+- [x] Unit tests for `auth.interceptor.ts` (token injection, 401 refresh, redirect)
+- [x] Unit tests for `UsersService`
+- [x] Unit tests for `ActivityService`
 - [ ] E2E: Login flow (valid credentials → redirect to dashboard)
 - [ ] E2E: Create + read + delete a content item
 - [ ] E2E: Upload a file
