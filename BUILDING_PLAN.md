@@ -381,19 +381,21 @@ Each module must follow the full Onion structure:
 
 > Automation/webhook pipeline
 
-- [~] `Presentation/Controller/FlowsController.php` — stub exists
-- [ ] `Domain/Entity/Flow.php`
-- [ ] `Domain/Entity/Operation.php`
-- [ ] `Domain/Service/FlowRunnerService.php` (RabbitMQ consumer)
-- [ ] `Application/Command/CreateFlowCommand.php` + Handler
-- [ ] `Application/Command/TriggerFlowCommand.php` + Handler
-- [ ] `Application/Query/GetFlowsQuery.php` + Handler
-- [ ] `Application/DTO/FlowDto.php`
-- [ ] `Application/DTO/OperationDto.php`
-- [ ] Doctrine migrations for `flows`, `operations` tables
-- [ ] Implement `GET /flows`, `POST /flows`, `GET /flows/:id`, `PATCH /flows/:id`, `DELETE /flows/:id`
-- [ ] Implement `POST /flows/:id/trigger`
-- [ ] Implement `GET /operations`, `POST /operations`, `PATCH /operations/:id`, `DELETE /operations/:id`
+- [x] `Domain/Enum/FlowStatus.php` (active|inactive) + `TriggerType.php` (manual|action|schedule|webhook)
+- [x] `Domain/Entity/Flow.php` — name, status, trigger, triggerOptions (JSON), userId, description; `isActive()`
+- [x] `Domain/Entity/Operation.php` — flowId, name, type, options (JSON), resolve, nextSuccess/nextFailure (linked-list graph), sortOrder
+- [x] `Domain/Message/RunFlowMessage.php` — Symfony Messenger message envelope
+- [x] `Domain/Service/FlowRunnerService.php` — dispatches `RunFlowMessage` to async bus
+- [x] `Infrastructure/Messenger/RunFlowMessageHandler.php` — `#[AsMessageHandler]` consumer; iterates operations by sortOrder
+- [x] `Infrastructure/Repository/FlowRepository.php` + `OperationRepository.php` — includes `deleteByFlow()`
+- [x] Application DTOs, queries, and commands for Flow and Operation (full CRUD + trigger)
+- [x] `DeleteFlowHandler` — cascades: `operationRepository->deleteByFlow()` before deleting flow
+- [x] `TriggerFlowHandler` — validates flow is active, dispatches via FlowRunnerService
+- [x] `CreateOperationHandler` — validates flow exists before inserting
+- [x] `Presentation/Controller/FlowsController.php` — full CRUD + `POST /flows/:id/trigger`; all ROLE_ADMIN
+- [x] `Presentation/Controller/OperationsController.php` — full CRUD; supports `?flow=` filter; all ROLE_ADMIN
+- [x] `config/packages/messenger.yaml` — `RunFlowMessage` routed to async RabbitMQ transport (3x retry, exp backoff)
+- [x] Doctrine migration `Version20260320000015`: `flows` + `operations` (FK CASCADE DELETE, composite index on `(flow_id, sort_order)`)
 
 ### 3.19 Extensions
 
