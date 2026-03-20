@@ -418,15 +418,17 @@ Each module must follow the full Onion structure:
 
 > i18n key/value store
 
-- [~] `Presentation/Controller/TranslationsController.php` — stub exists
-- [ ] `Domain/Entity/Translation.php`
-- [ ] `Application/Command/CreateTranslationCommand.php` + Handler
-- [ ] `Application/Command/UpdateTranslationCommand.php` + Handler
-- [ ] `Application/Command/DeleteTranslationCommand.php` + Handler
-- [ ] `Application/Query/GetTranslationsQuery.php` + Handler
-- [ ] `Application/DTO/TranslationDto.php`
-- [ ] Doctrine migration for `translations` table
-- [ ] Implement `GET /translations`, `POST /translations`, `PATCH /translations/:id`, `DELETE /translations/:id`
+- [x] `Domain/Entity/Translation.php` — language (BCP 47), key (dot-notation), value (text); unique on (language, key)
+- [x] `Domain/Repository/TranslationRepositoryInterface.php` — includes `findByLanguageAndKey()`
+- [x] `Domain/Exception/TranslationNotFoundException.php` + `TranslationAlreadyExistsException.php`
+- [x] `Application/DTO/TranslationDto.php`
+- [x] `Application/Query/GetTranslationsQuery.php` + `GetTranslationByIdQuery.php` + Handlers — filterable by language; key uses prefix LIKE match
+- [x] `Application/Command/CreateTranslationCommand.php` + Handler — duplicate check; returns 409 on conflict
+- [x] `Application/Command/UpdateTranslationCommand.php` + Handler — only `value` is mutable
+- [x] `Application/Command/DeleteTranslationCommand.php` + Handler
+- [x] `Infrastructure/Repository/TranslationRepository.php` — ordered by language ASC, key ASC
+- [x] `Presentation/Controller/TranslationsController.php` — GET/GET-by-id PUBLIC scope; POST/PATCH/DELETE ROLE_ADMIN only
+- [x] Doctrine migration `Version20260320000017`: `translations` table with unique index on `(language, translation_key)`
 
 ### 3.21 Schema
 
