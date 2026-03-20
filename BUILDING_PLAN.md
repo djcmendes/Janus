@@ -165,19 +165,34 @@ Each module must follow the full Onion structure:
 
 > Schema introspection and management
 
-- [~] `Presentation/Controller/CollectionsController.php` — stub exists
-- [~] `Presentation/Controller/FieldsController.php` — stub exists
-- [ ] `Domain/Service/SchemaIntrospectionService.php`
-- [ ] `Domain/Service/CollectionManagerService.php`
-- [ ] `Application/Query/GetCollectionsQuery.php` + Handler
-- [ ] `Application/Query/GetCollectionByIdQuery.php` + Handler
-- [ ] `Application/Command/CreateCollectionCommand.php` + Handler
-- [ ] `Application/Command/UpdateCollectionCommand.php` + Handler
-- [ ] `Application/Command/DeleteCollectionCommand.php` + Handler
-- [ ] `Application/DTO/CollectionDto.php`
-- [ ] `Application/DTO/FieldDto.php`
-- [ ] Implement `GET /collections`, `POST /collections`, `GET /collections/:id`, `PATCH /collections/:id`, `DELETE /collections/:id`
-- [ ] Implement `GET /fields`, `POST /fields/:collection`, `GET /fields/:collection/:field`, `PATCH /fields/:collection/:field`, `DELETE /fields/:collection/:field`
+- [x] `Collections/Domain/Entity/CollectionMeta.php`
+- [x] `Collections/Domain/Repository/CollectionMetaRepositoryInterface.php`
+- [x] `Collections/Domain/Exception/CollectionNotFoundException.php` + `CollectionAlreadyExistsException.php`
+- [x] `Collections/Application/DTO/CollectionDto.php`
+- [x] `Collections/Application/Query/GetCollectionsQuery.php` + Handler
+- [x] `Collections/Application/Query/GetCollectionByNameQuery.php` + Handler
+- [x] `Collections/Application/Command/CreateCollectionCommand.php` + Handler
+- [x] `Collections/Application/Command/UpdateCollectionCommand.php` + Handler
+- [x] `Collections/Application/Command/DeleteCollectionCommand.php` + Handler (cascades field meta + DDL drop)
+- [x] `Collections/Infrastructure/Repository/CollectionMetaRepository.php`
+- [x] `Collections/Infrastructure/Service/SchemaManagerService.php` — DDL wrapper (protected system tables)
+- [x] `Collections/Presentation/DTO/CreateCollectionRequest.php` + `UpdateCollectionRequest.php`
+- [x] `Collections/Presentation/Controller/CollectionsController.php` — full CRUD
+- [x] `Fields/Domain/Entity/FieldMeta.php`
+- [x] `Fields/Domain/Enum/FieldType.php` — string, text, integer, bigInteger, float, decimal, boolean, uuid, dateTime, date, time, json, csv, alias
+- [x] `Fields/Domain/Repository/FieldMetaRepositoryInterface.php`
+- [x] `Fields/Domain/Exception/FieldNotFoundException.php` + `FieldAlreadyExistsException.php`
+- [x] `Fields/Application/DTO/FieldDto.php`
+- [x] `Fields/Application/Query/GetFieldsQuery.php` + Handler
+- [x] `Fields/Application/Query/GetFieldsByCollectionQuery.php` + Handler
+- [x] `Fields/Application/Query/GetFieldByCollectionAndNameQuery.php` + Handler
+- [x] `Fields/Application/Command/CreateFieldCommand.php` + Handler (alias = no DDL)
+- [x] `Fields/Application/Command/UpdateFieldCommand.php` + Handler
+- [x] `Fields/Application/Command/DeleteFieldCommand.php` + Handler (alias = no DDL)
+- [x] `Fields/Infrastructure/Repository/FieldMetaRepository.php`
+- [x] `Fields/Presentation/DTO/CreateFieldRequest.php` + `UpdateFieldRequest.php`
+- [x] `Fields/Presentation/Controller/FieldsController.php` — `GET /fields`, `GET /fields/:collection`, `GET/POST/PATCH/DELETE /fields/:collection/:field`
+- [x] Doctrine migration `Version20260320000005`: create `janus_collections` and `janus_fields` tables
 
 ### 3.7 Items
 
@@ -648,8 +663,8 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 │       ├── Users/             ~ Partial
 │       ├── Roles/             ~ Stub
 │       ├── Permissions/       ~ Stub
-│       ├── Collections/       ~ Stub
-│       ├── Fields/            ~ Stub
+│       ├── Collections/       ✅ Full CRUD + DDL
+│       ├── Fields/            ✅ Full CRUD + DDL
 │       ├── Items/             ~ Stub
 │       ├── Relations/         ~ Stub
 │       ├── Files/             ~ Stub
