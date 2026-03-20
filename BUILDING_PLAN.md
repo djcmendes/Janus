@@ -111,17 +111,23 @@ Each module must follow the full Onion structure:
 
 > Full CRUD
 
-- [~] `Presentation/Controller/RolesController.php` — stub exists
-- [ ] `Domain/Entity/Role.php`
-- [ ] `Domain/Repository/RoleRepositoryInterface.php`
-- [ ] `Infrastructure/Repository/RoleRepository.php`
-- [ ] `Application/Query/GetRolesQuery.php` + Handler
-- [ ] `Application/Command/CreateRoleCommand.php` + Handler
-- [ ] `Application/Command/UpdateRoleCommand.php` + Handler
-- [ ] `Application/Command/DeleteRoleCommand.php` + Handler
-- [ ] `Application/DTO/RoleDto.php`
-- [ ] Doctrine migration for `roles` table
-- [ ] Implement `GET /roles`, `POST /roles`, `GET /roles/:id`, `PATCH /roles/:id`, `DELETE /roles/:id`
+- [x] `Domain/Entity/Role.php` — id(UUID), name(unique), description, icon, enforceTfa, adminAccess, appAccess, timestamps
+- [x] `Domain/Repository/RoleRepositoryInterface.php` — save, delete, findById, findByName, findAll, count
+- [x] `Domain/Exception/RoleNotFoundException.php`
+- [x] `Domain/Exception/RoleAlreadyExistsException.php`
+- [x] `Infrastructure/Repository/RoleRepository.php` — implements interface, hard delete
+- [x] `Application/DTO/RoleDto.php` — `fromEntity()`, `toArray()`
+- [x] `Application/Query/GetRolesQuery.php` + `GetRolesHandler`
+- [x] `Application/Query/GetRoleByIdQuery.php` + `GetRoleByIdHandler`
+- [x] `Application/Command/CreateRoleCommand.php` + `CreateRoleHandler`
+- [x] `Application/Command/UpdateRoleCommand.php` (UNCHANGED sentinel) + `UpdateRoleHandler` (unique name check on update)
+- [x] `Application/Command/DeleteRoleCommand.php` + `DeleteRoleHandler` (hard delete)
+- [x] `Presentation/DTO/CreateRoleRequest.php`, `UpdateRoleRequest.php`
+- [x] `Presentation/Controller/RolesController.php` — wired through RequestGuard + Application handlers
+- [x] Doctrine migration `Version20260320000003`: create `roles` table + add `role_id` FK to `users`
+- [x] User entity: added `ManyToOne` relation to Role (`role_id` FK, ON DELETE SET NULL)
+- [x] UserDto: exposes `role` (role_id) field
+- [x] Implement `GET /roles`, `POST /roles`, `GET /roles/:id`, `PATCH /roles/:id`, `DELETE /roles/:id`
 
 ### 3.5 Permissions & Policies
 

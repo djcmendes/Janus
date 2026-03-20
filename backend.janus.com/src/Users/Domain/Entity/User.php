@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Users\Domain\Entity;
 
+use App\Roles\Domain\Entity\Role;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -44,6 +45,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $inviteTokenExpiresAt = null;
+
+    #[ORM\ManyToOne(targetEntity: Role::class)]
+    #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
+    private ?Role $role = null;
 
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
@@ -96,6 +101,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->inviteTokenExpiresAt = null;
         return $this->touch();
     }
+
+    public function getRole(): ?Role { return $this->role; }
+    public function setRole(?Role $role): static { $this->role = $role; return $this->touch(); }
 
     public function isInviteTokenValid(): bool
     {
