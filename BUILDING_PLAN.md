@@ -345,16 +345,19 @@ Each module must follow the full Onion structure:
 
 > Shared public links to items
 
-- [~] `Presentation/Controller/SharesController.php` — stub exists
-- [ ] `Domain/Entity/Share.php`
-- [ ] `Domain/Service/ShareTokenService.php`
-- [ ] `Application/Command/CreateShareCommand.php` + Handler
-- [ ] `Application/Command/DeleteShareCommand.php` + Handler
-- [ ] `Application/Query/GetSharesQuery.php` + Handler
-- [ ] `Application/DTO/ShareDto.php`
-- [ ] Doctrine migration for `shares` table
-- [ ] Implement `GET /shares`, `POST /shares`, `GET /shares/:id`, `DELETE /shares/:id`
-- [ ] Implement `POST /shares/auth` (authenticate with share token)
+- [x] `Domain/Entity/Share.php` — token (unique), collection, item, userId, name, password (bcrypt), expiresAt, maxUses, timesUsed; `isValid()`, `isExpired()`, `isExhausted()`, `recordUse()`, `isOwnedBy()`
+- [x] `Domain/Service/ShareTokenService.php` — generates cryptographically random URL-safe token
+- [x] `Domain/Repository/ShareRepositoryInterface.php` — includes `findByToken()`
+- [x] `Domain/Exception/ShareNotFoundException.php` + `ShareForbiddenException.php` + `ShareInvalidException.php`
+- [x] `Application/DTO/ShareDto.php` — exposes `hasPassword` bool, never exposes raw password hash
+- [x] `Application/Query/GetSharesQuery.php` + `GetShareByIdQuery.php` + Handlers
+- [x] `Application/Command/CreateShareCommand.php` + Handler — bcrypt-hashes password; generates token via ShareTokenService
+- [x] `Application/Command/DeleteShareCommand.php` + Handler — ownership enforced
+- [x] `Application/Command/AuthenticateShareCommand.php` + Handler — validates expiry/maxUses, verifies password, increments timesUsed
+- [x] `Infrastructure/Repository/ShareRepository.php`
+- [x] `Presentation/DTO/CreateShareRequest.php` + `AuthenticateShareRequest.php`
+- [x] `Presentation/Controller/SharesController.php` — `POST /shares/auth` is PUBLIC scope; list scopes to current user unless admin
+- [x] Doctrine migration `Version20260320000013`: create `shares` table with unique index on `token`
 
 ### 3.17 Dashboards & Panels
 
