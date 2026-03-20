@@ -447,16 +447,18 @@ Each module must follow the full Onion structure:
 
 > Content versioning
 
-- [~] `Presentation/Controller/VersionsController.php` — stub exists
-- [ ] `Domain/Entity/Version.php`
-- [ ] `Domain/Service/VersionService.php`
-- [ ] `Application/Query/GetVersionsQuery.php` + Handler
-- [ ] `Application/Command/SaveVersionCommand.php` + Handler
-- [ ] `Application/Command/PromoteVersionCommand.php` + Handler
-- [ ] `Application/DTO/VersionDto.php`
-- [ ] Doctrine migration for `versions` table
-- [ ] Implement `GET /versions`, `POST /versions`, `GET /versions/:id`, `PATCH /versions/:id`, `DELETE /versions/:id`
-- [ ] Implement `POST /versions/:id/promote`
+- [x] `Presentation/Controller/VersionsController.php`
+- [x] `Domain/Entity/Version.php`
+- [x] `Domain/Service/VersionService.php`
+- [x] `Application/Query/GetVersionsQuery.php` + Handler
+- [x] `Application/Command/SaveVersionCommand.php` + Handler
+- [x] `Application/Command/UpdateVersionCommand.php` + Handler
+- [x] `Application/Command/DeleteVersionCommand.php` + Handler
+- [x] `Application/Command/PromoteVersionCommand.php` + Handler
+- [x] `Application/DTO/VersionDto.php`
+- [x] Doctrine migration for `versions` table (`Version20260320000018`)
+- [x] Implement `GET /versions`, `POST /versions`, `GET /versions/:id`, `PATCH /versions/:id`, `DELETE /versions/:id`
+- [x] Implement `POST /versions/:id/promote`
 
 ### 3.23 Deployments
 
