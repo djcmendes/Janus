@@ -2,6 +2,31 @@
 The content manager for projects
 
 
+From the /var/www/html/personal_projects/godlike/html/Janus/ directory:
+
+    make up
+
+    That starts all 6 services (MariaDB, Redis, RabbitMQ, backend PHP-FPM, frontend Angular dev server, Nginx). Then:
+
+    - Frontend: http://janus.com → Angular admin UI (login page)
+    - Backend API: http://backend.janus.com → Symfony JSON API
+
+    Prerequisites:
+    1. Docker and Docker Compose must be running
+    2. A .env file must exist (copy from .env.example and fill in secrets)
+    3. Your /etc/hosts (or system DNS) must resolve janus.com and backend.janus.com to 127.0.0.1
+
+    First run only:
+    make migrate   # Run Doctrine DB migrations to create all tables
+
+    To stop everything:
+    make down
+
+    Since you're on WSL2, the hosts file to edit is C:\Windows\System32\drivers\etc\hosts on Windows (requires admin), adding:
+    127.0.0.1  janus.com
+    127.0.0.1  backend.janus.com
+
+
 A content import manager is essentially the creator, organizer, and gatekeeper of your digital universe, so giving it a godlike name is a brilliant idea. It needs to sound powerful, omniscient, and capable of bringing order out of chaos.
 
 Here are some godlike name concepts for your project, broken down by their mythological "superpowers" and how they relate to managing content:
