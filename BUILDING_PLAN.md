@@ -108,7 +108,7 @@ Each module must follow the full Onion structure:
 - [x] `Presentation/Command/CreateAdminCommand.php` — `janus:create-admin` console command (idempotent seed)
 - [x] Invite email dispatch — `InviteEmailMessage` + `InviteEmailHandler` (Messenger sync)
 - [x] Password-reset email dispatch — `PasswordResetEmailMessage` + `PasswordResetEmailHandler` (Messenger sync)
-- [ ] TFA setup (future — requires TOTP library)
+- [x] TFA — `TotpService` (spomky-labs/otphp), `GET /auth/tfa/setup`, `POST /auth/tfa/enable`, `POST /auth/tfa/disable`, `POST /auth/tfa/verify`; `issueTfaPendingToken()` in `JwtService`; login flow updated for tfa_pending token; migration `Version20260320000020`
 
 ### 3.4 Roles
 
