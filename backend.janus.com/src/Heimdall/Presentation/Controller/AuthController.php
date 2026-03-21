@@ -8,12 +8,14 @@ use App\Heimdall\Application\DTO\AuthResponse;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Exception\UnauthorizedException;
+use App\Heimdall\Domain\Message\PasswordResetEmailMessage;
 use App\Heimdall\Infrastructure\JWT\JwtService;
 use App\Users\Infrastructure\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -21,9 +23,11 @@ use Symfony\Component\Routing\Attribute\Route;
 final class AuthController extends AbstractController
 {
     public function __construct(
-        private readonly JwtService                 $jwtService,
-        private readonly UserRepository             $userRepository,
-        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly JwtService                  $jwtService,
+        private readonly UserRepository              $userRepository,
+        private readonly UserPasswordHasherInterface  $passwordHasher,
+        private readonly MessageBusInterface          $bus,
+        private readonly string                      $appBaseUrl,
     ) {}
 
     /**
@@ -124,8 +128,7 @@ final class AuthController extends AbstractController
 
     /**
      * POST /auth/password/request
-     * Generates a password-reset JWT and returns it in the response.
-     * In production, this token would be emailed rather than returned directly.
+     * Generates a password-reset token and dispatches an email via Messenger.
      */
     #[Route('/password/request', name: 'password_request', methods: ['POST'])]
     public function passwordRequest(Request $request): JsonResponse
@@ -146,9 +149,13 @@ final class AuthController extends AbstractController
 
         $resetToken = $this->jwtService->issuePasswordResetToken($user);
 
-        // TODO: dispatch a PasswordResetEmail Messenger message with $resetToken
-        // For now, return the token directly (dev-only convenience).
-        return $this->json(['data' => ['message' => 'Reset token issued.', 'reset_token' => $resetToken]]);
+        $this->bus->dispatch(new PasswordResetEmailMessage(
+            recipientEmail: $user->getEmail(),
+            resetToken:     $resetToken,
+            appBaseUrl:     $this->appBaseUrl,
+        ));
+
+        return $this->json(['data' => ['message' => 'If an account exists for that email, a reset link will be sent.']]);
     }
 
     /**
