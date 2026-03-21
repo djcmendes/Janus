@@ -105,7 +105,9 @@ Each module must follow the full Onion structure:
 - [x] Implement `PATCH /users/:id`
 - [x] Implement `DELETE /users/:id`
 - [x] Implement `POST /users/invite`
+- [x] `Presentation/Command/CreateAdminCommand.php` — `janus:create-admin` console command (idempotent seed)
 - [ ] TFA setup (future — requires TOTP library)
+- [ ] Invite email dispatch (future — requires `symfony/mailer` integration)
 
 ### 3.4 Roles
 
