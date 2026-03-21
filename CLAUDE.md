@@ -40,7 +40,7 @@ make migrate         # Run Doctrine migrations
 make shell-backend   # Open bash in backend container
 make shell-frontend  # Open sh in frontend container
 make test-backend    # PHPUnit
-make test-frontend   # Vitest
+make test-frontend   # Karma + Jasmine
 make test-e2e        # Playwright
 make tests           # Run all tests
 ```
