@@ -21,6 +21,8 @@ framework:
 
         routing:
             App\Flows\Domain\Message\RunFlowMessage: async
+            App\Heimdall\Domain\Message\PasswordResetEmailMessage: sync
+            App\Users\Domain\Message\InviteEmailMessage: sync
 
 # when@test:
 #    framework:

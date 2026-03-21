@@ -8,7 +8,9 @@ use App\Users\Application\Command\InviteUserCommand;
 use App\Users\Application\DTO\UserDto;
 use App\Users\Domain\Entity\User;
 use App\Users\Domain\Exception\UserAlreadyExistsException;
+use App\Users\Domain\Message\InviteEmailMessage;
 use App\Users\Domain\Repository\UserRepositoryInterface;
+use Symfony\Component\Messenger\MessageBusInterface;
 
 final class InviteUserHandler
 {
@@ -16,6 +18,8 @@ final class InviteUserHandler
 
     public function __construct(
         private readonly UserRepositoryInterface $repository,
+        private readonly MessageBusInterface     $bus,
+        private readonly string                  $appBaseUrl,
     ) {}
 
     public function handle(InviteUserCommand $command): UserDto
@@ -44,7 +48,11 @@ final class InviteUserHandler
 
         $this->repository->save($user);
 
-        // TODO: dispatch InviteEmailMessage via Symfony Messenger when mailer is integrated
+        $this->bus->dispatch(new InviteEmailMessage(
+            recipientEmail: $command->email,
+            inviteToken:    $token,
+            appBaseUrl:     $this->appBaseUrl,
+        ));
 
         return UserDto::fromEntity($user);
     }

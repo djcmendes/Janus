@@ -30,6 +30,14 @@ services:
         arguments:
             $refreshTtl: '%env(int:JWT_REFRESH_TTL)%'
 
+    App\Heimdall\Presentation\Controller\AuthController:
+        arguments:
+            $appBaseUrl: '%env(APP_BASE_URL)%'
+
+    App\Users\Application\Command\Handler\InviteUserHandler:
+        arguments:
+            $appBaseUrl: '%env(APP_BASE_URL)%'
+
     App\Server\Domain\Service\ServerService:
         arguments:
             $redisUrl:    '%env(REDIS_URL)%'

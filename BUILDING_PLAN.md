@@ -42,7 +42,7 @@ The `examples/` folder is a local clone of the Directus monorepo used as **refer
   - [x] `POST /auth/login`
   - [x] `POST /auth/refresh`
   - [x] `POST /auth/logout`
-  - [x] `POST /auth/password/request`
+  - [x] `POST /auth/password/request` (dispatches `PasswordResetEmailMessage` via Messenger sync)
   - [x] `POST /auth/password/reset`
 
 ---
@@ -106,8 +106,9 @@ Each module must follow the full Onion structure:
 - [x] Implement `DELETE /users/:id`
 - [x] Implement `POST /users/invite`
 - [x] `Presentation/Command/CreateAdminCommand.php` — `janus:create-admin` console command (idempotent seed)
+- [x] Invite email dispatch — `InviteEmailMessage` + `InviteEmailHandler` (Messenger sync)
+- [x] Password-reset email dispatch — `PasswordResetEmailMessage` + `PasswordResetEmailHandler` (Messenger sync)
 - [ ] TFA setup (future — requires TOTP library)
-- [ ] Invite email dispatch (future — requires `symfony/mailer` integration)
 
 ### 3.4 Roles
 
