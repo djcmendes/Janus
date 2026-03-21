@@ -23,7 +23,7 @@ class Flow
     #[ORM\Column(type: 'string', length: 10, enumType: FlowStatus::class)]
     private FlowStatus $status;
 
-    #[ORM\Column(type: 'string', length: 16, enumType: TriggerType::class)]
+    #[ORM\Column(name: '`trigger`', type: 'string', length: 16, enumType: TriggerType::class)]
     private TriggerType $trigger;
 
     /** JSON blob: trigger-specific configuration (e.g. collection+action for ACTION, cron expr for SCHEDULE) */

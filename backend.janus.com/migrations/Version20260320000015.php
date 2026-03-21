@@ -21,15 +21,15 @@ final class Version20260320000015 extends AbstractMigration
                 id              CHAR(36)     NOT NULL,
                 name            VARCHAR(255) NOT NULL,
                 status          VARCHAR(10)  NOT NULL DEFAULT 'inactive',
-                trigger         VARCHAR(16)  NOT NULL DEFAULT 'manual',
-                trigger_options JSON         NULL,
-                user_id         VARCHAR(36)  NULL,
-                description     TEXT         NULL,
-                created_at      DATETIME     NOT NULL COMMENT '(DC2Type:datetime_immutable)',
-                updated_at      DATETIME     NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+                `trigger`         VARCHAR(16)  NOT NULL DEFAULT 'manual',
+                trigger_options   JSON         NULL,
+                user_id           VARCHAR(36)  NULL,
+                description       TEXT         NULL,
+                created_at        DATETIME     NOT NULL COMMENT '(DC2Type:datetime_immutable)',
+                updated_at        DATETIME     NOT NULL COMMENT '(DC2Type:datetime_immutable)',
                 PRIMARY KEY (id),
                 INDEX idx_flows_status (status),
-                INDEX idx_flows_trigger (trigger)
+                INDEX idx_flows_trigger (`trigger`)
             ) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB
         SQL);
 
