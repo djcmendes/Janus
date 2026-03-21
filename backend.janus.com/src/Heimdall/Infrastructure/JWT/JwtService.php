@@ -55,6 +55,21 @@ final class JwtService
     }
 
     /**
+     * Issues a very short-lived (5 min) TFA-pending token used during the 2FA
+     * login step. The client must exchange this for a real access token via
+     * POST /auth/tfa/verify.
+     */
+    public function issueTfaPendingToken(UserInterface $user): string
+    {
+        return $this->jwtEncoder->encode([
+            'sub'  => $user->getUserIdentifier(),
+            'type' => 'tfa_pending',
+            'iat'  => time(),
+            'exp'  => time() + 300, // 5 minutes
+        ]);
+    }
+
+    /**
      * Decodes a typed token (refresh or reset). Returns the subject (email) if the
      * token is valid and has the expected type; null otherwise.
      */
