@@ -620,13 +620,22 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
 - [x] `features/settings/pages/data-model/`
 - [x] `features/settings/pages/data-model-collection/`
 - [x] `features/settings/pages/data-model-field/`
+- [x] `features/settings/pages/data-model-create/`
+- [x] `features/settings/pages/data-model-field-create/`
 - [x] `features/settings/pages/roles/`
+- [x] `features/settings/pages/role-create/`
 - [x] `features/settings/pages/role-detail/`
+- [x] `features/settings/pages/role-public/`
 - [x] `features/settings/pages/policies/`
+- [x] `features/settings/pages/policy-create/`
 - [x] `features/settings/pages/policy-detail/`
 - [x] `features/settings/pages/flows/`
+- [x] `features/settings/pages/flow-create/`
 - [x] `features/settings/pages/flow-detail/`
+- [x] `features/settings/pages/flow-operation/`
 - [x] `features/settings/pages/translations/`
+- [x] `features/settings/pages/translation-create/`
+- [x] `features/settings/pages/translation-detail/`
 - [x] `features/settings/pages/extensions/`
 - [x] `features/settings/pages/presets/`
 - [x] `features/settings/pages/system-logs/`
@@ -727,13 +736,13 @@ Each feature must have a service that uses `ApiService`. Pages must be lazy-load
         ├── core/              ✓ Complete
         ├── shared/            ✓ Complete
         └── features/
-            ├── auth/          ✓ Scaffolded (wiring pending)
-            ├── users/         ✓ Scaffolded (wiring pending)
-            ├── content/       ✓ Scaffolded (wiring pending)
-            ├── files/         ✓ Scaffolded (wiring pending)
-            ├── activity/      ✓ Scaffolded (wiring pending)
-            ├── insights/      ✓ Scaffolded (wiring pending)
-            ├── deployment/    ✓ Scaffolded (wiring pending)
-            ├── visual/        ✓ Scaffolded (wiring pending)
-            └── settings/      ✓ Scaffolded (wiring pending)
+            ├── auth/          ✅ Complete (all pages + wired to AuthService)
+            ├── users/         ✅ Complete (list + detail + create)
+            ├── content/       ✅ Complete (home + collection + detail/create)
+            ├── files/         ✅ Complete (files + folders, upload, create)
+            ├── activity/      ✅ Complete (list + detail)
+            ├── insights/      ✅ Complete (dashboards + panels)
+            ├── deployment/    ✅ Complete (providers + runs + create)
+            ├── visual/        ✅ Complete (URL bar + iframe viewer)
+            └── settings/      ✅ Complete (all settings pages + create flows)
 ```
