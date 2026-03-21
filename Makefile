@@ -1,4 +1,4 @@
-.PHONY: help up down restart reset logs shell-backend shell-frontend migrate test-backend test-frontend
+.PHONY: help up down restart reset logs shell-backend shell-frontend migrate seed test-backend test-frontend
 
 # Default target
 help:
@@ -13,6 +13,7 @@ help:
 	@echo "  make shell-backend  Open a shell in the backend container"
 	@echo "  make shell-frontend Open a shell in the frontend container"
 	@echo "  make migrate        Run Doctrine database migrations"
+	@echo "  make seed           Create the default admin user (idempotent)"
 	@echo "  make test-backend   Run PHPUnit tests"
 	@echo "  make test-frontend  Run Vitest unit tests"
 	@echo "  make test-e2e       Run Playwright E2E tests"
@@ -43,6 +44,9 @@ shell-frontend:
 
 migrate:
 	docker compose exec backend php bin/console doctrine:migrations:migrate --no-interaction
+
+seed:
+	docker compose exec backend php bin/console janus:create-admin
 
 test-backend:
 	docker compose exec backend php bin/phpunit

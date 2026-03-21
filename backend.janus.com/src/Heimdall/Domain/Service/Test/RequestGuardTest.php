@@ -12,6 +12,7 @@ use App\Heimdall\Domain\Service\RequestGuard;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -29,10 +30,12 @@ final class RequestGuardTest extends TestCase
 
     private function makeGuard(string $clientType = 'web'): RequestGuard
     {
-        // Use a real Request value object — no need to mock it.
         $request = Request::create('/', 'GET', [], [], [], ['HTTP_X_CLIENT_TYPE' => $clientType]);
 
-        return new RequestGuard($this->tokenStorage, $request);
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        return new RequestGuard($this->tokenStorage, $requestStack);
     }
 
     private function makeAuthenticatedToken(?UserInterface $user = null): TokenInterface&MockObject
@@ -49,7 +52,7 @@ final class RequestGuardTest extends TestCase
     {
         $this->tokenStorage->expects($this->never())->method('getToken');
 
-        $this->makeGuard()->validate_webservice_request(ApiVersion::V1, ApiScope::PUBLIC);
+        $this->makeGuard()->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::PUBLIC);
 
         $this->addToAssertionCount(1);
     }
@@ -61,7 +64,7 @@ final class RequestGuardTest extends TestCase
         $this->expectException(UnauthorizedException::class);
         $this->expectExceptionMessage('This endpoint requires authentication.');
 
-        $this->makeGuard()->validate_webservice_request(ApiVersion::V1, ApiScope::AUTHENTICATED);
+        $this->makeGuard()->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
     }
 
     public function test_authenticated_scope_throws_when_token_has_no_user(): void
@@ -72,14 +75,14 @@ final class RequestGuardTest extends TestCase
 
         $this->expectException(UnauthorizedException::class);
 
-        $this->makeGuard()->validate_webservice_request(ApiVersion::V1, ApiScope::AUTHENTICATED);
+        $this->makeGuard()->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
     }
 
     public function test_authenticated_scope_passes_when_user_is_set(): void
     {
         $this->tokenStorage->method('getToken')->willReturn($this->makeAuthenticatedToken());
 
-        $this->makeGuard()->validate_webservice_request(ApiVersion::V1, ApiScope::AUTHENTICATED);
+        $this->makeGuard()->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
 
         $this->addToAssertionCount(1);
     }

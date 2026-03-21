@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Heimdall\Domain\Enum;
 
-enum ApiVersion: string
+enum ApiVersion: int
 {
-    case V100 = 'v100';
-    case V200 = 'v200';
+    case JANUS_100 = 100;
+    case JANUS_200 = 200;
 
     /**
      * Checks if this version is less than a given version.

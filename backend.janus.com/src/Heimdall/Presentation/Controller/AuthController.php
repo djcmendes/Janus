@@ -28,7 +28,7 @@ final class AuthController extends AbstractController
 
     /**
      * POST /auth/login
-     * Returns a JWT access token for valid credentials.
+     * Returns JWT access + refresh tokens for valid credentials.
      */
     #[Route('/login', name: 'login', methods: ['POST'])]
     public function login(Request $request): JsonResponse
@@ -39,7 +39,7 @@ final class AuthController extends AbstractController
         $password = $data['password'] ?? '';
 
         if (empty($email) || empty($password)) {
-            return $this->json(['error' => 'Email and password are required.'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['errors' => [['message' => 'Email and password are required.']]], Response::HTTP_BAD_REQUEST);
         }
 
         $user = $this->userRepository->findByEmail($email);
@@ -51,20 +51,52 @@ final class AuthController extends AbstractController
         $user->touchLastAccess();
         $this->userRepository->save($user);
 
-        $accessToken = $this->jwtService->issueAccessToken($user);
+        $accessToken  = $this->jwtService->issueAccessToken($user);
+        $refreshToken = $this->jwtService->issueRefreshToken($user);
 
-        return $this->json((new AuthResponse($accessToken))->toArray());
+        return $this->json((new AuthResponse($accessToken, refreshToken: $refreshToken))->toArray());
+    }
+
+    /**
+     * POST /auth/refresh
+     * Exchanges a valid refresh token for a new access + refresh token pair.
+     */
+    #[Route('/refresh', name: 'refresh', methods: ['POST'])]
+    public function refresh(Request $request): JsonResponse
+    {
+        $data         = json_decode($request->getContent(), true);
+        $refreshToken = $data['refresh_token'] ?? '';
+
+        if (empty($refreshToken)) {
+            return $this->json(['errors' => [['message' => 'refresh_token is required.']]], Response::HTTP_BAD_REQUEST);
+        }
+
+        $email = $this->jwtService->decodeTokenOfType($refreshToken, 'refresh');
+
+        if ($email === null) {
+            throw new UnauthorizedException('Invalid or expired refresh token.');
+        }
+
+        $user = $this->userRepository->findByEmail($email);
+
+        if ($user === null) {
+            throw new UnauthorizedException('User not found.');
+        }
+
+        $newAccessToken  = $this->jwtService->issueAccessToken($user);
+        $newRefreshToken = $this->jwtService->issueRefreshToken($user);
+
+        return $this->json((new AuthResponse($newAccessToken, refreshToken: $newRefreshToken))->toArray());
     }
 
     /**
      * POST /auth/logout
-     * Client-side token invalidation (stateless — token expires naturally).
-     * Extend with a refresh token blocklist if needed.
+     * Client-side token invalidation (stateless — tokens expire naturally).
      */
     #[Route('/logout', name: 'logout', methods: ['POST'])]
     public function logout(): JsonResponse
     {
-        return $this->json(['message' => 'Logged out successfully.']);
+        return $this->json(['data' => ['message' => 'Logged out successfully.']]);
     }
 
     /**
@@ -80,17 +112,20 @@ final class AuthController extends AbstractController
         $user = $this->getUser();
 
         return $this->json([
-            'id'         => (string) $user->getId(),
-            'email'      => $user->getEmail(),
-            'first_name' => $user->getFirstName(),
-            'last_name'  => $user->getLastName(),
-            'roles'      => $user->getRoles(),
+            'data' => [
+                'id'         => (string) $user->getId(),
+                'email'      => $user->getEmail(),
+                'first_name' => $user->getFirstName(),
+                'last_name'  => $user->getLastName(),
+                'roles'      => $user->getRoles(),
+            ],
         ]);
     }
 
     /**
      * POST /auth/password/request
-     * Triggers a password-reset email (mailer integration TBD).
+     * Generates a password-reset JWT and returns it in the response.
+     * In production, this token would be emailed rather than returned directly.
      */
     #[Route('/password/request', name: 'password_request', methods: ['POST'])]
     public function passwordRequest(Request $request): JsonResponse
@@ -99,11 +134,58 @@ final class AuthController extends AbstractController
         $email = $data['email'] ?? '';
 
         if (empty($email)) {
-            return $this->json(['error' => 'Email is required.'], Response::HTTP_BAD_REQUEST);
+            return $this->json(['errors' => [['message' => 'Email is required.']]], Response::HTTP_BAD_REQUEST);
         }
 
+        $user = $this->userRepository->findByEmail($email);
+
         // Always return 200 to avoid user enumeration attacks.
-        // The actual email dispatch will be handled by a Messenger message.
-        return $this->json(['message' => 'If an account exists for that email, a reset link will be sent.']);
+        if ($user === null) {
+            return $this->json(['data' => ['message' => 'If an account exists for that email, a reset link will be sent.']]);
+        }
+
+        $resetToken = $this->jwtService->issuePasswordResetToken($user);
+
+        // TODO: dispatch a PasswordResetEmail Messenger message with $resetToken
+        // For now, return the token directly (dev-only convenience).
+        return $this->json(['data' => ['message' => 'Reset token issued.', 'reset_token' => $resetToken]]);
+    }
+
+    /**
+     * POST /auth/password/reset
+     * Validates the reset token and sets a new password.
+     */
+    #[Route('/password/reset', name: 'password_reset', methods: ['POST'])]
+    public function passwordReset(Request $request): JsonResponse
+    {
+        $data     = json_decode($request->getContent(), true);
+        $token    = $data['token']    ?? '';
+        $password = $data['password'] ?? '';
+
+        if (empty($token) || empty($password)) {
+            return $this->json(['errors' => [['message' => 'token and password are required.']]], Response::HTTP_BAD_REQUEST);
+        }
+
+        if (strlen($password) < 8) {
+            return $this->json(['errors' => [['message' => 'Password must be at least 8 characters.']]], Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+
+        $email = $this->jwtService->decodeTokenOfType($token, 'reset');
+
+        if ($email === null) {
+            throw new UnauthorizedException('Invalid or expired reset token.');
+        }
+
+        $user = $this->userRepository->findByEmail($email);
+
+        if ($user === null) {
+            throw new UnauthorizedException('User not found.');
+        }
+
+        $hashed = $this->passwordHasher->hashPassword($user, $password);
+        $user->setPassword($hashed);
+        $this->userRepository->save($user);
+
+        return $this->json(['data' => ['message' => 'Password updated successfully.']]);
     }
 }

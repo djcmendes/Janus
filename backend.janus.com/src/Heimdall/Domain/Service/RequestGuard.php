@@ -8,7 +8,7 @@ use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
 use App\Heimdall\Domain\Exception\UnauthorizedException;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 /**
@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  *
  * Usage in a controller:
  *
- *   $this->guard->validate_webservice_request(ApiVersion::V1, ApiScope::AUTHENTICATED);
+ *   $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
  *   $this->guard->authorize(Client::WEB, Client::IOS);
  *   $userId = $this->guard->validate_authenticated_user_id();
  */
@@ -25,7 +25,7 @@ final class RequestGuard
 {
     public function __construct(
         private readonly TokenStorageInterface $tokenStorage,
-        private readonly Request $request,
+        private readonly RequestStack          $requestStack,
     ) {}
 
     /**
@@ -47,7 +47,8 @@ final class RequestGuard
      */
     public function authorize(Client ...$allowedClients): void
     {
-        $clientHeader = $this->request->headers->get('X-Client-Type', Client::WEB->value);
+        $request      = $this->requestStack->getCurrentRequest();
+        $clientHeader = $request?->headers->get('X-Client-Type', Client::WEB->value) ?? Client::WEB->value;
 
         $requestingClient = Client::tryFrom($clientHeader);
 

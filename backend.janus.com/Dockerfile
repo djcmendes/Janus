@@ -18,8 +18,11 @@ RUN docker-php-ext-install \
     opcache \
     bcmath
 
-# Install PECL extensions
-RUN pecl install redis && docker-php-ext-enable redis
+# Install PECL extensions (autoconf + g++ + make needed to compile on Alpine)
+RUN apk add --no-cache --virtual .build-deps autoconf g++ make \
+    && pecl install redis \
+    && docker-php-ext-enable redis \
+    && apk del .build-deps
 
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
