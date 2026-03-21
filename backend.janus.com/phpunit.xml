@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+>
+    <!--
+        Tests live co-located with the code they test, inside a tests/ subfolder (lowercase):
+
+          src/Heimdall/Domain/Service/RequestGuard.php
+          src/Heimdall/Domain/Service/tests/RequestGuardTestCase.php   ← base class (setUp/tearDown, no test methods)
+          src/Heimdall/Domain/Service/tests/RequestGuard_methodNameTest.php  ← one file per public method
+
+        This mirrors the DDD structure and keeps tests next to the code they cover.
+    -->
+    <testsuites>
+        <testsuite name="Unit">
+            <!--
+                Recursively finds all *Test.php files inside any Test/ folder
+                anywhere under src/.
+            -->
+            <directory>src/</directory>
+        </testsuite>
+        <testsuite name="Feature">
+            <directory>tests/Feature/</directory>
+        </testsuite>
+    </testsuites>
+
+    <!--
+        Only count coverage for production src/ files,
+        excluding the Test/ subfolders themselves.
+    -->
+    <source>
+        <include>
+            <directory>src/</directory>
+        </include>
+        <exclude>
+            <directory suffix="Test.php">src/</directory>
+            <directory suffix="TestCase.php">src/</directory>
+        </exclude>
+    </source>
+
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+    </php>
+</phpunit>
