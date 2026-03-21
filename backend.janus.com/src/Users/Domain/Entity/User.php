@@ -46,6 +46,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $inviteTokenExpiresAt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?string $totpSecret = null;
+
+    #[ORM\Column]
+    private bool $totpEnabled = false;
+
     #[ORM\ManyToOne(targetEntity: Role::class)]
     #[ORM\JoinColumn(name: 'role_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     private ?Role $role = null;
@@ -99,6 +105,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->inviteToken          = null;
         $this->inviteTokenExpiresAt = null;
+        return $this->touch();
+    }
+
+    public function getTotpSecret(): ?string { return $this->totpSecret; }
+    public function isTotpEnabled(): bool { return $this->totpEnabled; }
+
+    public function enableTotp(string $secret): static
+    {
+        $this->totpSecret  = $secret;
+        $this->totpEnabled = true;
+        return $this->touch();
+    }
+
+    public function disableTotp(): static
+    {
+        $this->totpSecret  = null;
+        $this->totpEnabled = false;
+        return $this->touch();
+    }
+
+    public function storeTotpSecret(string $secret): static
+    {
+        $this->totpSecret = $secret;
         return $this->touch();
     }
 
