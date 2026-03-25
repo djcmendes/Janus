@@ -17,6 +17,8 @@ final class CreateFieldRequest
         public readonly bool    $readonly  = false,
         public readonly bool    $hidden    = false,
         public readonly int     $sortOrder = 0,
+        public readonly ?string $interface = null,
+        public readonly ?array  $options   = null,
     ) {}
 
     /** @throws \InvalidArgumentException */
@@ -43,6 +45,9 @@ final class CreateFieldRequest
             throw new \InvalidArgumentException(sprintf('Invalid type "%s". Valid values: %s.', $typeValue, $valid));
         }
 
+        $interface = isset($data['interface']) ? trim($data['interface']) : null;
+        $options   = isset($data['options']) && is_array($data['options']) ? $data['options'] : null;
+
         return new self(
             field:     $fieldName,
             type:      $typeValue,
@@ -52,6 +57,8 @@ final class CreateFieldRequest
             readonly:  (bool) ($data['readonly']  ?? false),
             hidden:    (bool) ($data['hidden']    ?? false),
             sortOrder: (int)  ($data['sort']      ?? 0),
+            interface: $interface !== '' ? $interface : null,
+            options:   $options,
         );
     }
 }

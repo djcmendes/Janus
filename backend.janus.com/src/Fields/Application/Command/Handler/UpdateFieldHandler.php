@@ -42,6 +42,12 @@ final class UpdateFieldHandler
         if ($command->sortOrder !== null) {
             $field->setSortOrder($command->sortOrder);
         }
+        if ($command->interface !== UpdateFieldCommand::UNCHANGED) {
+            $field->setInterface($command->interface);
+        }
+        if ($command->options !== UpdateFieldCommand::UNCHANGED) {
+            $field->setOptions(is_array($command->options) ? $command->options : null);
+        }
 
         $this->repository->save($field);
 

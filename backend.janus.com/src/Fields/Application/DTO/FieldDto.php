@@ -19,6 +19,8 @@ final class FieldDto
         public readonly bool    $readonly,
         public readonly bool    $hidden,
         public readonly int     $sortOrder,
+        public readonly ?string $interface,
+        public readonly ?array  $options,
         public readonly string  $createdAt,
         public readonly ?string $updatedAt,
     ) {}
@@ -36,6 +38,8 @@ final class FieldDto
             readonly:   $f->isReadonly(),
             hidden:     $f->isHidden(),
             sortOrder:  $f->getSortOrder(),
+            interface:  $f->getInterface(),
+            options:    $f->getOptions(),
             createdAt:  $f->getCreatedAt()->format(\DateTimeInterface::ATOM),
             updatedAt:  $f->getUpdatedAt()?->format(\DateTimeInterface::ATOM),
         );
@@ -54,6 +58,8 @@ final class FieldDto
             'readonly'   => $this->readonly,
             'hidden'     => $this->hidden,
             'sort'       => $this->sortOrder,
+            'interface'  => $this->interface,
+            'options'    => $this->options,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
         ];

@@ -17,5 +17,7 @@ final class UpdateFieldCommand
         public readonly ?bool   $readonly  = null,
         public readonly ?bool   $hidden    = null,
         public readonly ?int    $sortOrder = null,
+        public readonly mixed   $interface = self::UNCHANGED,
+        public readonly mixed   $options   = self::UNCHANGED,
     ) {}
 }

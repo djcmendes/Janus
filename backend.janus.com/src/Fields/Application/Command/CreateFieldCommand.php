@@ -16,5 +16,7 @@ final class CreateFieldCommand
         public readonly bool    $readonly  = false,
         public readonly bool    $hidden    = false,
         public readonly int     $sortOrder = 0,
+        public readonly ?string $interface = null,
+        public readonly ?array  $options   = null,
     ) {}
 }

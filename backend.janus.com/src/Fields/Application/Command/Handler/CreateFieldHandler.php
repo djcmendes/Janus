@@ -46,6 +46,8 @@ final class CreateFieldHandler
         $fieldMeta->setReadonly($command->readonly);
         $fieldMeta->setHidden($command->hidden);
         $fieldMeta->setSortOrder($command->sortOrder);
+        $fieldMeta->setInterface($command->interface);
+        $fieldMeta->setOptions($command->options);
 
         if (!$type->isAlias()) {
             $this->schemaManager->addColumn($command->collection, $command->field, $type->toColumnDdl());

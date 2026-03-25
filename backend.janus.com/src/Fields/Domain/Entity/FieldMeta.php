@@ -46,6 +46,12 @@ class FieldMeta
     #[ORM\Column]
     private int $sortOrder = 0;
 
+    #[ORM\Column(length: 64, nullable: true)]
+    private ?string $interface = null;
+
+    #[ORM\Column(type: 'json', nullable: true)]
+    private ?array $options = null;
+
     #[ORM\Column]
     private \DateTimeImmutable $createdAt;
 
@@ -85,6 +91,12 @@ class FieldMeta
 
     public function getSortOrder(): int { return $this->sortOrder; }
     public function setSortOrder(int $sortOrder): static { $this->sortOrder = $sortOrder; return $this->touch(); }
+
+    public function getInterface(): ?string { return $this->interface; }
+    public function setInterface(?string $interface): static { $this->interface = $interface; return $this->touch(); }
+
+    public function getOptions(): ?array { return $this->options; }
+    public function setOptions(?array $options): static { $this->options = $options; return $this->touch(); }
 
     public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
     public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
