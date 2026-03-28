@@ -22,10 +22,12 @@ final class UpdateMagnetSourceHandler
             throw new MagnetNotFoundException($command->magnetId);
         }
 
-        $magnet->updateSource(
-            SourceType::from($command->sourceType),
-            SourceConfig::fromArray($command->sourceConfig),
-        );
+        if ($command->sourceType !== null) {
+            $magnet->updateSource(
+                SourceType::from($command->sourceType),
+                SourceConfig::fromArray($command->sourceConfig ?? []),
+            );
+        }
 
         if ($command->name !== null) {
             $magnet->rename($command->name);
