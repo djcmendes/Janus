@@ -17,7 +17,7 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  *
  * Usage in a controller:
  *
- *   $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+ *   $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
  *   $this->guard->authorize(Client::WEB, Client::IOS);
  *   $userId = $this->guard->validate_authenticated_user_id();
  */

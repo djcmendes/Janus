@@ -6,6 +6,7 @@ namespace App\Heimdall\Domain\Service;
 
 use OTPHP\TOTP;
 use ParagonIE\ConstantTime\Base32;
+use Random\RandomException;
 
 /**
  * Wraps spomky-labs/otphp to provide TOTP secret generation,
@@ -13,12 +14,13 @@ use ParagonIE\ConstantTime\Base32;
  */
 final class TotpService
 {
-    private const ISSUER = 'Janus';
-    private const DIGITS = 6;
-    private const PERIOD = 30;
+    private const string ISSUER = 'Janus';
+    private const int DIGITS = 6;
+    private const int PERIOD = 30;
 
     /**
      * Generates a cryptographically random base32-encoded TOTP secret.
+     * @throws RandomException
      */
     public function generateSecret(): string
     {

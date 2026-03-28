@@ -32,7 +32,7 @@ final class SettingsController extends AbstractController
     #[Route('', name: 'get', methods: ['GET'])]
     public function get(): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $dto = $this->getSettingsHandler->handle(new GetSettingsQuery());
@@ -44,7 +44,7 @@ final class SettingsController extends AbstractController
     #[Route('', name: 'patch', methods: ['PATCH'])]
     public function patch(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

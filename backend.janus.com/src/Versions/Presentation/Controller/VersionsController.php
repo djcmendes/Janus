@@ -41,7 +41,7 @@ final class VersionsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetVersionsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -62,7 +62,7 @@ final class VersionsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetVersionByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -82,7 +82,7 @@ final class VersionsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, SaveVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -122,7 +122,7 @@ final class VersionsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'], priority: 10)]
     public function patch(string $id, Request $request, UpdateVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -145,7 +145,7 @@ final class VersionsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteVersionHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -165,7 +165,7 @@ final class VersionsController extends AbstractController
     #[Route('/{id}/promote', name: 'promote', methods: ['POST'], priority: 20)]
     public function promote(string $id, PromoteVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

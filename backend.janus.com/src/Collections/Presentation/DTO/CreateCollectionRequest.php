@@ -8,12 +8,14 @@ final class CreateCollectionRequest
 {
     public function __construct(
         public readonly string  $name,
-        public readonly ?string $label     = null,
-        public readonly ?string $icon      = null,
-        public readonly ?string $note      = null,
-        public readonly bool    $hidden    = false,
-        public readonly bool    $singleton = false,
-        public readonly ?string $sortField = null,
+        public readonly ?string $label          = null,
+        public readonly ?string $icon           = null,
+        public readonly ?string $note           = null,
+        public readonly bool    $hidden         = false,
+        public readonly bool    $singleton      = false,
+        public readonly ?string $sortField      = null,
+        public readonly string  $primaryKeyField = 'id',
+        public readonly string  $primaryKeyType  = 'uuid',
     ) {}
 
     /** @throws \InvalidArgumentException */
@@ -30,14 +32,19 @@ final class CreateCollectionRequest
             );
         }
 
+        $primaryKeyField = trim($data['primary_key_field'] ?? 'id') ?: 'id';
+        $primaryKeyType  = trim($data['primary_key_type']  ?? 'uuid') ?: 'uuid';
+
         return new self(
-            name:      $name,
-            label:     isset($data['label'])      ? trim($data['label'])      : null,
-            icon:      isset($data['icon'])        ? trim($data['icon'])       : null,
-            note:      isset($data['note'])        ? trim($data['note'])       : null,
-            hidden:    (bool) ($data['hidden']    ?? false),
-            singleton: (bool) ($data['singleton'] ?? false),
-            sortField: isset($data['sort_field']) ? trim($data['sort_field']) : null,
+            name:            $name,
+            label:           isset($data['label'])      ? trim($data['label'])      : null,
+            icon:            isset($data['icon'])        ? trim($data['icon'])       : null,
+            note:            isset($data['note'])        ? trim($data['note'])       : null,
+            hidden:          (bool) ($data['hidden']    ?? false),
+            singleton:       (bool) ($data['singleton'] ?? false),
+            sortField:       isset($data['sort_field']) ? trim($data['sort_field']) : null,
+            primaryKeyField: $primaryKeyField,
+            primaryKeyType:  $primaryKeyType,
         );
     }
 }

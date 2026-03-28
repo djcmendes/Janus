@@ -73,7 +73,7 @@ If you want to feed this architecture into an LLM (like Gemini) to bootstrap par
         $this->guard->authorize(Client::ANDROID, Client::IOS);
 
         $user_id = $this->guard->validate_user_id();
-        if ($this->request->api_version < ApiVersion::SKYSAIL_150)
+        if ($this->request->api_version < ApiVersion::JANUS_150)
         {
             $user_id = $this->guard->validate_authenticated_user_id();
         }

@@ -41,7 +41,7 @@ final class CollectionDto
     {
         return [
             'id'         => $this->id,
-            'name'       => $this->name,
+            'collection' => $this->name,
             'label'      => $this->label,
             'icon'       => $this->icon,
             'note'       => $this->note,

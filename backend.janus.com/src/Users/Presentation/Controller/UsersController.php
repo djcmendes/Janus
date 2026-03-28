@@ -48,7 +48,7 @@ final class UsersController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
@@ -66,7 +66,7 @@ final class UsersController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
@@ -82,7 +82,7 @@ final class UsersController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -109,7 +109,7 @@ final class UsersController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -136,7 +136,7 @@ final class UsersController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -153,7 +153,7 @@ final class UsersController extends AbstractController
     #[Route('/invite', name: 'invite', methods: ['POST'])]
     public function invite(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

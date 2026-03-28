@@ -38,7 +38,7 @@ final class DeploymentsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetDeploymentsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -57,7 +57,7 @@ final class DeploymentsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetDeploymentByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -77,7 +77,7 @@ final class DeploymentsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateDeploymentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -107,7 +107,7 @@ final class DeploymentsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteDeploymentHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -127,7 +127,7 @@ final class DeploymentsController extends AbstractController
     #[Route('/{id}/run', name: 'run', methods: ['POST'], priority: 20)]
     public function run(string $id, TriggerDeploymentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

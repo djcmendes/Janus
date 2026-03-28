@@ -38,7 +38,7 @@ final class NotificationsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetNotificationsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $currentUserId = $this->guard->validate_authenticated_user_id();
         $isAdmin       = $this->isGranted('ROLE_ADMIN');
@@ -69,7 +69,7 @@ final class NotificationsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetNotificationByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -88,7 +88,7 @@ final class NotificationsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateNotificationHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -119,7 +119,7 @@ final class NotificationsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, MarkNotificationReadHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
@@ -145,7 +145,7 @@ final class NotificationsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, DeleteNotificationHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');

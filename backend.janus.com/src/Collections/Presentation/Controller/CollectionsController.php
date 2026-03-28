@@ -44,7 +44,7 @@ final class CollectionsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
@@ -62,7 +62,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $name): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
@@ -78,7 +78,7 @@ final class CollectionsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -90,13 +90,15 @@ final class CollectionsController extends AbstractController
 
         try {
             $dto = $this->createCollectionHandler->handle(new CreateCollectionCommand(
-                name:      $req->name,
-                label:     $req->label,
-                icon:      $req->icon,
-                note:      $req->note,
-                hidden:    $req->hidden,
-                singleton: $req->singleton,
-                sortField: $req->sortField,
+                name:            $req->name,
+                label:           $req->label,
+                icon:            $req->icon,
+                note:            $req->note,
+                hidden:          $req->hidden,
+                singleton:       $req->singleton,
+                sortField:       $req->sortField,
+                primaryKeyField: $req->primaryKeyField,
+                primaryKeyType:  $req->primaryKeyType,
             ));
         } catch (CollectionAlreadyExistsException $e) {
             return $this->json($this->error($e->getMessage(), 'COLLECTION_EXISTS'), Response::HTTP_CONFLICT);
@@ -111,7 +113,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $name, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -138,7 +140,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $name): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

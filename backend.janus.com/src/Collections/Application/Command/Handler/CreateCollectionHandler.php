@@ -10,11 +10,15 @@ use App\Collections\Domain\Entity\CollectionMeta;
 use App\Collections\Domain\Exception\CollectionAlreadyExistsException;
 use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Collections\Infrastructure\Service\SchemaManagerService;
+use App\Fields\Domain\Entity\FieldMeta;
+use App\Fields\Domain\Enum\FieldType;
+use App\Fields\Domain\Repository\FieldMetaRepositoryInterface;
 
 final class CreateCollectionHandler
 {
     public function __construct(
         private readonly CollectionMetaRepositoryInterface $repository,
+        private readonly FieldMetaRepositoryInterface      $fieldRepository,
         private readonly SchemaManagerService              $schemaManager,
     ) {}
 
@@ -33,7 +37,14 @@ final class CreateCollectionHandler
         $collection->setSingleton($command->singleton);
         $collection->setSortField($command->sortField);
 
-        $this->schemaManager->createTable($command->name);
+        $this->schemaManager->createTable($command->name, $command->primaryKeyField, $command->primaryKeyType);
+
+        $pkType    = FieldType::from($command->primaryKeyType);
+        $pkField   = new FieldMeta($command->name, $command->primaryKeyField, $pkType);
+        $pkField->setHidden(true);
+        $pkField->setReadonly(true);
+
+        $this->fieldRepository->save($pkField, false);
         $this->repository->save($collection);
 
         return CollectionDto::fromEntity($collection);

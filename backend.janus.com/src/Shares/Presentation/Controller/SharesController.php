@@ -40,7 +40,7 @@ final class SharesController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetSharesHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $currentUserId = $this->guard->validate_authenticated_user_id();
         $isAdmin       = $this->isGranted('ROLE_ADMIN');
@@ -67,7 +67,7 @@ final class SharesController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetShareByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -86,7 +86,7 @@ final class SharesController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateShareHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId = $this->guard->validate_authenticated_user_id();
 
@@ -118,7 +118,7 @@ final class SharesController extends AbstractController
     #[Route('/auth', name: 'auth', methods: ['POST'], priority: 20)]
     public function auth(Request $request, AuthenticateShareHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::PUBLIC);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::PUBLIC);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         /** @var AuthenticateShareRequest $dto */
@@ -153,7 +153,7 @@ final class SharesController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, DeleteShareHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');

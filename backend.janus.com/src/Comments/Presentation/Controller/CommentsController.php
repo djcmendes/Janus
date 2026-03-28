@@ -37,7 +37,7 @@ final class CommentsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetCommentsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         $limit      = max(1, (int) ($request->query->get('limit', 25)));
@@ -60,7 +60,7 @@ final class CommentsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetCommentByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -79,7 +79,7 @@ final class CommentsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateCommentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId = $this->guard->validate_authenticated_user_id();
 
@@ -104,7 +104,7 @@ final class CommentsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request, UpdateCommentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
@@ -140,7 +140,7 @@ final class CommentsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, Request $request, DeleteCommentHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
         $userId  = $this->guard->validate_authenticated_user_id();
         $isAdmin = $this->isGranted('ROLE_ADMIN');

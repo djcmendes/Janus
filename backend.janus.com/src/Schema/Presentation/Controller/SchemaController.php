@@ -32,7 +32,7 @@ final class SchemaController extends AbstractController
     #[Route('/snapshot', name: 'snapshot', methods: ['GET'])]
     public function snapshot(GetSchemaSnapshotHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -51,7 +51,7 @@ final class SchemaController extends AbstractController
         SchemaSnapshotService $snapshotService,
         SchemaDiffService    $diffService,
     ): JsonResponse {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -79,7 +79,7 @@ final class SchemaController extends AbstractController
     #[Route('/apply', name: 'apply', methods: ['POST'])]
     public function apply(Request $request, ApplySchemaHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

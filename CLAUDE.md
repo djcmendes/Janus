@@ -82,7 +82,7 @@ use App\Heimdall\Domain\Service\RequestGuard;
 public function __construct(private readonly RequestGuard $guard) {}
 
 // In action:
-$this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+$this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
 $this->guard->authorize(Client::WEB, Client::IOS);
 $userId = $this->guard->validate_authenticated_user_id();
 ```

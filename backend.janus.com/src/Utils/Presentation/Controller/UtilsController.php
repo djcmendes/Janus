@@ -35,7 +35,7 @@ final class UtilsController extends AbstractController
         Connection                         $connection,
         CollectionMetaRepositoryInterface  $collectionRepository,
     ): JsonResponse {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -89,7 +89,7 @@ final class UtilsController extends AbstractController
     #[Route('/hash/generate', name: 'hash_generate', methods: ['GET'], priority: 20)]
     public function hashGenerate(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -113,7 +113,7 @@ final class UtilsController extends AbstractController
     #[Route('/hash/verify', name: 'hash_verify', methods: ['GET'], priority: 20)]
     public function hashVerify(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -138,7 +138,7 @@ final class UtilsController extends AbstractController
     #[Route('/cache/clear', name: 'cache_clear', methods: ['POST'], priority: 20)]
     public function cacheClear(CacheInterface $cache): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -156,7 +156,7 @@ final class UtilsController extends AbstractController
     #[Route('/random/string', name: 'random_string', methods: ['GET'], priority: 20)]
     public function randomString(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

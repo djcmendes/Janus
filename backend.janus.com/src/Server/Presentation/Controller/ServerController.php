@@ -28,7 +28,7 @@ final class ServerController extends AbstractController
     #[Route('/ping', name: 'ping', methods: ['GET'])]
     public function ping(): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::PUBLIC);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::PUBLIC);
 
         return $this->json(['data' => 'pong']);
     }
@@ -40,7 +40,7 @@ final class ServerController extends AbstractController
     #[Route('/info', name: 'info', methods: ['GET'])]
     public function info(): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         return $this->json(['data' => $this->serverService->getInfo()]);
@@ -53,7 +53,7 @@ final class ServerController extends AbstractController
     #[Route('/health', name: 'health', methods: ['GET'])]
     public function health(): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::V100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         $checks = $this->serverService->getHealth();

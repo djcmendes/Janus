@@ -8,6 +8,7 @@ use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Fields\Domain\Repository\FieldMetaRepositoryInterface;
 use App\Items\Domain\Exception\ItemNotFoundException;
 use Doctrine\DBAL\Connection;
+use Doctrine\DBAL\ParameterType;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -34,6 +35,7 @@ final class ItemsService
         $rows = $this->connection->fetchAllAssociative(
             "SELECT * FROM {$table} ORDER BY id ASC LIMIT :limit OFFSET :offset",
             ['limit' => $limit, 'offset' => $offset],
+            ['limit' => ParameterType::INTEGER, 'offset' => ParameterType::INTEGER],
         );
 
         return [

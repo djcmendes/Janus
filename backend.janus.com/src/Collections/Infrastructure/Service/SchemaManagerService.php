@@ -22,22 +22,40 @@ final class SchemaManagerService
 
     public function __construct(private readonly Connection $connection) {}
 
+    private const PK_TYPE_DDL = [
+        'uuid'        => 'BINARY(16) NOT NULL',
+        'integer'     => 'INT NOT NULL AUTO_INCREMENT',
+        'bigInteger'  => 'BIGINT NOT NULL AUTO_INCREMENT',
+        'string'      => 'VARCHAR(255) NOT NULL',
+    ];
+
     /**
-     * Creates a new user-defined table with a UUID primary key.
+     * Creates a new user-defined table with a configurable primary key.
      *
+     * @param string $primaryKeyField Column name for the PK (default: 'id')
+     * @param string $primaryKeyType  One of: uuid, integer, bigInteger, string (default: 'uuid')
      * @throws \InvalidArgumentException if the table name is protected or invalid
      * @throws \Doctrine\DBAL\Exception
      */
-    public function createTable(string $tableName): void
+    public function createTable(string $tableName, string $primaryKeyField = 'id', string $primaryKeyType = 'uuid'): void
     {
         $this->guardTableName($tableName);
+        $this->guardIdentifier($primaryKeyField);
 
-        $quoted = $this->quoteIdentifier($tableName);
+        if (!array_key_exists($primaryKeyType, self::PK_TYPE_DDL)) {
+            throw new \InvalidArgumentException(
+                sprintf('Unsupported primary key type "%s". Allowed: %s.', $primaryKeyType, implode(', ', array_keys(self::PK_TYPE_DDL)))
+            );
+        }
+
+        $quotedTable = $this->quoteIdentifier($tableName);
+        $quotedPk    = $this->quoteIdentifier($primaryKeyField);
+        $pkDdl       = self::PK_TYPE_DDL[$primaryKeyType];
 
         $this->connection->executeStatement(<<<SQL
-            CREATE TABLE {$quoted} (
-                `id` BINARY(16) NOT NULL,
-                PRIMARY KEY (`id`)
+            CREATE TABLE {$quotedTable} (
+                {$quotedPk} {$pkDdl},
+                PRIMARY KEY ({$quotedPk})
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
         SQL);
     }
