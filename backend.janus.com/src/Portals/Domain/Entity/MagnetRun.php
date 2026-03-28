@@ -28,11 +28,15 @@ final class MagnetRun
     #[ORM\Column(name: 'errors_json', type: 'json', nullable: true)]
     private ?array $errorsJson = null;
 
-    public function __construct(string $magnetId)
+    #[ORM\Column(name: 'webhook_payload', type: 'json', nullable: true)]
+    private ?array $webhookPayload = null;
+
+    public function __construct(string $magnetId, ?array $webhookPayload = null)
     {
-        $this->id        = Uuid::v7()->toRfc4122();
-        $this->magnetId  = $magnetId;
-        $this->startedAt = new \DateTimeImmutable();
+        $this->id             = Uuid::v7()->toRfc4122();
+        $this->magnetId       = $magnetId;
+        $this->webhookPayload = $webhookPayload;
+        $this->startedAt      = new \DateTimeImmutable();
     }
 
     public function finish(int $itemsImported, array $errors = []): void
@@ -48,6 +52,7 @@ final class MagnetRun
     public function getFinishedAt(): ?\DateTimeImmutable { return $this->finishedAt; }
     public function getItemsImported(): int              { return $this->itemsImported; }
     public function getErrors(): array                   { return $this->errorsJson ?? []; }
+    public function getWebhookPayload(): ?array          { return $this->webhookPayload; }
 
     public function isFinished(): bool { return $this->finishedAt !== null; }
 }

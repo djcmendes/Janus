@@ -6,6 +6,7 @@ use App\Portals\Domain\Message\MagnetRunMessage;
 use App\Portals\Domain\Repository\MagnetRepositoryInterface;
 use App\Portals\Domain\Repository\MagnetRunRepositoryInterface;
 use App\Portals\Infrastructure\Source\SourceAdapterRegistry;
+use App\Portals\Infrastructure\Source\WebhookPayloadAwareInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
@@ -50,7 +51,12 @@ final class MagnetRunMessageHandler
         $itemsImported = 0;
 
         try {
-            $adapter       = $this->adapterRegistry->get($magnet->getSourceType());
+            $adapter = $this->adapterRegistry->get($magnet->getSourceType());
+
+            if ($adapter instanceof WebhookPayloadAwareInterface && $run->getWebhookPayload() !== null) {
+                $adapter->setPayload($run->getWebhookPayload());
+            }
+
             $itemsImported = $adapter->import($magnet);
         } catch (\Throwable $e) {
             $this->logger->error('MagnetRunMessage: import failed', [

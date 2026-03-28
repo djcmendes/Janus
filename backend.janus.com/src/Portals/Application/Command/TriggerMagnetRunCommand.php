@@ -4,5 +4,8 @@ namespace App\Portals\Application\Command;
 
 final class TriggerMagnetRunCommand
 {
-    public function __construct(public readonly string $magnetId) {}
+    public function __construct(
+        public readonly string $magnetId,
+        public readonly ?array $webhookPayload = null,
+    ) {}
 }

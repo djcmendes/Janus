@@ -26,7 +26,7 @@ final class TriggerMagnetRunHandler
             throw new MagnetNotFoundException($command->magnetId);
         }
 
-        $run = new MagnetRun($magnet->getId());
+        $run = new MagnetRun($magnet->getId(), $command->webhookPayload);
         $this->runRepository->save($run);
 
         $this->bus->dispatch(new MagnetRunMessage(
