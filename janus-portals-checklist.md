@@ -355,7 +355,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-092-magnet-scheduler-integration**
   Wire Symfony Scheduler to dispatch `TriggerMagnetRunCommand` based on `cron` field
 
-- [ ] **feat/portals-093-magnet-queries**
+- [x] **feat/portals-093-magnet-queries**
   Add `ListMagnetsQuery`, `GetMagnetRunHistoryQuery` + handlers + DTOs
 
 - [ ] **feat/portals-094-magnet-api-controller**
