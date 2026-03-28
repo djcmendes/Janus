@@ -1,0 +1,572 @@
+openapi: 3.1.0
+info:
+  title: Janus — Portals Module API
+  version: 1.0.0
+  description: |
+    REST API for the Janus Portals module.
+    All endpoints require `Authorization: Bearer <jwt>` and `X-Client-Type: web|ios|android|cli`.
+
+servers:
+  - url: http://backend.janus.com
+    description: Local development
+
+security:
+  - bearerAuth: []
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    Portal:
+      type: object
+      properties:
+        id:          { type: string, format: uuid }
+        name:        { type: string }
+        base_route:  { type: string }
+        status:      { type: string, enum: [draft, published, archived] }
+        settings:    { type: object }
+        portal_css:  { type: string, nullable: true }
+        created_at:  { type: string, format: date-time }
+        updated_at:  { type: string, format: date-time, nullable: true }
+
+    Page:
+      type: object
+      properties:
+        id:                   { type: string, format: uuid }
+        portal_id:            { type: string, format: uuid }
+        parent_id:            { type: string, format: uuid, nullable: true }
+        slug:                 { type: string }
+        full_path:            { type: string }
+        title:                { type: string }
+        layout_template_id:   { type: string, format: uuid, nullable: true }
+        center_component_id:  { type: string, format: uuid, nullable: true }
+        custom_css:           { type: string, nullable: true }
+        status:               { type: string, enum: [draft, published] }
+        sort_order:           { type: integer }
+        created_at:           { type: string, format: date-time }
+        updated_at:           { type: string, format: date-time, nullable: true }
+
+    Magnet:
+      type: object
+      properties:
+        id:                    { type: string, format: uuid }
+        portal_id:             { type: string, format: uuid }
+        name:                  { type: string }
+        source_type:           { type: string, enum: [rss, api, webhook] }
+        source_config:         { type: object }
+        target_collection_id:  { type: string }
+        schedule:              { type: string, nullable: true, description: "5-field cron expression" }
+        status:                { type: string, enum: [active, paused, archived] }
+        created_at:            { type: string, format: date-time }
+        updated_at:            { type: string, format: date-time, nullable: true }
+
+    MagnetRun:
+      type: object
+      properties:
+        id:             { type: string, format: uuid }
+        magnet_id:      { type: string, format: uuid }
+        started_at:     { type: string, format: date-time }
+        finished_at:    { type: string, format: date-time, nullable: true }
+        items_imported: { type: integer }
+        errors:         { type: array, items: { type: string } }
+
+    DashboardMetrics:
+      type: object
+      properties:
+        portal_id:       { type: string, format: uuid }
+        total_pages:     { type: integer }
+        published_pages: { type: integer }
+        draft_pages:     { type: integer }
+        active_magnets:  { type: integer }
+        last_magnet_run: { type: string, format: date-time, nullable: true }
+        recent_activity:
+          type: array
+          items:
+            type: object
+            properties:
+              id:         { type: string }
+              action:     { type: string }
+              collection: { type: string, nullable: true }
+              item:       { type: string, nullable: true }
+              timestamp:  { type: string, format: date-time }
+
+    PaginatedMeta:
+      type: object
+      properties:
+        total_count:  { type: integer }
+        filter_count: { type: integer }
+
+    Error:
+      type: object
+      properties:
+        errors:
+          type: array
+          items:
+            type: object
+            properties:
+              message:    { type: string }
+              extensions: { type: object, properties: { code: { type: string } } }
+
+paths:
+
+  # ── Portals ──────────────────────────────────────────────────────────────
+
+  /portals:
+    get:
+      tags: [Portals]
+      summary: List portals
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer, default: 25, maximum: 100 }
+        - in: query
+          name: offset
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated list of portals
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/Portal' } }
+                  meta: { $ref: '#/components/schemas/PaginatedMeta' }
+        '401': { description: Unauthorized }
+    post:
+      tags: [Portals]
+      summary: Create portal (ROLE_ADMIN)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, base_route]
+              properties:
+                name:       { type: string }
+                base_route: { type: string }
+                status:     { type: string, default: draft }
+                settings:   { type: object }
+      responses:
+        '201': { description: Created portal }
+        '401': { description: Unauthorized }
+        '403': { description: Forbidden }
+        '409': { description: Portal with base_route already exists }
+        '422': { description: Validation error }
+
+  /portals/{id}:
+    parameters:
+      - in: path
+        name: id
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Portals]
+      summary: Get portal by ID (ACL PORTAL_VIEW)
+      responses:
+        '200': { description: Portal }
+        '403': { description: ACL denied }
+        '404': { description: Not found }
+    patch:
+      tags: [Portals]
+      summary: Update portal settings (ROLE_ADMIN)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:       { type: string }
+                base_route: { type: string }
+                status:     { type: string }
+                settings:   { type: object }
+      responses:
+        '200': { description: Updated portal }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+    delete:
+      tags: [Portals]
+      summary: Archive portal (ROLE_ADMIN)
+      responses:
+        '204': { description: No content }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /portals/{id}/css:
+    patch:
+      tags: [Portals]
+      summary: Set portal global CSS (ROLE_ADMIN)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                css: { type: string, nullable: true }
+      responses:
+        '200': { description: Updated portal }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /portals/{id}/dashboard:
+    get:
+      tags: [Portals]
+      summary: Get portal dashboard metrics (ACL PORTAL_VIEW)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: activity_limit
+          schema: { type: integer, default: 10 }
+      responses:
+        '200':
+          description: Dashboard metrics
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/DashboardMetrics' }
+        '403': { description: ACL denied }
+        '404': { description: Not found }
+
+  # ── Pages ─────────────────────────────────────────────────────────────────
+
+  /portals/{portalId}/pages:
+    parameters:
+      - in: path
+        name: portalId
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Pages]
+      summary: Get page tree (ACL PORTAL_VIEW)
+      responses:
+        '200': { description: Array of page tree nodes }
+        '403': { description: ACL denied }
+    post:
+      tags: [Pages]
+      summary: Create page (ROLE_ADMIN)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [slug, title]
+              properties:
+                slug:       { type: string }
+                title:      { type: string }
+                parent_id:  { type: string, format: uuid, nullable: true }
+                sort_order: { type: integer, default: 0 }
+      responses:
+        '201': { description: Created page }
+        '403': { description: Forbidden }
+        '409': { description: Slug already used at this level }
+
+  /pages/{id}/move:
+    patch:
+      tags: [Pages]
+      summary: Move page (ROLE_ADMIN, ACL PAGE_EDIT)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                parent_id:  { type: string, format: uuid, nullable: true }
+                sort_order: { type: integer }
+      responses:
+        '200': { description: Moved page }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /pages/{id}/publish:
+    post:
+      tags: [Pages]
+      summary: Publish page (ROLE_ADMIN, ACL PAGE_EDIT)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Published page }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /pages/{id}/unpublish:
+    post:
+      tags: [Pages]
+      summary: Unpublish page (ROLE_ADMIN, ACL PAGE_EDIT)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Unpublished page }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /pages/{id}/css:
+    patch:
+      tags: [Pages]
+      summary: Set page custom CSS (ROLE_ADMIN, ACL PAGE_EDIT)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                css: { type: string, nullable: true }
+      responses:
+        '200': { description: Updated page }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /pages/{id}/acl:
+    patch:
+      tags: [Pages]
+      summary: Set page ACL rules (ROLE_ADMIN)
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                rules:
+                  type: array
+                  items:
+                    type: object
+                    required: [role_id, permission]
+                    properties:
+                      role_id:    { type: string, format: uuid }
+                      permission: { type: string, enum: [view, edit] }
+      responses:
+        '200': { description: ACL rules saved }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  # ── Magnets ───────────────────────────────────────────────────────────────
+
+  /portals/{portalId}/magnets:
+    parameters:
+      - in: path
+        name: portalId
+        required: true
+        schema: { type: string, format: uuid }
+    get:
+      tags: [Magnets]
+      summary: List magnets (ACL PORTAL_VIEW)
+      parameters:
+        - in: query
+          name: limit
+          schema: { type: integer, default: 25, maximum: 100 }
+        - in: query
+          name: offset
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated list of magnets
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/Magnet' } }
+                  meta: { $ref: '#/components/schemas/PaginatedMeta' }
+        '403': { description: ACL denied }
+    post:
+      tags: [Magnets]
+      summary: Create magnet (ROLE_ADMIN)
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [name, source_type, target_collection_id]
+              properties:
+                name:                  { type: string }
+                source_type:           { type: string, enum: [rss, api, webhook] }
+                target_collection_id:  { type: string }
+                schedule:              { type: string, nullable: true }
+      responses:
+        '201': { description: Created magnet }
+        '403': { description: Forbidden }
+        '404': { description: Portal not found }
+        '422': { description: Validation error }
+
+  /portals/{portalId}/magnets/{id}:
+    parameters:
+      - in: path
+        name: portalId
+        required: true
+        schema: { type: string, format: uuid }
+      - in: path
+        name: id
+        required: true
+        schema: { type: string, format: uuid }
+    patch:
+      tags: [Magnets]
+      summary: Update magnet (ROLE_ADMIN)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:          { type: string }
+                source_type:   { type: string, enum: [rss, api, webhook] }
+                source_config: { type: object }
+                schedule:      { type: string, nullable: true }
+      responses:
+        '200': { description: Updated magnet }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+    delete:
+      tags: [Magnets]
+      summary: Delete magnet (ROLE_ADMIN)
+      responses:
+        '204': { description: No content }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /portals/{portalId}/magnets/{id}/pause:
+    post:
+      tags: [Magnets]
+      summary: Toggle pause/resume (ROLE_ADMIN)
+      parameters:
+        - in: path
+          name: portalId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '200': { description: Updated magnet with new status }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /portals/{portalId}/magnets/{id}/trigger:
+    post:
+      tags: [Magnets]
+      summary: Manually trigger a run (ROLE_ADMIN)
+      parameters:
+        - in: path
+          name: portalId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+      responses:
+        '202':
+          description: Run queued — returns MagnetRun stub
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { $ref: '#/components/schemas/MagnetRun' }
+        '403': { description: Forbidden }
+        '404': { description: Not found }
+
+  /portals/{portalId}/magnets/{id}/runs:
+    get:
+      tags: [Magnets]
+      summary: Get run history (ACL PORTAL_VIEW)
+      parameters:
+        - in: path
+          name: portalId
+          required: true
+          schema: { type: string, format: uuid }
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: query
+          name: limit
+          schema: { type: integer, default: 25, maximum: 100 }
+        - in: query
+          name: offset
+          schema: { type: integer, default: 0 }
+      responses:
+        '200':
+          description: Paginated run history
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data: { type: array, items: { $ref: '#/components/schemas/MagnetRun' } }
+                  meta: { $ref: '#/components/schemas/PaginatedMeta' }
+        '403': { description: ACL denied }
+        '404': { description: Magnet not found }
+
+  /portals/magnets/{id}/webhook:
+    post:
+      tags: [Magnets]
+      summary: Inbound webhook endpoint (public, secret-gated)
+      security: []
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string, format: uuid }
+        - in: header
+          name: Authorization
+          description: "Bearer <shared_secret>"
+          schema: { type: string }
+      requestBody:
+        description: Arbitrary JSON payload from the caller
+        content:
+          application/json:
+            schema: { type: object }
+      responses:
+        '202':
+          description: Payload accepted and run queued
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      run_id: { type: string, format: uuid }
+                      status: { type: string, example: queued }
+        '400': { description: Webhook not configured }
+        '401': { description: Invalid secret }
+        '404': { description: Magnet not found }
