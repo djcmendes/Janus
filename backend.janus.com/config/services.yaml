@@ -42,3 +42,16 @@ services:
         arguments:
             $redisUrl:    '%env(REDIS_URL)%'
             $rabbitmqDsn: '%env(RABBITMQ_DSN)%'
+
+    App\Portals\Infrastructure\Source\SourceAdapterRegistry:
+        arguments:
+            $adapters: !tagged_iterator app.portals.source_adapter
+
+    App\Portals\Infrastructure\Source\RssSourceAdapter:
+        tags: ['app.portals.source_adapter']
+
+    App\Portals\Infrastructure\Source\ApiSourceAdapter:
+        tags: ['app.portals.source_adapter']
+
+    App\Portals\Infrastructure\Source\WebhookSourceAdapter:
+        tags: ['app.portals.source_adapter']

@@ -19,9 +19,9 @@ use Symfony\Contracts\Cache\CacheInterface;
  * cache key reset on the next scheduler boot cycle).
  *
  * Cron expressions stored on Magnet.schedule follow standard 5-field syntax:
- *   "0 * * * *"   — every hour
- *   "*/15 * * * *" — every 15 minutes
- *   "0 2 * * *"   — daily at 02:00
+ *   "0 * * * *"    - every hour
+ *   "*\/15 * * * *" - every 15 minutes  (note: backslash avoids closing this docblock)
+ *   "0 2 * * *"    - daily at 02:00
  */
 #[AsSchedule('magnets')]
 final class MagnetScheduleProvider implements ScheduleProviderInterface
