@@ -358,7 +358,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-093-magnet-queries**
   Add `ListMagnetsQuery`, `GetMagnetRunHistoryQuery` + handlers + DTOs
 
-- [ ] **feat/portals-094-magnet-api-controller**
+- [x] **feat/portals-094-magnet-api-controller**
   Add `MagnetController`: `GET/POST /api/portals/{portalId}/magnets`, `PATCH/DELETE /api/magnets/{id}`, `POST /api/magnets/{id}/trigger`, `GET /api/magnets/{id}/runs`
 
 - [ ] **feat/portals-095-magnet-api-tests**
