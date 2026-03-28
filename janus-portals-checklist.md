@@ -368,19 +368,19 @@ Mark items with [x] as you complete them.
 
 ### 5.2 — Frontend: Magnets Slice
 
-- [ ] **feat/portals-096-fe-magnet-list**
+- [x] **feat/portals-096-fe-magnet-list**
   `magnets/magnet-list/`: list with status badges, last run info, trigger button, pause/resume
 
-- [ ] **feat/portals-097-fe-magnet-create**
+- [x] **feat/portals-097-fe-magnet-create**
   `magnets/magnet-create/`: create form (name, source type selector, target collection)
 
-- [ ] **feat/portals-098-fe-magnet-source-config**
+- [x] **feat/portals-098-fe-magnet-source-config**
   `magnets/magnet-source-config/`: dynamic config form per source type (RSS, API, Webhook)
 
-- [ ] **feat/portals-099-fe-magnet-schedule-builder**
+- [x] **feat/portals-099-fe-magnet-schedule-builder**
   Cron expression builder UI embedded in magnet form
 
-- [ ] **feat/portals-100-fe-magnet-run-history**
+- [x] **feat/portals-100-fe-magnet-run-history**
   `magnets/magnet-run-history/`: table of runs, status, item count, expandable error log
 
 ---
