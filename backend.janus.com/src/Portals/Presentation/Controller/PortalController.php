@@ -14,7 +14,9 @@ use App\Portals\Application\Command\Handler\UpdatePortalSettingsHandler;
 use App\Portals\Application\Command\SetPortalCssCommand;
 use App\Portals\Application\Command\UpdatePortalSettingsCommand;
 use App\Portals\Application\Query\GetPortalByIdQuery;
+use App\Portals\Application\Query\GetPortalDashboardMetricsQuery;
 use App\Portals\Application\Query\Handler\GetPortalByIdHandler;
+use App\Portals\Application\Query\Handler\GetPortalDashboardMetricsHandler;
 use App\Portals\Application\Query\Handler\ListPortalsHandler;
 use App\Portals\Application\Query\ListPortalsQuery;
 use App\Portals\Domain\Exception\PortalAlreadyExistsException;
@@ -30,13 +32,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PortalController extends AbstractController
 {
     public function __construct(
-        private readonly RequestGuard               $guard,
-        private readonly ListPortalsHandler         $listHandler,
-        private readonly GetPortalByIdHandler       $getByIdHandler,
-        private readonly CreatePortalHandler        $createHandler,
-        private readonly UpdatePortalSettingsHandler $updateHandler,
-        private readonly ArchivePortalHandler       $archiveHandler,
-        private readonly SetPortalCssHandler        $setCssHandler,
+        private readonly RequestGuard                    $guard,
+        private readonly ListPortalsHandler              $listHandler,
+        private readonly GetPortalByIdHandler            $getByIdHandler,
+        private readonly CreatePortalHandler             $createHandler,
+        private readonly UpdatePortalSettingsHandler     $updateHandler,
+        private readonly ArchivePortalHandler            $archiveHandler,
+        private readonly SetPortalCssHandler             $setCssHandler,
+        private readonly GetPortalDashboardMetricsHandler $dashboardHandler,
     ) {}
     /** GET /portals */
     #[Route('', name: 'list', methods: ['GET'])]
@@ -128,6 +131,20 @@ final class PortalController extends AbstractController
         }
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
+    /** GET /portals/{id}/dashboard */
+    #[Route('/{id}/dashboard', name: 'dashboard', methods: ['GET'], priority: -1)]
+    public function dashboard(string $id): JsonResponse
+    {
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        try {
+            $dto = $this->dashboardHandler->handle(new GetPortalDashboardMetricsQuery($id));
+        } catch (PortalNotFoundException $e) {
+            return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
+        }
+        return $this->json(['data' => $dto->toArray()]);
+    }
+
     /** PATCH /portals/{id}/css */
     #[Route('/{id}/css', name: 'set_css', methods: ['PATCH'], priority: -1)]
     public function setCss(string $id, Request $request): JsonResponse
