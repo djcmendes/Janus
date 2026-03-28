@@ -50,6 +50,7 @@ final class MagnetController extends AbstractController
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        $this->denyAccessUnlessGranted('PORTAL_VIEW', $portalId);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
         $offset = (int) $request->query->get('offset', 0);
@@ -157,6 +158,7 @@ final class MagnetController extends AbstractController
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        $this->denyAccessUnlessGranted('PORTAL_VIEW', $portalId);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
         $offset = (int) $request->query->get('offset', 0);

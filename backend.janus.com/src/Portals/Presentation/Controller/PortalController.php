@@ -61,6 +61,7 @@ final class PortalController extends AbstractController
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        $this->denyAccessUnlessGranted('PORTAL_VIEW', $id);
         try {
             $dto = $this->getByIdHandler->handle(new GetPortalByIdQuery($id));
         } catch (PortalNotFoundException $e) {
@@ -137,6 +138,7 @@ final class PortalController extends AbstractController
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        $this->denyAccessUnlessGranted('PORTAL_VIEW', $id);
         try {
             $dto = $this->dashboardHandler->handle(new GetPortalDashboardMetricsQuery($id));
         } catch (PortalNotFoundException $e) {

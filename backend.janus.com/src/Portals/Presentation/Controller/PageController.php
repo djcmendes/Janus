@@ -44,6 +44,7 @@ final class PageController extends AbstractController
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+        $this->denyAccessUnlessGranted('PORTAL_VIEW', $portalId);
         $tree = $this->treeHandler->handle(new GetPageTreeQuery($portalId));
         return $this->json(['data' => array_map(fn ($n) => $n->toArray(), $tree)]);
     }
