@@ -132,27 +132,27 @@ Mark items with [x] as you complete them.
 
 ### 1.5 — Frontend: Portal Slice
 
-- [ ] **feat/portals-036-fe-portal-list**
+- [x] **feat/portals-036-fe-portal-list**
   Frontend `portals/portal-list/`: list view, table/cards, status badges, create button
 
-- [ ] **feat/portals-037-fe-portal-create**
+- [x] **feat/portals-037-fe-portal-create**
   Frontend `portals/portal-create/`: create form (name, base route, status)
 
-- [ ] **feat/portals-038-fe-portal-settings**
+- [x] **feat/portals-038-fe-portal-settings**
   Frontend `portals/portal-settings/`: edit form (branding, timezone, locale, base route)
 
 ---
 
 ### 1.6 — Frontend: Layout Template Slice
 
-- [ ] **feat/portals-039-fe-layout-template-list**
+- [x] **feat/portals-039-fe-layout-template-list**
   Frontend layout template list + create/edit form with position slot manager
 
 ---
 
 ### 1.7 — Frontend: Page Tree Slice
 
-- [ ] **feat/portals-040-fe-page-tree**
+- [x] **feat/portals-040-fe-page-tree**
   Frontend `pages/page-tree/`: nested tree with drag-and-drop reorder/reparent, status badges, full path display, context menu (add child, delete, publish)
 
 ---
@@ -233,19 +233,19 @@ Mark items with [x] as you complete them.
 
 ### 2.4 — Frontend: Layout Canvas
 
-- [ ] **feat/portals-061-fe-layout-canvas**
+- [x] **feat/portals-061-fe-layout-canvas**
   Frontend `pages/page-editor/layout-canvas/`: visual position grid matching template layout, module cards per slot with drag handles, reorder within position
 
-- [ ] **feat/portals-062-fe-module-library-picker**
+- [x] **feat/portals-062-fe-module-library-picker**
   Module library picker modal (search, filter by type, select to place in position)
 
-- [ ] **feat/portals-063-fe-module-config-editor**
+- [x] **feat/portals-063-fe-module-config-editor**
   `modules/module-config-editor/`: dynamic form rendered from JSON Schema per module type
 
-- [ ] **feat/portals-064-fe-center-component-picker**
+- [x] **feat/portals-064-fe-center-component-picker**
   `pages/page-editor/center-component-picker/`: select or create component for page center
 
-- [ ] **feat/portals-065-fe-component-collection-wiring**
+- [x] **feat/portals-065-fe-component-collection-wiring**
   `components/component-collection-wiring/`: collection picker + query config (filters, sort, pagination)
 
 - [ ] **feat/portals-066-fe-module-library**
