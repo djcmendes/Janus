@@ -390,7 +390,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-101-portal-css-global-scope**
   Ensure portal-level CSS is injected as a global stylesheet with proper scoping strategy documented
 
-- [ ] **feat/portals-102-full-acl-api-enforcement**
+- [x] **feat/portals-102-full-acl-api-enforcement**
   Audit all endpoints for ACL voter coverage; add missing guards
 
 - [ ] **feat/portals-103-page-tree-full-path-integrity**
