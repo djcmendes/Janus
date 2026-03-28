@@ -408,7 +408,7 @@ Mark items with [x] as you complete them.
 - [x] - [x] **feat/portals-107-e2e-acl-enforcement**
   E2E test: set page ACL → verify unauthorized role is denied → verify authorized role passes
 
-- [ ] **feat/portals-108-api-documentation**
+- [x] **feat/portals-108-api-documentation**
   Generate/update OpenAPI spec for all Portals module endpoints
 
 - [ ] **feat/portals-109-frontend-documentation**
