@@ -411,7 +411,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-108-api-documentation**
   Generate/update OpenAPI spec for all Portals module endpoints
 
-- [ ] **feat/portals-109-frontend-documentation**
+- [x] **feat/portals-109-frontend-documentation**
   Add slice-level README files documenting each frontend vertical
 
 - [ ] **feat/portals-110-performance-page-tree-index**
