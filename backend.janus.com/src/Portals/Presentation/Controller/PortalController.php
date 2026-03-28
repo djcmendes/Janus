@@ -9,7 +9,9 @@ use App\Portals\Application\Command\ArchivePortalCommand;
 use App\Portals\Application\Command\CreatePortalCommand;
 use App\Portals\Application\Command\Handler\ArchivePortalHandler;
 use App\Portals\Application\Command\Handler\CreatePortalHandler;
+use App\Portals\Application\Command\Handler\SetPortalCssHandler;
 use App\Portals\Application\Command\Handler\UpdatePortalSettingsHandler;
+use App\Portals\Application\Command\SetPortalCssCommand;
 use App\Portals\Application\Command\UpdatePortalSettingsCommand;
 use App\Portals\Application\Query\GetPortalByIdQuery;
 use App\Portals\Application\Query\Handler\GetPortalByIdHandler;
@@ -34,6 +36,7 @@ final class PortalController extends AbstractController
         private readonly CreatePortalHandler        $createHandler,
         private readonly UpdatePortalSettingsHandler $updateHandler,
         private readonly ArchivePortalHandler       $archiveHandler,
+        private readonly SetPortalCssHandler        $setCssHandler,
     ) {}
     /** GET /portals */
     #[Route('', name: 'list', methods: ['GET'])]
@@ -125,6 +128,25 @@ final class PortalController extends AbstractController
         }
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
+    /** PATCH /portals/{id}/css */
+    #[Route('/{id}/css', name: 'set_css', methods: ['PATCH'], priority: -1)]
+    public function setCss(string $id, Request $request): JsonResponse
+    {
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->authorize(Client::WEB);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $data = json_decode($request->getContent(), true) ?? [];
+        try {
+            $dto = $this->setCssHandler->handle(new SetPortalCssCommand(
+                portalId: $id,
+                css:      isset($data['css']) ? (string) $data['css'] : null,
+            ));
+        } catch (PortalNotFoundException $e) {
+            return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
+        }
+        return $this->json(['data' => $dto->toArray()]);
+    }
+
     private function notFound(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'NOT_FOUND']]]];

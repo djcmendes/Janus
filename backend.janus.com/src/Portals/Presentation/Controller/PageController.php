@@ -9,9 +9,13 @@ use App\Portals\Application\Command\CreatePageCommand;
 use App\Portals\Application\Command\Handler\CreatePageHandler;
 use App\Portals\Application\Command\Handler\MovePageHandler;
 use App\Portals\Application\Command\Handler\PublishPageHandler;
+use App\Portals\Application\Command\Handler\SetPageAclHandler;
+use App\Portals\Application\Command\Handler\SetPageCustomCssHandler;
 use App\Portals\Application\Command\Handler\UnpublishPageHandler;
 use App\Portals\Application\Command\MovePageCommand;
 use App\Portals\Application\Command\PublishPageCommand;
+use App\Portals\Application\Command\SetPageAclCommand;
+use App\Portals\Application\Command\SetPageCustomCssCommand;
 use App\Portals\Application\Command\UnpublishPageCommand;
 use App\Portals\Application\Query\GetPageTreeQuery;
 use App\Portals\Application\Query\Handler\GetPageTreeHandler;
@@ -25,12 +29,14 @@ use Symfony\Component\Routing\Attribute\Route;
 final class PageController extends AbstractController
 {
     public function __construct(
-        private readonly RequestGuard      $guard,
-        private readonly GetPageTreeHandler $treeHandler,
-        private readonly CreatePageHandler  $createHandler,
-        private readonly MovePageHandler    $moveHandler,
-        private readonly PublishPageHandler   $publishHandler,
-        private readonly UnpublishPageHandler $unpublishHandler,
+        private readonly RequestGuard           $guard,
+        private readonly GetPageTreeHandler     $treeHandler,
+        private readonly CreatePageHandler      $createHandler,
+        private readonly MovePageHandler        $moveHandler,
+        private readonly PublishPageHandler     $publishHandler,
+        private readonly UnpublishPageHandler   $unpublishHandler,
+        private readonly SetPageCustomCssHandler $setCssHandler,
+        private readonly SetPageAclHandler      $setAclHandler,
     ) {}
     /** GET /portals/{portalId}/pages */
     #[Route('/portals/{portalId}/pages', name: 'pages_tree', methods: ['GET'])]
@@ -113,6 +119,47 @@ final class PageController extends AbstractController
         }
         return $this->json(['data' => $dto->toArray()]);
     }
+    /** PATCH /pages/{id}/css */
+    #[Route('/pages/{id}/css', name: 'pages_set_css', methods: ['PATCH'])]
+    public function setCss(string $id, Request $request): JsonResponse
+    {
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->authorize(Client::WEB);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $data = json_decode($request->getContent(), true) ?? [];
+        try {
+            $dto = $this->setCssHandler->handle(new SetPageCustomCssCommand(
+                pageId: $id,
+                css:    isset($data['css']) ? (string) $data['css'] : null,
+            ));
+        } catch (PageNotFoundException $e) {
+            return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
+        }
+        return $this->json(['data' => $dto->toArray()]);
+    }
+
+    /** PATCH /pages/{id}/acl */
+    #[Route('/pages/{id}/acl', name: 'pages_set_acl', methods: ['PATCH'])]
+    public function setAcl(string $id, Request $request): JsonResponse
+    {
+        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->authorize(Client::WEB);
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $data  = json_decode($request->getContent(), true) ?? [];
+        $rules = $data['rules'] ?? [];
+        if (!is_array($rules)) {
+            return $this->json($this->validationError('"rules" must be an array.'), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        try {
+            $dtos = $this->setAclHandler->handle(new SetPageAclCommand(pageId: $id, rules: $rules));
+        } catch (PageNotFoundException $e) {
+            return $this->json($this->notFound($e->getMessage()), Response::HTTP_NOT_FOUND);
+        } catch (\InvalidArgumentException $e) {
+            return $this->json($this->validationError($e->getMessage()), Response::HTTP_UNPROCESSABLE_ENTITY);
+        }
+        return $this->json(['data' => array_map(fn ($dto) => $dto->toArray(), $dtos)]);
+    }
+
     private function notFound(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'NOT_FOUND']]]];
