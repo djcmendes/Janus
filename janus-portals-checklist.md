@@ -393,7 +393,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-102-full-acl-api-enforcement**
   Audit all endpoints for ACL voter coverage; add missing guards
 
-- [ ] **feat/portals-103-page-tree-full-path-integrity**
+- [x] **feat/portals-103-page-tree-full-path-integrity**
   Add DB-level integrity check / migration test: ensure `full_path` is always consistent with tree
 
 - [ ] **feat/portals-104-e2e-portal-crud**
