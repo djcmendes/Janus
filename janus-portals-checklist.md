@@ -260,32 +260,32 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-067-set-page-css-command**
   Add `SetPageCustomCssCommand` + handler
 
-- [ ] **feat/portals-068-portal-css-field**
+- [x] **feat/portals-068-portal-css-field**
   Add `portal_css` field to `portals` table (migration) + `SetPortalCssCommand` + handler
 
-- [ ] **feat/portals-069-acl-rule-entity**
+- [x] **feat/portals-069-acl-rule-entity**
   Add `AclRule` entity + `AclRepositoryInterface` + Doctrine implementation
 
-- [ ] **feat/portals-070-set-page-acl-command**
+- [x] **feat/portals-070-set-page-acl-command**
   Add `SetPageAclCommand` + handler (replace full ACL set for a page)
 
-- [ ] **feat/portals-071-acl-enforcement-middleware**
+- [x] **feat/portals-071-acl-enforcement-middleware**
   Add ACL enforcement in API layer (Symfony voter or middleware) for portal/page access checks
 
-- [ ] **feat/portals-072-acl-api-endpoint**
+- [x] **feat/portals-072-acl-api-endpoint**
   Add `PATCH /api/pages/{id}/acl` + `PATCH /api/portals/{id}/css` + `PATCH /api/pages/{id}/css`
 
-- [ ] **feat/portals-073-acl-api-tests**
+- [x] **feat/portals-073-acl-api-tests**
   Add functional tests for ACL enforcement + CSS endpoints
 
 ---
 
 ### 3.2 — Frontend: CSS Editor & ACL Editor
 
-- [ ] **feat/portals-074-fe-css-editor**
+- [x] **feat/portals-074-fe-css-editor**
   `pages/page-editor/css-editor/`: CodeMirror CSS panel, scope toggle (page/portal), save action
 
-- [ ] **feat/portals-075-fe-acl-editor**
+- [x] **feat/portals-075-fe-acl-editor**
   `pages/page-editor/acl-editor/`: role × permission matrix, inherit-from-parent toggle
 
 - [ ] **feat/portals-076-fe-page-preview**
