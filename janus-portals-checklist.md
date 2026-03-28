@@ -343,7 +343,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-088-magnet-run-message-handler**
   Add Messenger `MagnetRunMessage` + handler: executes import, records `MagnetRun` with results/errors
 
-- [ ] **feat/portals-089-magnet-rss-source-adapter**
+- [x] **feat/portals-089-magnet-rss-source-adapter**
   Add RSS source adapter (fetches feed, maps to collection fields)
 
 - [x] **feat/portals-090-magnet-api-source-adapter**
