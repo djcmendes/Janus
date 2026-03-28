@@ -12,4 +12,5 @@ interface PageRepositoryInterface
     /** @return Page[] */
     public function findChildren(string $parentId): array;
     public function countByPortal(string $portalId): int;
+    public function countByPortalAndStatus(string $portalId, string $status): int;
 }

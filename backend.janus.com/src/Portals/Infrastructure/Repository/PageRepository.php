@@ -37,4 +37,9 @@ final class PageRepository extends ServiceEntityRepository implements PageReposi
     {
         return $this->count(['portalId' => $portalId]);
     }
+
+    public function countByPortalAndStatus(string $portalId, string $status): int
+    {
+        return $this->count(['portalId' => $portalId, 'status' => $status]);
+    }
 }
