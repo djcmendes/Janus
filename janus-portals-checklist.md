@@ -361,7 +361,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-094-magnet-api-controller**
   Add `MagnetController`: `GET/POST /api/portals/{portalId}/magnets`, `PATCH/DELETE /api/magnets/{id}`, `POST /api/magnets/{id}/trigger`, `GET /api/magnets/{id}/runs`
 
-- [ ] **feat/portals-095-magnet-api-tests**
+- [x] **feat/portals-095-magnet-api-tests**
   Add functional tests for Magnet API + run triggering
 
 ---
