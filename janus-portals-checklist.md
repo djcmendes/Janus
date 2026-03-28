@@ -349,7 +349,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-090-magnet-api-source-adapter**
   Add REST API source adapter (configurable endpoint, auth, field mapping)
 
-- [ ] **feat/portals-091-magnet-webhook-source-adapter**
+- [x] **feat/portals-091-magnet-webhook-source-adapter**
   Add Webhook source adapter (inbound endpoint that triggers a run)
 
 - [ ] **feat/portals-092-magnet-scheduler-integration**
