@@ -10,7 +10,8 @@ interface MagnetRepositoryInterface
     public function delete(Magnet $magnet): void;
     public function findById(string $id): ?Magnet;
     /** @return Magnet[] */
-    public function findByPortalId(string $portalId): array;
+    public function findByPortalId(string $portalId, int $limit = 25, int $offset = 0): array;
+    public function countByPortalId(string $portalId): int;
     public function countActiveByPortalId(string $portalId): int;
     /** @return Magnet[] Active magnets with a non-null schedule (for the cron scheduler) */
     public function findActiveWithSchedule(): array;

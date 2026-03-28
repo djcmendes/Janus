@@ -31,9 +31,19 @@ final class MagnetRepository extends ServiceEntityRepository implements MagnetRe
     public function findById(string $id): ?Magnet { return $this->find($id); }
 
     /** @return Magnet[] */
-    public function findByPortalId(string $portalId): array
+    public function findByPortalId(string $portalId, int $limit = 25, int $offset = 0): array
     {
-        return $this->findBy(['portalId' => $portalId], ['createdAt' => 'ASC']);
+        return $this->findBy(
+            ['portalId' => $portalId],
+            ['createdAt' => 'ASC'],
+            $limit,
+            $offset
+        );
+    }
+
+    public function countByPortalId(string $portalId): int
+    {
+        return $this->count(['portalId' => $portalId]);
     }
 
     public function countActiveByPortalId(string $portalId): int
