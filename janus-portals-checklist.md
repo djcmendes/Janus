@@ -310,7 +310,7 @@ Mark items with [x] as you complete them.
 
 ### 4.2 — Frontend: Portal Dashboard
 
-- [ ] **feat/portals-080-fe-portal-dashboard**
+- [x] **feat/portals-080-fe-portal-dashboard**
   `portals/portal-dashboard/`: KPI cards, recent activity feed, quick-action buttons (New Page, Trigger Magnet, Preview Portal)
 
 ---
@@ -319,34 +319,34 @@ Mark items with [x] as you complete them.
 
 ### 5.1 — Backend: Magnet Domain
 
-- [ ] **feat/portals-081-magnet-aggregate**
+- [x] **feat/portals-081-magnet-aggregate**
   Add `Magnet` aggregate root, `SourceType` enum, `SourceConfig` value object, `MagnetStatus` enum
 
-- [ ] **feat/portals-082-magnet-run-entity**
+- [x] **feat/portals-082-magnet-run-entity**
   Add `MagnetRun` entity
 
-- [ ] **feat/portals-083-magnet-repository**
+- [x] **feat/portals-083-magnet-repository**
   Add `MagnetRepositoryInterface` + Doctrine implementation
 
-- [ ] **feat/portals-084-create-magnet-command**
+- [x] **feat/portals-084-create-magnet-command**
   Add `CreateMagnetCommand` + handler
 
-- [ ] **feat/portals-085-update-magnet-source-command**
+- [x] **feat/portals-085-update-magnet-source-command**
   Add `UpdateMagnetSourceCommand` + handler
 
-- [ ] **feat/portals-086-pause-magnet-command**
+- [x] **feat/portals-086-pause-magnet-command**
   Add `PauseMagnetCommand` + handler (toggles status)
 
-- [ ] **feat/portals-087-trigger-magnet-run-command**
+- [x] **feat/portals-087-trigger-magnet-run-command**
   Add `TriggerMagnetRunCommand` + handler: dispatches async Symfony Messenger message
 
-- [ ] **feat/portals-088-magnet-run-message-handler**
+- [x] **feat/portals-088-magnet-run-message-handler**
   Add Messenger `MagnetRunMessage` + handler: executes import, records `MagnetRun` with results/errors
 
 - [ ] **feat/portals-089-magnet-rss-source-adapter**
   Add RSS source adapter (fetches feed, maps to collection fields)
 
-- [ ] **feat/portals-090-magnet-api-source-adapter**
+- [x] **feat/portals-090-magnet-api-source-adapter**
   Add REST API source adapter (configurable endpoint, auth, field mapping)
 
 - [ ] **feat/portals-091-magnet-webhook-source-adapter**
