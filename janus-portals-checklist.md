@@ -257,7 +257,7 @@ Mark items with [x] as you complete them.
 
 ### 3.1 — Backend: CSS & ACL
 
-- [ ] **feat/portals-067-set-page-css-command**
+- [x] **feat/portals-067-set-page-css-command**
   Add `SetPageCustomCssCommand` + handler
 
 - [ ] **feat/portals-068-portal-css-field**
@@ -435,24 +435,22 @@ Mark items with [x] as you complete them.
 
 ## Git Workflow
 
+> **RULE — always branch from the last implemented branch, never from `main`.**
+> Each new branch must be checked out from the previous feature branch so it includes all prior work.
+
 ```bash
-# Start a new item
-git checkout main
-git pull origin main
-git checkout -b feat/portals-001-migration-portals-table
+# Start a new item — checkout from the LAST implemented branch (NOT main)
+git checkout feat/portals-NNN-previous-slug   # ← last completed branch
+git checkout -b feat/portals-NNN+1-new-slug
 
 # ... implement ...
 
 git add .
-git commit -m "feat(portals): add portals table migration [#001]"
-git push origin feat/portals-001-migration-portals-table
-
-# Then move to the next branch
-git checkout -b feat/portals-002-migration-layout-templates-table
-
-#REBASE FROM PREVIOUS BRANCH
+git commit -m "feat(portals): description [#NNN+1]"
+git push origin feat/portals-NNN+1-new-slug
 ```
 
-> **Convention**: each branch has exactly **one commit** before the PR.  
-> If you need to amend: `git commit --amend` before pushing.  
+> **Convention**: each branch has exactly **one commit** before the PR.
+> If you need to amend: `git commit --amend` before pushing.
 > Squash is not needed since each branch is already atomic.
+> **After finishing each item, mark it as `[x]` in this checklist.**

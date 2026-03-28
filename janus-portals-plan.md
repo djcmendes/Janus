@@ -350,7 +350,23 @@ magnet_runs        (id, magnet_id, started_at, finished_at, items_imported, erro
 
 ---
 
-## 10. Open Questions to Resolve
+## 10. Git Workflow Rule
+
+> **RULE — always branch from the last implemented branch, never from `main`.**
+> Each new branch must be checked out from the previous feature branch so it includes all prior work.
+
+```bash
+# Start a new item — checkout from the LAST implemented branch (NOT main)
+git checkout feat/portals-NNN-previous-slug   # ← last completed branch
+git checkout -b feat/portals-NNN+1-new-slug
+```
+
+See the checklist's **Git Workflow** section for the full commit/push flow.
+After finishing each item, mark it as `[x]` in `janus-portals-checklist.md`.
+
+---
+
+## 11. Open Questions to Resolve
 
 1. **Multi-tenancy**: Are portals isolated by subdomain, path prefix, or both?
 2. **Theme inheritance**: Can a Portal have a base CSS that pages inherit and override?

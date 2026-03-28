@@ -27,6 +27,9 @@ final class Portal
     #[ORM\Column(name: 'settings_json', type: 'json', nullable: true)]
     private ?array $settingsJson = null;
 
+    #[ORM\Column(name: 'portal_css', type: 'text', nullable: true)]
+    private ?string $portalCss = null;
+
     #[ORM\Column(name: 'created_at')]
     private \DateTimeImmutable $createdAt;
 
@@ -82,11 +85,18 @@ final class Portal
         $this->changeStatus(PortalStatus::ARCHIVED);
     }
 
+    public function setPortalCss(?string $css): void
+    {
+        $this->portalCss = $css;
+        $this->touch();
+    }
+
     public function getId(): PortalId          { return PortalId::fromString($this->id); }
     public function getName(): string           { return $this->name; }
     public function getBaseRoute(): Route       { return new Route($this->baseRoute); }
     public function getStatus(): PortalStatus   { return PortalStatus::from($this->status); }
     public function getSettings(): PortalSettings { return PortalSettings::fromArray($this->settingsJson ?? []); }
+    public function getPortalCss(): ?string        { return $this->portalCss; }
     public function getCreatedAt(): \DateTimeImmutable  { return $this->createdAt; }
     public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
 

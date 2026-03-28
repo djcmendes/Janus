@@ -10,6 +10,7 @@ final class PortalDto
         public readonly string  $baseRoute,
         public readonly string  $status,
         public readonly array   $settings,
+        public readonly ?string $portalCss,
         public readonly string  $createdAt,
         public readonly ?string $updatedAt,
     ) {}
@@ -21,6 +22,7 @@ final class PortalDto
             baseRoute: $portal->getBaseRoute()->toString(),
             status:    $portal->getStatus()->value,
             settings:  $portal->getSettings()->toArray(),
+            portalCss: $portal->getPortalCss(),
             createdAt: $portal->getCreatedAt()->format(\DateTimeInterface::ATOM),
             updatedAt: $portal->getUpdatedAt()?->format(\DateTimeInterface::ATOM),
         );
@@ -33,6 +35,7 @@ final class PortalDto
             'base_route' => $this->baseRoute,
             'status'     => $this->status,
             'settings'   => $this->settings,
+            'portal_css' => $this->portalCss,
             'created_at' => $this->createdAt,
             'updated_at' => $this->updatedAt,
         ];
