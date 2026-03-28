@@ -414,7 +414,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-109-frontend-documentation**
   Add slice-level README files documenting each frontend vertical
 
-- [ ] **feat/portals-110-performance-page-tree-index**
+- [x] **feat/portals-110-performance-page-tree-index**
   Add DB indexes on `pages.portal_id`, `pages.parent_id`, `pages.full_path`, `pages.status`
 
 ---
