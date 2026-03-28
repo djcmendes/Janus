@@ -248,7 +248,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-065-fe-component-collection-wiring**
   `components/component-collection-wiring/`: collection picker + query config (filters, sort, pagination)
 
-- [ ] **feat/portals-066-fe-module-library**
+- [x] **feat/portals-066-fe-module-library**
   `modules/module-library/`: standalone module management (list + create + edit)
 
 ---
