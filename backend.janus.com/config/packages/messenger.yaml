@@ -18,11 +18,15 @@ framework:
                     multiplier: 2
             failed: 'doctrine://default?queue_name=failed'
             sync: 'sync://'
+            # Scheduler transport — ticks every minute to fire due cron jobs
+            scheduler_magnets: 'scheduler://magnets'
 
         routing:
             App\Flows\Domain\Message\RunFlowMessage: async
             App\Heimdall\Domain\Message\PasswordResetEmailMessage: sync
             App\Users\Domain\Message\InviteEmailMessage: sync
+            App\Portals\Domain\Message\MagnetRunMessage: async
+            App\Portals\Domain\Message\ScheduledMagnetRunMessage: async
 
 # when@test:
 #    framework:

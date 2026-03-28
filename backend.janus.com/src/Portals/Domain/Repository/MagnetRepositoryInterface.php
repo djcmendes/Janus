@@ -12,4 +12,6 @@ interface MagnetRepositoryInterface
     /** @return Magnet[] */
     public function findByPortalId(string $portalId): array;
     public function countActiveByPortalId(string $portalId): int;
+    /** @return Magnet[] Active magnets with a non-null schedule (for the cron scheduler) */
+    public function findActiveWithSchedule(): array;
 }

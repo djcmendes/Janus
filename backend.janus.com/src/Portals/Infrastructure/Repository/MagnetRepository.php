@@ -40,4 +40,15 @@ final class MagnetRepository extends ServiceEntityRepository implements MagnetRe
     {
         return $this->count(['portalId' => $portalId, 'status' => MagnetStatus::ACTIVE->value]);
     }
+
+    /** @return Magnet[] */
+    public function findActiveWithSchedule(): array
+    {
+        return $this->createQueryBuilder('m')
+            ->where('m.status = :status')
+            ->andWhere('m.schedule IS NOT NULL')
+            ->setParameter('status', MagnetStatus::ACTIVE->value)
+            ->getQuery()
+            ->getResult();
+    }
 }
