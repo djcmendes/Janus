@@ -41,6 +41,11 @@ final class AclRepository extends ServiceEntityRepository implements AclReposito
         return $this->findBy(['roleId' => $roleId]);
     }
 
+    public function flush(): void
+    {
+        $this->getEntityManager()->flush();
+    }
+
     public function deleteBySubject(string $subjectType, string $subjectId): void
     {
         $this->createQueryBuilder('a')

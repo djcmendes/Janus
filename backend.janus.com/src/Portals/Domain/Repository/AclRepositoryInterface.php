@@ -14,4 +14,5 @@ interface AclRepositoryInterface
     /** @return AclRule[] */
     public function findByRole(string $roleId): array;
     public function deleteBySubject(string $subjectType, string $subjectId): void;
+    public function flush(): void;
 }
