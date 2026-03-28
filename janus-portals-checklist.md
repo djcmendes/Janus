@@ -352,7 +352,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-091-magnet-webhook-source-adapter**
   Add Webhook source adapter (inbound endpoint that triggers a run)
 
-- [ ] **feat/portals-092-magnet-scheduler-integration**
+- [x] **feat/portals-092-magnet-scheduler-integration**
   Wire Symfony Scheduler to dispatch `TriggerMagnetRunCommand` based on `cron` field
 
 - [ ] **feat/portals-093-magnet-queries**
