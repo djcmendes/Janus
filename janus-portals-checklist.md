@@ -396,16 +396,16 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-103-page-tree-full-path-integrity**
   Add DB-level integrity check / migration test: ensure `full_path` is always consistent with tree
 
-- [ ] **feat/portals-104-e2e-portal-crud**
+- [x] - [x] **feat/portals-104-e2e-portal-crud**
   E2E test: create portal → create page tree → publish pages
 
-- [ ] **feat/portals-105-e2e-layout-canvas**
+- [x] - [x] **feat/portals-105-e2e-layout-canvas**
   E2E test: assign layout template → place modules → assign center component → save
 
-- [ ] **feat/portals-106-e2e-magnet-run**
+- [x] - [x] **feat/portals-106-e2e-magnet-run**
   E2E test: create RSS magnet → trigger run → verify items imported into collection
 
-- [ ] **feat/portals-107-e2e-acl-enforcement**
+- [x] - [x] **feat/portals-107-e2e-acl-enforcement**
   E2E test: set page ACL → verify unauthorized role is denied → verify authorized role passes
 
 - [ ] **feat/portals-108-api-documentation**
