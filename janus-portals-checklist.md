@@ -387,7 +387,7 @@ Mark items with [x] as you complete them.
 
 ## PHASE 6 — Polish & Hardening
 
-- [ ] **feat/portals-101-portal-css-global-scope**
+- [x] **feat/portals-101-portal-css-global-scope**
   Ensure portal-level CSS is injected as a global stylesheet with proper scoping strategy documented
 
 - [ ] **feat/portals-102-full-acl-api-enforcement**
