@@ -288,7 +288,7 @@ Mark items with [x] as you complete them.
 - [x] **feat/portals-075-fe-acl-editor**
   `pages/page-editor/acl-editor/`: role × permission matrix, inherit-from-parent toggle
 
-- [ ] **feat/portals-076-fe-page-preview**
+- [x] **feat/portals-076-fe-page-preview**
   `pages/page-preview/`: iframe preview panel wired to preview endpoint or mock render
 
 ---
@@ -297,13 +297,13 @@ Mark items with [x] as you complete them.
 
 ### 4.1 — Backend: Dashboard
 
-- [ ] **feat/portals-077-portal-dashboard-query**
+- [x] **feat/portals-077-portal-dashboard-query**
   Add `GetPortalDashboardMetricsQuery` + handler: counts (total pages, published, draft), active magnets count, last magnet run timestamp, recent activity log
 
-- [ ] **feat/portals-078-portal-dashboard-api**
+- [x] **feat/portals-078-portal-dashboard-api**
   Add `GET /api/portals/{id}/dashboard` endpoint + DTO
 
-- [ ] **feat/portals-079-portal-dashboard-api-tests**
+- [x] **feat/portals-079-portal-dashboard-api-tests**
   Add functional tests for dashboard endpoint
 
 ---
