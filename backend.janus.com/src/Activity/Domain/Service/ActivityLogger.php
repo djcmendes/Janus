@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file ActivityLogger.php
+ *
+ * Domain service for recording audit-log entries from anywhere in the application.
+ *
+ * @package App\Activity\Domain\Service
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Activity\Domain\Service;
@@ -14,14 +23,25 @@ use Symfony\Component\HttpFoundation\RequestStack;
  */
 final class ActivityLogger
 {
+    /**
+     * @param ActivityRepositoryInterface $repository   Repository used to persist activity records.
+     * @param RequestStack                $requestStack Symfony request stack for resolving the current request's IP and User-Agent.
+     */
     public function __construct(
         private readonly ActivityRepositoryInterface $repository,
         private readonly RequestStack               $requestStack,
     ) {}
 
     /**
-     * Records an activity entry, automatically capturing IP and User-Agent
+     * Creates and persists an Activity entry, automatically capturing IP and User-Agent
      * from the current request when available.
+     *
+     * @param string      $action     Action type (e.g. 'create', 'update', 'delete').
+     * @param string|null $collection Collection the action was performed on, or null.
+     * @param string|null $item       Identifier of the affected item, or null.
+     * @param string|null $userId     UUID of the user who performed the action, or null.
+     *
+     * @return void
      */
     public function log(
         string  $action,

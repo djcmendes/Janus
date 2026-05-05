@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Comments\Domain\Entity;
 
+use DateTimeImmutable;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Uid\Uuid;
 
@@ -48,21 +49,46 @@ class Comment
         $this->createdAt  = new \DateTimeImmutable();
     }
 
-    public function getId(): ?Uuid { return $this->id; }
-    public function getCollection(): string { return $this->collection; }
-    public function getItem(): string { return $this->item; }
-    public function getUserId(): string { return $this->userId; }
+    public function getId(): ?Uuid
+    {
+        return $this->id;
+    }
 
-    public function getComment(): string { return $this->comment; }
+    public function getCollection(): string
+    {
+        return $this->collection;
+    }
+
+    public function getItem(): string
+    {
+        return $this->item;
+    }
+
+    public function getUserId(): string
+    {
+        return $this->userId;
+    }
+
+    public function getComment(): string
+    {
+        return $this->comment;
+    }
     public function setComment(string $comment): static
     {
         $this->comment   = $comment;
-        $this->updatedAt = new \DateTimeImmutable();
+        $this->updatedAt = new DateTimeImmutable();
         return $this;
     }
 
-    public function getCreatedAt(): \DateTimeImmutable { return $this->createdAt; }
-    public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    public function getUpdatedAt(): ?DateTimeImmutable
+    {
+        return $this->updatedAt;
+    }
 
     public function isOwnedBy(string $userId): bool
     {

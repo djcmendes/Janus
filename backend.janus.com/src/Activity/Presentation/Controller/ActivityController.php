@@ -1,5 +1,16 @@
 <?php
 
+/**
+ * @file ActivityController.php
+ *
+ * HTTP presentation layer for the Activity module.
+ * Exposes read-only endpoints for querying audit-log entries.
+ * All endpoints require an authenticated ROLE_ADMIN session.
+ *
+ * @package App\Activity\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Activity\Presentation\Controller;
@@ -19,9 +30,21 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Handles HTTP requests for activity log resources.
+ *
+ * Mounted under the `/activity` prefix. Every action validates the
+ * incoming request through {@see RequestGuard} before touching any
+ * application handler.
+ */
 #[Route('/activity', name: 'activity_')]
 final class ActivityController extends AbstractController
 {
+    /**
+     * @param RequestGuard           $guard                  Validates API version, scope, and client type.
+     * @param GetActivityHandler     $getActivityHandler     Handles paginated activity list queries.
+     * @param GetActivityByIdHandler $getActivityByIdHandler Handles single-record activity queries.
+     */
     public function __construct(
         private readonly RequestGuard           $guard,
         private readonly GetActivityHandler     $getActivityHandler,
@@ -29,14 +52,25 @@ final class ActivityController extends AbstractController
     ) {}
 
     /**
-     * GET /activity
-     * Supports ?collection=, ?action=, ?user= filters
+     * Returns a paginated list of activity log entries.
+     *
+     * Supports optional query-string filters:
+     * - `collection` — filter by the affected collection name
+     * - `action`     — filter by action type (e.g. `create`, `update`, `delete`)
+     * - `user`       — filter by the acting user UUID
+     * - `limit`      — max records per page (default 25, capped at 100)
+     * - `offset`     — pagination offset (default 0)
+     *
+     * @param Request $request The incoming HTTP request carrying optional filter parameters.
+     *
+     * @return JsonResponse JSON envelope `{ data: [...], meta: { total_count, filter_count } }`.
      */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
+
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
@@ -56,7 +90,16 @@ final class ActivityController extends AbstractController
         ]);
     }
 
-    /** GET /activity/:id */
+    /**
+     * Returns a single activity log entry by its UUID.
+     *
+     * @param string $id UUID of the activity record to retrieve.
+     *
+     * @return JsonResponse JSON envelope `{ data: { ... } }` on success,
+     *                      or `{ errors: [{ message, extensions: { code: "NOT_FOUND" } }] }` (HTTP 404) when not found.
+     *
+     * @throws ActivityNotFoundException Caught internally; results in a 404 JSON error response.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $id): JsonResponse
     {

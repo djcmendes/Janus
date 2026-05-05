@@ -24,13 +24,14 @@ use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
 use App\Heimdall\Domain\Service\RequestGuard;
+use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/versions', name: 'versions_')]
+#[Route(path: '/versions', name: 'versions_')]
 final class VersionsController extends AbstractController
 {
     public function __construct(
@@ -38,7 +39,7 @@ final class VersionsController extends AbstractController
     ) {}
 
     /** GET /versions */
-    #[Route('', name: 'list', methods: ['GET'])]
+    #[Route(path: '', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetVersionsHandler $handler): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -59,7 +60,7 @@ final class VersionsController extends AbstractController
     }
 
     /** GET /versions/:id */
-    #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
+    #[Route(path: '/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetVersionByIdHandler $handler): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -79,7 +80,7 @@ final class VersionsController extends AbstractController
     }
 
     /** POST /versions */
-    #[Route('', name: 'create', methods: ['POST'])]
+    #[Route(path: '', name: 'create', methods: ['POST'])]
     public function create(Request $request, SaveVersionHandler $handler): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -119,7 +120,7 @@ final class VersionsController extends AbstractController
     }
 
     /** PATCH /versions/:id */
-    #[Route('/{id}', name: 'patch', methods: ['PATCH'], priority: 10)]
+    #[Route(path: '/{id}', name: 'patch', methods: ['PATCH'], priority: 10)]
     public function patch(string $id, Request $request, UpdateVersionHandler $handler): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -142,7 +143,7 @@ final class VersionsController extends AbstractController
     }
 
     /** DELETE /versions/:id */
-    #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
+    #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteVersionHandler $handler): Response
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -162,7 +163,7 @@ final class VersionsController extends AbstractController
     }
 
     /** POST /versions/:id/promote */
-    #[Route('/{id}/promote', name: 'promote', methods: ['POST'], priority: 20)]
+    #[Route(path: '/{id}/promote', name: 'promote', methods: ['POST'], priority: 20)]
     public function promote(string $id, PromoteVersionHandler $handler): JsonResponse
     {
         $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
@@ -173,12 +174,22 @@ final class VersionsController extends AbstractController
             $result = $handler->handle(new PromoteVersionCommand($id));
         } catch (VersionNotFoundException $e) {
             return $this->json(
-                ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'NOT_FOUND']]]],
+                [
+                    'errors' => [[
+                        'message' => $e->getMessage(),
+                        'extensions' => ['code' => 'NOT_FOUND']
+                    ]]
+                ],
                 Response::HTTP_NOT_FOUND,
             );
-        } catch (\RuntimeException $e) {
+        } catch (RuntimeException $e) {
             return $this->json(
-                ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'PROMOTE_ERROR']]]],
+                [
+                    'errors' => [[
+                        'message'    => $e->getMessage(),
+                        'extensions' => ['code' => 'PROMOTE_ERROR']
+                    ]]
+                ],
                 Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
