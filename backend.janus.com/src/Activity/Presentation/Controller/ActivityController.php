@@ -37,10 +37,12 @@ use Symfony\Component\Routing\Attribute\Route;
  * incoming request through {@see RequestGuard} before touching any
  * application handler.
  */
-#[Route('/activity', name: 'activity_')]
+#[Route(path: '/activity', name: 'activity_')]
 final class ActivityController extends AbstractController
 {
     /**
+     * Constructor
+     *
      * @param RequestGuard           $guard                  Validates API version, scope, and client type.
      * @param GetActivityHandler     $getActivityHandler     Handles paginated activity list queries.
      * @param GetActivityByIdHandler $getActivityByIdHandler Handles single-record activity queries.
@@ -65,28 +67,40 @@ final class ActivityController extends AbstractController
      *
      * @return JsonResponse JSON envelope `{ data: [...], meta: { total_count, filter_count } }`.
      */
-    #[Route('', name: 'list', methods: ['GET'])]
+    #[Route(path: '', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(
+            version: ApiVersion::JANUS_100,
+            scope:   ApiScope::AUTHENTICATED
+        );
+
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(attribute: 'ROLE_ADMIN');
 
-        $limit  = min((int) $request->query->get('limit', 25), 100);
-        $offset = (int) $request->query->get('offset', 0);
+        $limit  = min((int) $request->query->get(key: 'limit', default: 25), 100);
+        $offset = (int) $request->query->get(key: 'offset', default: 0);
 
-        $result = $this->getActivityHandler->handle(new GetActivityQuery(
-            limit:      $limit,
-            offset:     $offset,
-            collection: $request->query->get('collection') ?: null,
-            action:     $request->query->get('action')     ?: null,
-            userId:     $request->query->get('user')       ?: null,
-        ));
+        $result = $this->getActivityHandler->handle(
+            query: new GetActivityQuery(
+                limit:      $limit,
+                offset:     $offset,
+                collection: $request->query->get(key: 'collection') ?: null,
+                action:     $request->query->get(key: 'action')     ?: null,
+                userId:     $request->query->get(key: 'user')       ?: null,
+            )
+        );
 
-        return $this->json([
-            'data' => array_map(fn ($dto) => $dto->toArray(), $result['data']),
-            'meta' => ['total_count' => $result['total'], 'filter_count' => count($result['data'])],
+        return $this->json(data: [
+            'data' => array_map(
+                callback: fn ($dto) => $dto->toArray(),
+                array: $result['data']
+            ),
+            'meta' => [
+                'total_count'  => $result['total'],
+                'filter_count' => count($result['data'])
+            ],
         ]);
     }
 
@@ -100,22 +114,29 @@ final class ActivityController extends AbstractController
      *
      * @throws ActivityNotFoundException Caught internally; results in a 404 JSON error response.
      */
-    #[Route('/{id}', name: 'get', methods: ['GET'], priority: -1)]
+    #[Route(path: '/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validate_webservice_request(
+            version: ApiVersion::JANUS_100,
+            scope:   ApiScope::AUTHENTICATED
+        );
+
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $this->denyAccessUnlessGranted(attribute: 'ROLE_ADMIN');
 
         try {
-            $dto = $this->getActivityByIdHandler->handle(new GetActivityByIdQuery($id));
+            $dto = $this->getActivityByIdHandler->handle(query: new GetActivityByIdQuery($id));
         } catch (ActivityNotFoundException $e) {
             return $this->json(
-                ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'NOT_FOUND']]]],
-                Response::HTTP_NOT_FOUND,
+                data: [ 'errors' => [[
+                    'message'    => $e->getMessage(),
+                    'extensions' => [ 'code' => 'NOT_FOUND' ]
+                ]]],
+                status: Response::HTTP_NOT_FOUND,
             );
         }
 
-        return $this->json(['data' => $dto->toArray()]);
+        return $this->json(data: [ 'data' => $dto->toArray() ]);
     }
 }

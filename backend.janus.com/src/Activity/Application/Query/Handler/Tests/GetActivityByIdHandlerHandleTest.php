@@ -30,21 +30,23 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 #[CoversMethod(GetActivityByIdHandler::class, 'handle')]
 final class GetActivityByIdHandlerHandleTest extends GetActivityByIdHandlerTest
 {
-    /** @var string */
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     private const string LOOKUP_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
-
-    // ── Happy path ────────────────────────────────────────────────────────────
 
     /**
      * Test that handle() returns an ActivityDto when the repository finds a matching record.
      */
     public function testHandleReturnsActivityDtoForExistingRecord(): void
     {
-        $this->repository->method('findById')->willReturn($this->makeActivity());
+        $this->repository->method(constraint: 'findById')
+                         ->willReturn(value: $this->makeActivity());
 
-        $result = $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
+        $result = $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
 
-        $this->assertInstanceOf(ActivityDto::class, $result);
+        $this->assertInstanceOf(expected: ActivityDto::class, actual: $result);
     }
 
     /**
@@ -52,11 +54,12 @@ final class GetActivityByIdHandlerHandleTest extends GetActivityByIdHandlerTest
      */
     public function testHandleDtoActionMatchesEntity(): void
     {
-        $this->repository->method('findById')->willReturn($this->makeActivity('delete', 'posts', '5'));
+        $this->repository->method(constraint: 'findById')
+                         ->willReturn(value: $this->makeActivity(action: 'delete', collection: 'posts', item: '5'));
 
-        $result = $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
+        $result = $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
 
-        $this->assertSame('delete', $result->action);
+        $this->assertSame(expected: 'delete', actual: $result->action);
     }
 
     /**
@@ -64,41 +67,38 @@ final class GetActivityByIdHandlerHandleTest extends GetActivityByIdHandlerTest
      */
     public function testHandleDtoCollectionMatchesEntity(): void
     {
-        $this->repository->method('findById')->willReturn($this->makeActivity('create', 'articles'));
+        $this->repository->method(constraint: 'findById')
+                         ->willReturn(value: $this->makeActivity(action: 'create', collection: 'articles'));
 
-        $result = $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
+        $result = $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
 
-        $this->assertSame('articles', $result->collection);
+        $this->assertSame(expected: 'articles', actual: $result->collection);
     }
-
-    // ── Repository forwarding ─────────────────────────────────────────────────
 
     /**
      * Test that handle() forwards the query UUID to the repository's findById() method.
      */
     public function testHandleForwardsIdToRepository(): void
     {
-        $this->repository
-            ->expects($this->once())
-            ->method('findById')
-            ->with(self::LOOKUP_UUID)
-            ->willReturn($this->makeActivity());
+        $this->repository->expects($this->once())
+                         ->method(constraint: 'findById')
+                         ->with(arguments: self::LOOKUP_UUID)
+                         ->willReturn(value: $this->makeActivity());
 
-        $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
+        $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
     }
-
-    // ── Not found ─────────────────────────────────────────────────────────────
 
     /**
      * Test that handle() throws ActivityNotFoundException when the repository returns null.
      */
     public function testHandleThrowsActivityNotFoundExceptionWhenRecordDoesNotExist(): void
     {
-        $this->repository->method('findById')->willReturn(null);
+        $this->repository->method(constraint: 'findById')
+                         ->willReturn(value: null);
 
-        $this->expectException(ActivityNotFoundException::class);
+        $this->expectException(exception: ActivityNotFoundException::class);
 
-        $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
+        $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
     }
 
     /**
@@ -106,13 +106,14 @@ final class GetActivityByIdHandlerHandleTest extends GetActivityByIdHandlerTest
      */
     public function testHandleExceptionMessageContainsLookupId(): void
     {
-        $this->repository->method('findById')->willReturn(null);
+        $this->repository->method(constraint: 'findById')
+                         ->willReturn(value: null);
 
         try {
-            $this->class->handle(new GetActivityByIdQuery(self::LOOKUP_UUID));
-            $this->fail('Expected ActivityNotFoundException was not thrown.');
+            $this->class->handle(query: new GetActivityByIdQuery(id: self::LOOKUP_UUID));
+            $this->fail(message: 'Expected ActivityNotFoundException was not thrown.');
         } catch (ActivityNotFoundException $e) {
-            $this->assertStringContainsString(self::LOOKUP_UUID, $e->getMessage());
+            $this->assertStringContainsString(needle: self::LOOKUP_UUID, haystack: $e->getMessage());
         }
     }
 }

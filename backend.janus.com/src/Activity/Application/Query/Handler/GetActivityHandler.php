@@ -24,6 +24,8 @@ use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 final readonly class GetActivityHandler
 {
     /**
+     * Constructor
+     *
      * @param ActivityRepositoryInterface $repository Repository used to query Activity records.
      */
     public function __construct(
@@ -39,21 +41,21 @@ final readonly class GetActivityHandler
     public function handle(GetActivityQuery $query): array
     {
         $items = $this->repository->findPaginated(
-            $query->limit,
-            $query->offset,
-            $query->collection,
-            $query->action,
-            $query->userId,
+            limit:      $query->limit,
+            offset:     $query->offset,
+            collection: $query->collection,
+            action:     $query->action,
+            userId:     $query->userId,
         );
 
         $total = $this->repository->countAll(
-            $query->collection,
-            $query->action,
-            $query->userId,
+            collection: $query->collection,
+            action:     $query->action,
+            userId:     $query->userId,
         );
 
         return [
-            'data'  => array_map(ActivityDto::fromEntity(...), $items),
+            'data'  => array_map(callback: ActivityDto::fromEntity(...), array: $items),
             'total' => $total,
         ];
     }

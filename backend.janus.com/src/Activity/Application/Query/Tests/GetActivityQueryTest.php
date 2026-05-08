@@ -27,19 +27,41 @@ use ReflectionClass;
 #[CoversClass(GetActivityQuery::class)]
 abstract class GetActivityQueryTest extends TestCase
 {
+    /**
+     * The instance of the query being tested.
+     * @var GetActivityQuery
+     */
     protected GetActivityQuery $class;
 
-    /** @var ReflectionClass<GetActivityQuery> */
+    /**
+     * Reflection of GetActivityQuery class
+     * @var ReflectionClass<GetActivityQuery>
+     */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
-        $this->class      = new GetActivityQuery(25, 0);
-        $this->reflection = new ReflectionClass(GetActivityQuery::class);
+        $this->class      = new GetActivityQuery(limit: 25, offset: 0);
+        $this->reflection = new ReflectionClass(objectOrClass: GetActivityQuery::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     protected function tearDown(): void
     {
-        unset($this->class, $this->reflection);
+        unset(
+            $this->class,
+            $this->reflection
+        );
     }
 }

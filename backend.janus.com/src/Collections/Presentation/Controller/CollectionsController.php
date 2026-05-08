@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file CollectionsController.php
+ *
+ * HTTP controller for the /collections resource.
+ *
+ * @package App\Collections\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Collections\Presentation\Controller;
@@ -28,9 +37,25 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Thin HTTP controller exposing CRUD operations for CMS collections.
+ *
+ * Delegates all business logic to Application-layer handlers and formats
+ * responses using the standard JSON envelope defined by RequestGuard.
+ */
 #[Route('/collections', name: 'collections_')]
 final class CollectionsController extends AbstractController
 {
+    /**
+     * Constructor
+     *
+     * @param RequestGuard               $guard                      Validates API version, scope, and client type.
+     * @param GetCollectionsHandler      $getCollectionsHandler      Handles paginated list queries.
+     * @param GetCollectionByNameHandler $getCollectionByNameHandler Handles single-collection lookup.
+     * @param CreateCollectionHandler    $createCollectionHandler    Handles collection creation.
+     * @param UpdateCollectionHandler    $updateCollectionHandler    Handles partial updates.
+     * @param DeleteCollectionHandler    $deleteCollectionHandler    Handles deletion.
+     */
     public function __construct(
         private readonly RequestGuard               $guard,
         private readonly GetCollectionsHandler      $getCollectionsHandler,
@@ -40,7 +65,12 @@ final class CollectionsController extends AbstractController
         private readonly DeleteCollectionHandler    $deleteCollectionHandler,
     ) {}
 
-    /** GET /collections */
+    /**
+     * Lists all collections with pagination.
+     *
+     * @param  Request      $request HTTP request carrying optional limit and offset query params.
+     * @return JsonResponse          200 with data array and meta totals.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
@@ -58,7 +88,12 @@ final class CollectionsController extends AbstractController
         ]);
     }
 
-    /** GET /collections/:name */
+    /**
+     * Returns a single collection by name.
+     *
+     * @param  string       $name Collection name path parameter.
+     * @return JsonResponse       200 with the collection data, or 404 if not found.
+     */
     #[Route('/{name}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $name): JsonResponse
     {
@@ -74,7 +109,12 @@ final class CollectionsController extends AbstractController
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** POST /collections */
+    /**
+     * Creates a new collection with its backing database table and primary-key field.
+     *
+     * @param  Request      $request HTTP request with the JSON creation payload.
+     * @return JsonResponse          201 with the created collection, 409 on name conflict, 422 on validation error.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
@@ -109,7 +149,13 @@ final class CollectionsController extends AbstractController
         return $this->json(['data' => $dto->toArray()], Response::HTTP_CREATED);
     }
 
-    /** PATCH /collections/:name */
+    /**
+     * Partially updates a collection's metadata fields.
+     *
+     * @param  string       $name    Collection name path parameter.
+     * @param  Request      $request HTTP request with the JSON partial-update payload.
+     * @return JsonResponse          200 with the updated collection, or 404 if not found.
+     */
     #[Route('/{name}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $name, Request $request): JsonResponse
     {
@@ -136,7 +182,12 @@ final class CollectionsController extends AbstractController
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** DELETE /collections/:name */
+    /**
+     * Deletes a collection, all its field metadata, and its backing database table.
+     *
+     * @param  string       $name Collection name path parameter.
+     * @return JsonResponse       204 on success, 404 if not found, 422 if the name is a system table.
+     */
     #[Route('/{name}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $name): JsonResponse
     {
@@ -155,16 +206,35 @@ final class CollectionsController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * Builds a 404 NOT_FOUND error envelope.
+     *
+     * @param  string        $message Human-readable error description.
+     * @return array<string, mixed>    Standard error envelope.
+     */
     private function notFound(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'NOT_FOUND']]]];
     }
 
+    /**
+     * Builds a 422 VALIDATION_ERROR error envelope.
+     *
+     * @param  string        $message Human-readable validation failure description.
+     * @return array<string, mixed>    Standard error envelope.
+     */
     private function validationError(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'VALIDATION_ERROR']]]];
     }
 
+    /**
+     * Builds a generic error envelope with a custom error code.
+     *
+     * @param  string        $message Human-readable error description.
+     * @param  string        $code    Machine-readable error code (e.g. 'COLLECTION_EXISTS').
+     * @return array<string, mixed>    Standard error envelope.
+     */
     private function error(string $message, string $code): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => $code]]]];

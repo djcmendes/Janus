@@ -86,7 +86,7 @@ final class Activity
         $this->action     = $action;
         $this->collection = $collection;
         $this->item       = $item;
-        $this->timestamp  = new \DateTimeImmutable();
+        $this->timestamp  = new DateTimeImmutable();
     }
 
     /**
@@ -257,7 +257,7 @@ final class Activity
             'user'       => $this->userId,
             'ip'         => $this->ip,
             'user_agent' => $this->userAgent,
-            'timestamp'  => $this->timestamp->format(DateTimeInterface::ATOM),
+            'timestamp'  => $this->timestamp->format(format: DateTimeInterface::ATOM),
         ];
     }
 }

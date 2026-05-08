@@ -27,20 +27,42 @@ use ReflectionClass;
 #[CoversClass(Activity::class)]
 abstract class ActivityTest extends TestCase
 {
+    /**
+     * Instance of the class being tested
+     * @var Activity
+    */
     protected Activity $class;
 
-    /** @var ReflectionClass<Activity> */
+    /**
+     * Reflection of Activity class
+     * @var ReflectionClass<Activity>
+     */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
         $this->class      = new Activity('create', 'posts', '42');
         $this->reflection = new ReflectionClass(Activity::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     protected function tearDown(): void
     {
-        unset($this->class, $this->reflection);
+        unset(
+            $this->class,
+            $this->reflection
+        );
     }
 
     /**

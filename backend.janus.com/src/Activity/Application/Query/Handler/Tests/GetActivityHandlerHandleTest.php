@@ -29,19 +29,20 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 #[CoversMethod(GetActivityHandler::class, 'handle')]
 final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
 {
-    // ── Result shape ──────────────────────────────────────────────────────────
-
     /**
      * Test that handle() returns an array containing a 'data' key.
      */
     public function testHandleReturnsArrayWithDataKey(): void
     {
-        $this->repository->method('findPaginated')->willReturn([]);
-        $this->repository->method('countAll')->willReturn(0);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
 
-        $result = $this->class->handle(new GetActivityQuery(25, 0));
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
 
-        $this->assertArrayHasKey('data', $result);
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertArrayHasKey(key: 'data', array: $result);
     }
 
     /**
@@ -49,12 +50,15 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleReturnsArrayWithTotalKey(): void
     {
-        $this->repository->method('findPaginated')->willReturn([]);
-        $this->repository->method('countAll')->willReturn(0);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
 
-        $result = $this->class->handle(new GetActivityQuery(25, 0));
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
 
-        $this->assertArrayHasKey('total', $result);
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertArrayHasKey(key: 'total', array: $result);
     }
 
     /**
@@ -62,13 +66,16 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleDataContainsActivityDtos(): void
     {
-        $this->repository->method('findPaginated')->willReturn([$this->makeActivity()]);
-        $this->repository->method('countAll')->willReturn(1);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: [$this->makeActivity()]);
 
-        $result = $this->class->handle(new GetActivityQuery(25, 0));
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 1);
 
-        $this->assertCount(1, $result['data']);
-        $this->assertInstanceOf(ActivityDto::class, $result['data'][0]);
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertCount( expectedCount: 1, haystack: $result['data']);
+        $this->assertInstanceOf(expected: ActivityDto::class, actual: $result['data'][0]);
     }
 
     /**
@@ -76,12 +83,15 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleTotalMatchesRepositoryCountAll(): void
     {
-        $this->repository->method('findPaginated')->willReturn([]);
-        $this->repository->method('countAll')->willReturn(42);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
 
-        $result = $this->class->handle(new GetActivityQuery(25, 0));
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 42);
 
-        $this->assertSame(42, $result['total']);
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertSame(expected: 42, actual: $result['total']);
     }
 
     /**
@@ -89,49 +99,56 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleReturnsEmptyDataArrayWhenNoRecords(): void
     {
-        $this->repository->method('findPaginated')->willReturn([]);
-        $this->repository->method('countAll')->willReturn(0);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
 
-        $result = $this->class->handle(new GetActivityQuery(25, 0));
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
 
-        $this->assertSame([], $result['data']);
-        $this->assertSame(0, $result['total']);
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertSame(expected: [], actual: $result['data']);
+        $this->assertSame(expected: 0, actual: $result['total']);
     }
-
-    // ── Pagination forwarding ─────────────────────────────────────────────────
 
     /**
      * Test that handle() forwards the limit and offset from the query to findPaginated().
      */
     public function testHandleForwardsPaginationToFindPaginated(): void
     {
-        $this->repository
-            ->expects($this->once())
-            ->method('findPaginated')
-            ->with(10, 50, null, null, null)
-            ->willReturn([]);
+        $this->repository->expects($this->once())
+                         ->method(constraint: 'findPaginated')
+                         ->with(10, 50, null, null, null)
+                         ->willReturn(value: []);
 
-        $this->repository->method('countAll')->willReturn(0);
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
 
-        $this->class->handle(new GetActivityQuery(10, 50));
+        $this->class->handle(query: new GetActivityQuery(limit: 10, offset: 50));
     }
-
-    // ── Filter forwarding ─────────────────────────────────────────────────────
 
     /**
      * Test that handle() forwards all active filters to findPaginated().
      */
     public function testHandleForwardsFiltersToFindPaginated(): void
     {
-        $this->repository
-            ->expects($this->once())
-            ->method('findPaginated')
-            ->with(25, 0, 'posts', 'create', 'user-uuid')
-            ->willReturn([]);
+        $this->repository->expects($this->once())
+                         ->method(constraint: 'findPaginated')
+                         ->with(25, 0, 'posts', 'create', 'user-uuid')
+                         ->willReturn(value: []);
 
-        $this->repository->method('countAll')->willReturn(0);
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
 
-        $this->class->handle(new GetActivityQuery(25, 0, 'posts', 'create', 'user-uuid'));
+        $this->class->handle(
+            query: new GetActivityQuery(
+                limit: 25,
+                offset: 0,
+                collection: 'posts',
+                action: 'create',
+                userId: 'user-uuid'
+            )
+        );
     }
 
     /**
@@ -139,14 +156,22 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleForwardsFiltersToCountAll(): void
     {
-        $this->repository->method('findPaginated')->willReturn([]);
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
 
-        $this->repository
-            ->expects($this->once())
-            ->method('countAll')
-            ->with('posts', 'create', 'user-uuid')
-            ->willReturn(0);
+        $this->repository->expects($this->once())
+                         ->method(constraint: 'countAll')
+                         ->with('posts', 'create', 'user-uuid')
+                         ->willReturn(value: 0);
 
-        $this->class->handle(new GetActivityQuery(25, 0, 'posts', 'create', 'user-uuid'));
+        $this->class->handle(
+            query: new GetActivityQuery(
+                limit: 25,
+                offset: 0,
+                collection: 'posts',
+                action: 'create',
+                userId: 'user-uuid'
+            )
+        );
     }
 }

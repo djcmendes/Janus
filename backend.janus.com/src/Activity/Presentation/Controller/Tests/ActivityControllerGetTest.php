@@ -36,21 +36,19 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     private const string LOOKUP_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
-    // ── Happy path ────────────────────────────────────────────────────────────
-
     /**
      * Test that get() returns HTTP 200 with the activity record wrapped in a data envelope.
      */
     public function testGetReturnsActivityForValidId(): void
     {
-        $this->getByIdRepository->method('findById')
-                                ->willReturn($this->makeActivity());
+        $this->getByIdRepository->method(constraint: 'findById')
+                                ->willReturn(value: $this->makeActivity());
 
-        $response = $this->class->get(self::LOOKUP_UUID);
-        $body     = json_decode($response->getContent(), true);
+        $response = $this->class->get(id: self::LOOKUP_UUID);
+        $body     = json_decode(json: $response->getContent(), associative: true);
 
-        $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $this->assertArrayHasKey('data', $body);
+        $this->assertSame(expected: Response::HTTP_OK, actual: $response->getStatusCode());
+        $this->assertArrayHasKey(key: 'data', array: $body);
     }
 
     /**
@@ -58,20 +56,23 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     public function testGetResponseBodyContainsAllActivityFields(): void
     {
-        $activity = $this->makeActivity('update', 'articles', '42');
-        $this->getByIdRepository->method('findById')
-                                ->willReturn($activity);
+        $activity = $this->makeActivity(action: 'update', collection: 'articles',  item: '42');
+        $this->getByIdRepository->method(constraint: 'findById')
+                                ->willReturn(value: $activity);
 
-        $body = json_decode($this->class->get(self::LOOKUP_UUID)->getContent(), true);
+        $body = json_decode(
+            json: $this->class->get(id: self::LOOKUP_UUID)->getContent(),
+            associative: true
+        );
 
-        $this->assertSame((string) $activity->getId(), $body['data']['id']);
-        $this->assertSame('update', $body['data']['action']);
-        $this->assertSame('articles', $body['data']['collection']);
-        $this->assertSame('42', $body['data']['item']);
-        $this->assertSame('bbbbbbbb-0000-7000-8000-000000000002', $body['data']['user']);
-        $this->assertSame('127.0.0.1', $body['data']['ip']);
-        $this->assertSame('PHPUnit', $body['data']['user_agent']);
-        $this->assertArrayHasKey('timestamp', $body['data']);
+        $this->assertSame(expected: (string) $activity->getId(), actual: $body['data']['id']);
+        $this->assertSame(expected: 'update', actual: $body['data']['action']);
+        $this->assertSame(expected: 'articles', actual: $body['data']['collection']);
+        $this->assertSame(expected: '42', actual: $body['data']['item']);
+        $this->assertSame(expected: 'bbbbbbbb-0000-7000-8000-000000000002', actual: $body['data']['user']);
+        $this->assertSame(expected: '127.0.0.1', actual: $body['data']['ip']);
+        $this->assertSame(expected: 'PHPUnit', actual: $body['data']['user_agent']);
+        $this->assertArrayHasKey(key: 'timestamp', array: $body['data']);
     }
 
     /**
@@ -80,26 +81,24 @@ final class ActivityControllerGetTest extends ActivityControllerTest
     public function testGetPassesUuidToRepository(): void
     {
         $this->getByIdRepository->expects($this->once())
-                                ->method('findById')
+                                ->method(constraint: 'findById')
                                 ->with(self::LOOKUP_UUID)
-                                ->willReturn($this->makeActivity());
+                                ->willReturn(value: $this->makeActivity());
 
-        $this->class->get(self::LOOKUP_UUID);
+        $this->class->get(id: self::LOOKUP_UUID);
     }
-
-    // ── Not found ─────────────────────────────────────────────────────────────
 
     /**
      * Test that get() returns HTTP 404 when the repository returns null for the given UUID.
      */
     public function testGetReturnsNotFoundWhenActivityDoesNotExist(): void
     {
-        $this->getByIdRepository->method('findById')
-                                ->willReturn(null);
+        $this->getByIdRepository->method(constraint: 'findById')
+                                ->willReturn(value: null);
 
-        $response = $this->class->get(self::LOOKUP_UUID);
+        $response = $this->class->get(id: self::LOOKUP_UUID);
 
-        $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
+        $this->assertSame(expected: Response::HTTP_NOT_FOUND, actual: $response->getStatusCode());
     }
 
     /**
@@ -107,14 +106,17 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     public function testGetNotFoundResponseContainsErrorCode(): void
     {
-        $this->getByIdRepository->method('findById')
-                                ->willReturn(null);
+        $this->getByIdRepository->method(constraint: 'findById')
+                                ->willReturn(value: null);
 
-        $body = json_decode($this->class->get(self::LOOKUP_UUID)->getContent(), true);
+        $body = json_decode(
+            json: $this->class->get(id: self::LOOKUP_UUID)->getContent(),
+            associative: true
+        );
 
-        $this->assertArrayHasKey('errors', $body);
-        $this->assertNotEmpty($body['errors']);
-        $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
+        $this->assertArrayHasKey(key: 'errors', array: $body);
+        $this->assertNotEmpty(actual: $body['errors']);
+        $this->assertSame(expected: 'NOT_FOUND', actual: $body['errors'][0]['extensions']['code']);
     }
 
     /**
@@ -122,25 +124,23 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     public function testGetNotFoundErrorMessageContainsUuid(): void
     {
-        $this->getByIdRepository->method('findById')
-                                ->willReturn(null);
+        $this->getByIdRepository->method(constraint: 'findById')
+                                ->willReturn(value: null);
 
-        $body = json_decode($this->class->get(self::LOOKUP_UUID)->getContent(), true);
+        $body = json_decode(json: $this->class->get(id: self::LOOKUP_UUID)->getContent(), associative: true);
 
-        $this->assertStringContainsString(self::LOOKUP_UUID, $body['errors'][0]['message']);
+        $this->assertStringContainsString(needle: self::LOOKUP_UUID, haystack: $body['errors'][0]['message']);
     }
-
-    // ── Guard failures ────────────────────────────────────────────────────────
 
     /**
      * Test that get() propagates UnauthorizedException when no authentication token exists.
      */
     public function testGetThrowsWhenAuthenticationFails(): void
     {
-        $this->expectException(UnauthorizedException::class);
-        $this->expectExceptionMessage('This endpoint requires authentication.');
+        $this->expectException(exception: UnauthorizedException::class);
+        $this->expectExceptionMessage(message: 'This endpoint requires authentication.');
 
-        $this->buildControllerWithUnauthenticatedGuard()->get(self::LOOKUP_UUID);
+        $this->buildControllerWithUnauthenticatedGuard()->get(id: self::LOOKUP_UUID);
     }
 
     /**
@@ -148,20 +148,18 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     public function testGetThrowsWhenClientIsNotAuthorized(): void
     {
-        $this->expectException(UnauthorizedException::class);
+        $this->expectException(exception: UnauthorizedException::class);
 
-        $this->buildControllerWithUnauthorizedClient()->get(self::LOOKUP_UUID);
+        $this->buildControllerWithUnauthorizedClient()->get(id: self::LOOKUP_UUID);
     }
-
-    // ── Access control ────────────────────────────────────────────────────────
 
     /**
      * Test that get() throws AccessDeniedException when the user lacks ROLE_ADMIN.
      */
     public function testGetThrowsWhenUserLacksAdminRole(): void
     {
-        $this->expectException(AccessDeniedException::class);
+        $this->expectException(exception: AccessDeniedException::class);
 
-        $this->buildControllerWithAccessDenied()->get(self::LOOKUP_UUID);
+        $this->buildControllerWithAccessDenied()->get(id: self::LOOKUP_UUID);
     }
 }

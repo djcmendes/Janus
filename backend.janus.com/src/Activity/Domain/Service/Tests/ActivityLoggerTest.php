@@ -21,6 +21,7 @@ namespace App\Activity\Domain\Service\Tests;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 use App\Activity\Domain\Service\ActivityLogger;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -52,21 +53,39 @@ abstract class ActivityLoggerTest extends TestCase
     protected ActivityLogger $class;
 
     /**
-     * Reflection of ActivityLogger for reading private properties.
+     * Reflection of ActivityLogger class
      * @var ReflectionClass<ActivityLogger>
      */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     * @throws Exception
+     */
     public function setUp(): void
     {
-        $this->repository   = $this->createMock(ActivityRepositoryInterface::class);
-        $this->requestStack = $this->createMock(RequestStack::class);
-        $this->class        = new ActivityLogger($this->repository, $this->requestStack);
-        $this->reflection   = new ReflectionClass(ActivityLogger::class);
+        $this->repository   = $this->createMock(type: ActivityRepositoryInterface::class);
+        $this->requestStack = $this->createMock(type: RequestStack::class);
+        $this->class        = new ActivityLogger(repository: $this->repository, requestStack: $this->requestStack);
+        $this->reflection   = new ReflectionClass(objectOrClass: ActivityLogger::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     public function tearDown(): void
     {
-        unset($this->repository, $this->requestStack, $this->class, $this->reflection);
+        unset(
+            $this->repository,
+            $this->requestStack,
+            $this->class,
+            $this->reflection
+        );
     }
 }

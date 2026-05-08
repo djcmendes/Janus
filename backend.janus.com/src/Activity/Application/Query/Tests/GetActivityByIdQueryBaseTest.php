@@ -14,33 +14,47 @@ declare(strict_types=1);
 namespace App\Activity\Application\Query\Tests;
 
 use App\Activity\Application\Query\GetActivityByIdQuery;
+use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionException;
 
+/**
+ *
+ */
 #[CoversClass(GetActivityByIdQuery::class)]
 final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     *
+     */
     public function testIsInstanceOfGetActivityByIdQuery(): void
     {
-        $this->assertInstanceOf(GetActivityByIdQuery::class, $this->class);
+        $this->assertInstanceOf(expected: GetActivityByIdQuery::class, actual: $this->class);
     }
 
+    /**
+     *
+     */
     public function testConstructorStoresId(): void
     {
-        $this->assertSame(self::LOOKUP_UUID, $this->class->id);
+        $this->assertSame(expected: self::LOOKUP_UUID, actual: $this->class->id);
     }
 
+    /**
+     *
+     * @throws ReflectionException
+     */
     public function testIdPropertyIsReadonly(): void
     {
-        $this->assertTrue($this->reflection->getProperty('id')->isReadOnly());
+        $this->assertTrue(condition: $this->reflection->getProperty(name: 'id')->isReadOnly());
     }
 
-    // Failure / exception paths ────────────────────────────────────
-
+    /**
+     *
+     */
     public function testIdPropertyCannotBeMutatedAfterConstruction(): void
     {
-        $this->expectException(\Error::class);
+        $this->expectException(exception: Error::class);
 
         // @phpstan-ignore-next-line
         $this->class->id = 'mutated';

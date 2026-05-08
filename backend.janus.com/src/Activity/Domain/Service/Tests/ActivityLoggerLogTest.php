@@ -39,10 +39,9 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
     {
         $this->requestStack->method('getCurrentRequest')->willReturn(null);
 
-        $this->repository
-            ->expects($this->once())
-            ->method('record')
-            ->with($this->isInstanceOf(Activity::class));
+        $this->repository->expects($this->once())
+                         ->method('record')
+                         ->with($this->isInstanceOf(Activity::class));
 
         $this->class->log('create');
     }

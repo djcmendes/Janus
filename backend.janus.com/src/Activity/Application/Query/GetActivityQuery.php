@@ -16,7 +16,7 @@ namespace App\Activity\Application\Query;
 /**
  * Query that carries pagination and filter parameters for the Activity list endpoint.
  */
-final class GetActivityQuery
+final readonly class GetActivityQuery
 {
     /**
      * @param int         $limit      Maximum number of records to return.
@@ -26,10 +26,10 @@ final class GetActivityQuery
      * @param string|null $userId     Filter to activities performed by a specific user UUID, or null for all.
      */
     public function __construct(
-        public readonly int     $limit,
-        public readonly int     $offset,
-        public readonly ?string $collection = null,
-        public readonly ?string $action     = null,
-        public readonly ?string $userId     = null,
+        public int     $limit,
+        public int     $offset,
+        public ?string $collection = null,
+        public ?string $action     = null,
+        public ?string $userId     = null,
     ) {}
 }

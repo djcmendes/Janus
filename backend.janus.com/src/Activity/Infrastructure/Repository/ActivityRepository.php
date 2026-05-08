@@ -35,14 +35,16 @@ use Doctrine\Persistence\ManagerRegistry;
 final class ActivityRepository extends ServiceEntityRepository implements ActivityRepositoryInterface
 {
     /**
+     * Constructor
+     *
      * @param ManagerRegistry $registry Doctrine's entity manager registry.
      * @param ActivityMapper  $mapper   Converts between domain Activity and Doctrine ActivityEntity.
      */
     public function __construct(
-        ManagerRegistry                $registry,
+        ManagerRegistry                 $registry,
         private readonly ActivityMapper $mapper,
     ) {
-        parent::__construct($registry, ActivityEntity::class);
+        parent::__construct(registry: $registry, entityClass: ActivityEntity::class);
     }
 
     /**
@@ -54,9 +56,9 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
      */
     public function record(Activity $activity): void
     {
-        $entity = $this->mapper->toPersistence($activity);
+        $entity = $this->mapper->toPersistence(domain: $activity);
 
-        $this->getEntityManager()->persist($entity);
+        $this->getEntityManager()->persist(object: $entity);
         $this->getEntityManager()->flush();
     }
 
@@ -69,9 +71,9 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
      */
     public function findById(string $id): ?Activity
     {
-        $entity = $this->find($id);
+        $entity = $this->find(id: $id);
 
-        return $entity !== null ? $this->mapper->toDomain($entity) : null;
+        return $entity !== null ? $this->mapper->toDomain(entity: $entity) : null;
     }
 
     /**
@@ -94,7 +96,7 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
         ?string $userId     = null,
     ): array {
         $qb = $this->createQueryBuilder('a')
-                   ->orderBy(sort: 'a.timestamp', order: 'DESC')
+                   ->orderBy('a.timestamp', 'DESC')
                    ->setMaxResults($limit)
                    ->setFirstResult($offset);
 

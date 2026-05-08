@@ -16,10 +16,12 @@ namespace App\Activity\Application\Query;
 /**
  * Query that carries the UUID of the Activity record to retrieve.
  */
-final class GetActivityByIdQuery
+final readonly class GetActivityByIdQuery
 {
     /**
+     * Constructor
+     *
      * @param string $id UUID of the Activity record to look up.
      */
-    public function __construct(public readonly string $id) {}
+    public function __construct(public string $id) {}
 }

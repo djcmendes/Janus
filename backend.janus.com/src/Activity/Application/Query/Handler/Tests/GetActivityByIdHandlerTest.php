@@ -22,6 +22,7 @@ use App\Activity\Application\Query\Handler\GetActivityByIdHandler;
 use App\Activity\Domain\Entity\Activity;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
@@ -51,19 +52,34 @@ abstract class GetActivityByIdHandlerTest extends TestCase
      */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     * @throws Exception
+     */
     public function setUp(): void
     {
-        $this->repository = $this->createMock(ActivityRepositoryInterface::class);
-        $this->class      = new GetActivityByIdHandler($this->repository);
-        $this->reflection = new ReflectionClass(GetActivityByIdHandler::class);
+        $this->repository = $this->createMock(type: ActivityRepositoryInterface::class);
+        $this->class      = new GetActivityByIdHandler(repository: $this->repository);
+        $this->reflection = new ReflectionClass(objectOrClass: GetActivityByIdHandler::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     public function tearDown(): void
     {
-        unset($this->repository, $this->class, $this->reflection);
+        unset(
+            $this->repository,
+            $this->class,
+            $this->reflection
+        );
     }
-
-    // ── Entity factory ────────────────────────────────────────────────────────
 
     /**
      * Creates a fully-populated Activity entity for use in test assertions.
@@ -79,10 +95,10 @@ abstract class GetActivityByIdHandlerTest extends TestCase
         ?string $collection = 'posts',
         ?string $item       = '1',
     ): Activity {
-        $activity = new Activity($action, $collection, $item);
-        $activity->setUserId('bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp('127.0.0.1');
-        $activity->setUserAgent('PHPUnit');
+        $activity = new Activity(action: $action, collection: $collection, item: $item);
+        $activity->setUserId(v: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(v: '127.0.0.1');
+        $activity->setUserAgent(v: 'PHPUnit');
 
         return $activity;
     }

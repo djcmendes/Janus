@@ -27,22 +27,47 @@ use ReflectionClass;
 #[CoversClass(GetActivityByIdQuery::class)]
 abstract class GetActivityByIdQueryTest extends TestCase
 {
-    /** @var string */
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     protected const string LOOKUP_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
+    /**
+     * The instance of the query being tested.
+     * @var GetActivityByIdQuery
+     */
     protected GetActivityByIdQuery $class;
 
-    /** @var ReflectionClass<GetActivityByIdQuery> */
+    /**
+     * Reflection of GetActivityByIdQuery class
+     * @var ReflectionClass<GetActivityByIdQuery>
+     */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
-        $this->class      = new GetActivityByIdQuery(self::LOOKUP_UUID);
-        $this->reflection = new ReflectionClass(GetActivityByIdQuery::class);
+        $this->class      = new GetActivityByIdQuery(id: self::LOOKUP_UUID);
+        $this->reflection = new ReflectionClass(objectOrClass: GetActivityByIdQuery::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     protected function tearDown(): void
     {
-        unset($this->class, $this->reflection);
+        unset(
+            $this->class,
+            $this->reflection
+        );
     }
 }

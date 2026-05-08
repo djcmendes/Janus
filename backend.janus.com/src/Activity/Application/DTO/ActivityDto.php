@@ -23,9 +23,11 @@ use DateTimeInterface;
  * Constructed exclusively via ActivityDto::fromEntity() to ensure all
  * fields are populated from a hydrated Activity domain object.
  */
-final class ActivityDto
+final readonly class ActivityDto
 {
     /**
+     * Constructor
+     *
      * @param string      $id         UUID of the activity record.
      * @param string      $action     Action type (e.g. 'create', 'update', 'delete').
      * @param string|null $collection Collection the action was performed on, or null.
@@ -36,14 +38,14 @@ final class ActivityDto
      * @param string      $timestamp  ISO 8601 timestamp of when the activity occurred.
      */
     public function __construct(
-        public readonly string  $id,
-        public readonly string  $action,
-        public readonly ?string $collection,
-        public readonly ?string $item,
-        public readonly ?string $userId,
-        public readonly ?string $ip,
-        public readonly ?string $userAgent,
-        public readonly string  $timestamp,
+        public string  $id,
+        public string  $action,
+        public ?string $collection,
+        public ?string $item,
+        public ?string $userId,
+        public ?string $ip,
+        public ?string $userAgent,
+        public string  $timestamp,
     ) {}
 
     /**
@@ -63,7 +65,7 @@ final class ActivityDto
             ip:         $a->getIp(),
             userAgent:  $a->getUserAgent(),
             timestamp:  $a->getTimestamp()
-                          ->format(DateTimeInterface::ATOM),
+                          ->format(format: DateTimeInterface::ATOM),
         );
     }
 

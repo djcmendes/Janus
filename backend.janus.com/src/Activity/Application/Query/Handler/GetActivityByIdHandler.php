@@ -25,7 +25,7 @@ use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 final class GetActivityByIdHandler
 {
     /**
-     * Contructor
+     * Constructor
      *
      * @param ActivityRepositoryInterface $repository Repository used to load Activity entities.
      */
@@ -36,19 +36,19 @@ final class GetActivityByIdHandler
     /**
      * Loads the Activity record for the given UUID and returns it as a DTO.
      *
-     * @param  GetActivityByIdQuery     $query Query carrying the target UUID.
-     * @return ActivityDto               Serialisable representation of the found record.
+     * @param  GetActivityByIdQuery $query Query carrying the target UUID.
+     * @return ActivityDto          Serialisable representation of the found record.
      *
      * @throws ActivityNotFoundException When no Activity exists for the given UUID.
      */
     public function handle(GetActivityByIdQuery $query): ActivityDto
     {
-        $activity = $this->repository->findById($query->id);
+        $activity = $this->repository->findById(id: $query->id);
 
         if ($activity === null) {
-            throw new ActivityNotFoundException($query->id);
+            throw new ActivityNotFoundException(id: $query->id);
         }
 
-        return ActivityDto::fromEntity($activity);
+        return ActivityDto::fromEntity(a: $activity);
     }
 }

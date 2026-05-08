@@ -29,7 +29,7 @@ final class ActivityLoggerBaseTest extends ActivityLoggerTest
      */
     public function testIsInstantiable(): void
     {
-        $this->assertInstanceOf(ActivityLogger::class, $this->class);
+        $this->assertInstanceOf(expected: ActivityLogger::class, actual: $this->class);
     }
 
     /**
@@ -37,11 +37,11 @@ final class ActivityLoggerBaseTest extends ActivityLoggerTest
      */
     public function testConstructorStoresRepository(): void
     {
-        $property = $this->reflection->getProperty('repository');
-        $property->setAccessible(true);
+        $property = $this->reflection->getProperty(name: 'repository');
+        $property->setAccessible(accessible: true);
 
-        $this->assertInstanceOf(ActivityRepositoryInterface::class, $property->getValue($this->class));
-        $this->assertSame($this->repository, $property->getValue($this->class));
+        $this->assertInstanceOf(expected: ActivityRepositoryInterface::class, actual: $property->getValue(object: $this->class));
+        $this->assertSame(expected: $this->repository, actual: $property->getValue(object: $this->class));
     }
 
     /**
@@ -49,10 +49,10 @@ final class ActivityLoggerBaseTest extends ActivityLoggerTest
      */
     public function testConstructorStoresRequestStack(): void
     {
-        $property = $this->reflection->getProperty('requestStack');
-        $property->setAccessible(true);
+        $property = $this->reflection->getProperty(name: 'requestStack');
+        $property->setAccessible(accessible: true);
 
-        $this->assertInstanceOf(RequestStack::class, $property->getValue($this->class));
-        $this->assertSame($this->requestStack, $property->getValue($this->class));
+        $this->assertInstanceOf(expected: RequestStack::class, actual: $property->getValue(object: $this->class));
+        $this->assertSame(expected: $this->requestStack, actual: $property->getValue(object: $this->class));
     }
 }

@@ -20,29 +20,48 @@ use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
 /**
- * Abstract base for ActivityDto tests.
- *
- * Strategy: ActivityDto is a final class with no injectable dependencies.
- * Tests instantiate real Activity domain entities directly and pass them to
- * ActivityDto::fromEntity() to produce the SUT — no mocks are required.
+ * This class contains common setup routines, providers
+ * and shared attributes for testing the ActivityDto class.
  */
 #[CoversClass(ActivityDto::class)]
 abstract class ActivityDtoTest extends TestCase
 {
+    /**
+     * The DTO instance under test, built from a real Activity entity.
+     * @var ActivityDto
+     */
     protected ActivityDto $class;
 
-    /** @var ReflectionClass<ActivityDto> */
+    /**
+     * Reflection of ActivityDto class
+     * @var ReflectionClass<ActivityDto>
+     */
     protected ReflectionClass $reflection;
 
+    /**
+     * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
+     *
+     * @return void
+     */
     protected function setUp(): void
     {
-        $this->class      = ActivityDto::fromEntity($this->makeActivity());
-        $this->reflection = new ReflectionClass(ActivityDto::class);
+        $this->class      = ActivityDto::fromEntity(a: $this->makeActivity());
+        $this->reflection = new ReflectionClass(objectOrClass: ActivityDto::class);
     }
 
+    /**
+     * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
+     *
+     * @return void
+     */
     protected function tearDown(): void
     {
-        unset($this->class, $this->reflection);
+        unset(
+            $this->class,
+            $this->reflection
+        );
     }
 
     /**
@@ -52,10 +71,10 @@ abstract class ActivityDtoTest extends TestCase
      */
     protected function makeActivity(): Activity
     {
-        $activity = new Activity('create', 'posts', '42');
-        $activity->setUserId('bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp('127.0.0.1');
-        $activity->setUserAgent('PHPUnit');
+        $activity = new Activity(action: 'create', collection: 'posts', item: '42');
+        $activity->setUserId(v: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(v: '127.0.0.1');
+        $activity->setUserAgent(v: 'PHPUnit');
 
         return $activity;
     }

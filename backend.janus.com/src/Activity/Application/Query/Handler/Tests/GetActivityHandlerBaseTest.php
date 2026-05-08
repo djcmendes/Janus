@@ -28,10 +28,10 @@ final class GetActivityHandlerBaseTest extends GetActivityHandlerTest
      */
     public function testConstructorStoresRepository(): void
     {
-        $property = $this->reflection->getProperty('repository');
-        $property->setAccessible(true);
+        $property = $this->reflection->getProperty(name: 'repository');
+        $property->setAccessible(accessible: true);
 
-        $this->assertSame($this->repository, $property->getValue($this->class));
+        $this->assertSame(expected: $this->repository, actual: $property->getValue(object: $this->class));
     }
 
     /**
@@ -39,17 +39,18 @@ final class GetActivityHandlerBaseTest extends GetActivityHandlerTest
      */
     public function testIsInstantiable(): void
     {
-        $this->assertInstanceOf(GetActivityHandler::class, $this->class);
+        $this->assertInstanceOf(expected: GetActivityHandler::class, actual: $this->class);
     }
 
     /**
      * Test that the stored repository implements ActivityRepositoryInterface.
+     * @throws \ReflectionException
      */
     public function testRepositoryIsActivityRepositoryInterface(): void
     {
-        $property = $this->reflection->getProperty('repository');
-        $property->setAccessible(true);
+        $property = $this->reflection->getProperty(name: 'repository');
+        $property->setAccessible(accessible: true);
 
-        $this->assertInstanceOf(ActivityRepositoryInterface::class, $property->getValue($this->class));
+        $this->assertInstanceOf(expected: ActivityRepositoryInterface::class, actual: $property->getValue(object: $this->class));
     }
 }

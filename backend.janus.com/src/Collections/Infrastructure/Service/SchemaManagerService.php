@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file SchemaManagerService.php
+ *
+ * Infrastructure service executing DDL statements for user-defined collection tables.
+ *
+ * @package App\Collections\Infrastructure\Service
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Collections\Infrastructure\Service;

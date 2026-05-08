@@ -13,12 +13,16 @@ declare(strict_types=1);
 
 namespace App\Activity\Domain\Exception;
 
+use RuntimeException;
+
 /**
  * Thrown by query handlers when an Activity lookup by UUID returns no result.
  */
-final class ActivityNotFoundException extends \RuntimeException
+final class ActivityNotFoundException extends RuntimeException
 {
     /**
+     * Constructor
+     *
      * @param string $id The UUID that was looked up and not found, included in the exception message.
      */
     public function __construct(string $id)
