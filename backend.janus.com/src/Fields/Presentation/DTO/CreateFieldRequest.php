@@ -1,13 +1,41 @@
 <?php
 
+/**
+ * @file CreateFieldRequest.php
+ *
+ * Presentation-layer request DTO for the POST /fields/{collection} endpoint.
+ * Validates and normalises the incoming JSON body before it reaches the application layer.
+ *
+ * @package App\Fields\Presentation\DTO
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Fields\Presentation\DTO;
 
 use App\Fields\Domain\Enum\FieldType;
 
+/**
+ * Parsed and validated payload for the create-field endpoint.
+ *
+ * Created via the static fromArray() factory which performs all validation and throws
+ * \InvalidArgumentException on any constraint violation.
+ */
 final class CreateFieldRequest
 {
+    /**
+     * @param string                   $field     Column name (validated format).
+     * @param string                   $type      FieldType backing value (validated enum).
+     * @param string|null              $label     Optional display label.
+     * @param string|null              $note      Optional descriptive note.
+     * @param bool                     $required  Required flag (default: false).
+     * @param bool                     $readonly  Read-only flag (default: false).
+     * @param bool                     $hidden    Hidden flag (default: false).
+     * @param int                      $sortOrder Display order (default: 0).
+     * @param string|null              $interface Admin UI component identifier.
+     * @param array<string,mixed>|null $options   Admin UI component options.
+     */
     public function __construct(
         public readonly string  $field,
         public readonly string  $type,
@@ -21,7 +49,14 @@ final class CreateFieldRequest
         public readonly ?array  $options   = null,
     ) {}
 
-    /** @throws \InvalidArgumentException */
+    /**
+     * Parses and validates a raw JSON-decoded body array into a CreateFieldRequest.
+     *
+     * @param  array<string, mixed> $data Decoded request body.
+     * @return self                        Validated request DTO.
+     *
+     * @throws \InvalidArgumentException When required fields are missing or values are invalid.
+     */
     public static function fromArray(array $data): self
     {
         if (empty($data['field'])) {

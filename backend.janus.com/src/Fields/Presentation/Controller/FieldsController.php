@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @file FieldsController.php
+ *
+ * Thin HTTP presentation layer for the /fields endpoint group.
+ * Delegates all business logic to CQRS handlers injected via constructor.
+ *
+ * @package App\Fields\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Fields\Presentation\Controller;
@@ -31,9 +41,24 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * HTTP controller for the /fields endpoint group.
+ *
+ * Read endpoints (list, listByCollection, get) are accessible to all authenticated clients.
+ * Write endpoints (create, patch, delete) require ROLE_ADMIN.
+ */
 #[Route('/fields', name: 'fields_')]
 final class FieldsController extends AbstractController
 {
+    /**
+     * @param RequestGuard                       $guard                              Authentication and authorization guard.
+     * @param GetFieldsHandler                   $getFieldsHandler                   Handler for global paginated list.
+     * @param GetFieldsByCollectionHandler       $getFieldsByCollectionHandler       Handler for collection-scoped list.
+     * @param GetFieldByCollectionAndNameHandler $getFieldByCollectionAndNameHandler Handler for single-field lookup.
+     * @param CreateFieldHandler                 $createFieldHandler                 Handler for field creation.
+     * @param UpdateFieldHandler                 $updateFieldHandler                 Handler for partial field updates.
+     * @param DeleteFieldHandler                 $deleteFieldHandler                 Handler for field deletion.
+     */
     public function __construct(
         private readonly RequestGuard                       $guard,
         private readonly GetFieldsHandler                  $getFieldsHandler,
@@ -44,7 +69,15 @@ final class FieldsController extends AbstractController
         private readonly DeleteFieldHandler                $deleteFieldHandler,
     ) {}
 
-    /** GET /fields */
+    /**
+     * GET /fields
+     *
+     * Returns a paginated list of all field metadata records across all collections.
+     *
+     * @param Request $request HTTP request (query params: limit, offset).
+     *
+     * @return JsonResponse 200 with data[] and meta envelope.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
@@ -62,7 +95,15 @@ final class FieldsController extends AbstractController
         ]);
     }
 
-    /** GET /fields/:collection */
+    /**
+     * GET /fields/{collection}
+     *
+     * Returns all fields belonging to the specified collection.
+     *
+     * @param string $collection Collection name.
+     *
+     * @return JsonResponse 200 with data[] and meta envelope.
+     */
     #[Route('/{collection}', name: 'list_by_collection', methods: ['GET'], priority: -1)]
     public function listByCollection(string $collection): JsonResponse
     {
@@ -77,7 +118,16 @@ final class FieldsController extends AbstractController
         ]);
     }
 
-    /** GET /fields/:collection/:field */
+    /**
+     * GET /fields/{collection}/{field}
+     *
+     * Returns a single field identified by collection and column name.
+     *
+     * @param string $collection Collection name.
+     * @param string $field      Column name.
+     *
+     * @return JsonResponse 200 with data object, or 404 NOT_FOUND.
+     */
     #[Route('/{collection}/{field}', name: 'get', methods: ['GET'], priority: -2)]
     public function get(string $collection, string $field): JsonResponse
     {
@@ -95,7 +145,16 @@ final class FieldsController extends AbstractController
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** POST /fields/:collection */
+    /**
+     * POST /fields/{collection}
+     *
+     * Creates a new field in the specified collection. Requires ROLE_ADMIN.
+     *
+     * @param string  $collection Collection name.
+     * @param Request $request    HTTP request with JSON body.
+     *
+     * @return JsonResponse 201 with data object, or 404/409/422 on error.
+     */
     #[Route('/{collection}', name: 'create', methods: ['POST'], priority: -1)]
     public function create(string $collection, Request $request): JsonResponse
     {
@@ -134,7 +193,17 @@ final class FieldsController extends AbstractController
         return $this->json(['data' => $dto->toArray()], Response::HTTP_CREATED);
     }
 
-    /** PATCH /fields/:collection/:field */
+    /**
+     * PATCH /fields/{collection}/{field}
+     *
+     * Partially updates a field record. Requires ROLE_ADMIN.
+     *
+     * @param string  $collection Collection name.
+     * @param string  $field      Column name.
+     * @param Request $request    HTTP request with JSON body.
+     *
+     * @return JsonResponse 200 with data object, or 404 NOT_FOUND.
+     */
     #[Route('/{collection}/{field}', name: 'patch', methods: ['PATCH'], priority: -2)]
     public function patch(string $collection, string $field, Request $request): JsonResponse
     {
@@ -164,7 +233,16 @@ final class FieldsController extends AbstractController
         return $this->json(['data' => $dto->toArray()]);
     }
 
-    /** DELETE /fields/:collection/:field */
+    /**
+     * DELETE /fields/{collection}/{field}
+     *
+     * Removes a field record and drops its database column. Requires ROLE_ADMIN.
+     *
+     * @param string $collection Collection name.
+     * @param string $field      Column name.
+     *
+     * @return JsonResponse 204 No Content on success, or 404/422 on error.
+     */
     #[Route('/{collection}/{field}', name: 'delete', methods: ['DELETE'], priority: -2)]
     public function delete(string $collection, string $field): JsonResponse
     {
@@ -183,16 +261,35 @@ final class FieldsController extends AbstractController
         return new JsonResponse(null, Response::HTTP_NO_CONTENT);
     }
 
+    /**
+     * Builds a standard NOT_FOUND error envelope.
+     *
+     * @param  string               $message Human-readable error message.
+     * @return array<string, mixed> Error envelope array.
+     */
     private function notFound(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'NOT_FOUND']]]];
     }
 
+    /**
+     * Builds a standard VALIDATION_ERROR error envelope.
+     *
+     * @param  string               $message Human-readable validation message.
+     * @return array<string, mixed> Error envelope array.
+     */
     private function validationError(string $message): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => 'VALIDATION_ERROR']]]];
     }
 
+    /**
+     * Builds a generic error envelope with a custom error code.
+     *
+     * @param  string               $message Human-readable error message.
+     * @param  string               $code    Application-level error code.
+     * @return array<string, mixed> Error envelope array.
+     */
     private function error(string $message, string $code): array
     {
         return ['errors' => [['message' => $message, 'extensions' => ['code' => $code]]]];

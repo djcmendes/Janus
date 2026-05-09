@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @file DeploymentsController.php
+ *
+ * HTTP controller for the Deployments resource. Thin presentation layer — delegates
+ * all business logic to Application-layer handlers.
+ *
+ * @package App\Deployments\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Deployments\Presentation\Controller;
@@ -27,14 +37,31 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * REST controller for the /deployments resource.
+ *
+ * All actions are restricted to ROLE_ADMIN. The `list`, `get`, `create`, and `delete`
+ * actions manage DeploymentProvider records; the `run` action triggers a Deployment run
+ * against a specified provider.
+ */
 #[Route('/deployments', name: 'deployments_')]
 final class DeploymentsController extends AbstractController
 {
+    /**
+     * @param RequestGuard $guard Authentication and client-type enforcement.
+     */
     public function __construct(
-        private readonly RequestGuard        $guard,
+        private readonly RequestGuard $guard,
     ) {}
 
-    /** GET /deployments */
+    /**
+     * Returns a paginated list of deployment providers.
+     *
+     * @param Request              $request HTTP request carrying pagination params.
+     * @param GetDeploymentsHandler $handler Retrieves the paginated result set.
+     *
+     * @return JsonResponse Paginated array under "data" with "meta" counts.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetDeploymentsHandler $handler): JsonResponse
     {
@@ -53,7 +80,14 @@ final class DeploymentsController extends AbstractController
         ]);
     }
 
-    /** GET /deployments/:id */
+    /**
+     * Returns a single deployment provider by UUID.
+     *
+     * @param string                   $id      UUID path parameter.
+     * @param GetDeploymentByIdHandler $handler Retrieves the provider DTO.
+     *
+     * @return JsonResponse Provider DTO under "data", or 404 error envelope.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetDeploymentByIdHandler $handler): JsonResponse
     {
@@ -73,7 +107,14 @@ final class DeploymentsController extends AbstractController
         return $this->json(['data' => $dto]);
     }
 
-    /** POST /deployments */
+    /**
+     * Creates a new deployment provider.
+     *
+     * @param Request                $request HTTP request carrying the JSON body.
+     * @param CreateDeploymentHandler $handler Creates and persists the provider.
+     *
+     * @return JsonResponse Created provider DTO under "data" (HTTP 201), or error envelope.
+     */
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateDeploymentHandler $handler): JsonResponse
     {
@@ -81,13 +122,12 @@ final class DeploymentsController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        /** @var CreateDeploymentRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), CreateDeploymentRequest::class, 'json');
-
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        try {
+            $body = json_decode($request->getContent(), true) ?? [];
+            $dto  = CreateDeploymentRequest::fromArray($body);
+        } catch (\InvalidArgumentException $e) {
             return $this->json(
-                ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
+                ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
                 Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
@@ -103,7 +143,14 @@ final class DeploymentsController extends AbstractController
         return $this->json(['data' => $result], Response::HTTP_CREATED);
     }
 
-    /** DELETE /deployments/:id */
+    /**
+     * Deletes a deployment provider by UUID.
+     *
+     * @param string                  $id      UUID path parameter.
+     * @param DeleteDeploymentHandler $handler Removes the provider from persistence.
+     *
+     * @return Response HTTP 204 No Content on success, or 404 error envelope.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteDeploymentHandler $handler): Response
     {
@@ -123,7 +170,14 @@ final class DeploymentsController extends AbstractController
         return new Response(null, Response::HTTP_NO_CONTENT);
     }
 
-    /** POST /deployments/:id/run */
+    /**
+     * Triggers a deployment run against the specified provider.
+     *
+     * @param string                   $id      UUID of the DeploymentProvider to trigger.
+     * @param TriggerDeploymentHandler $handler Executes the build hook and records the run.
+     *
+     * @return JsonResponse Run record DTO under "data" (HTTP 201), or error envelope.
+     */
     #[Route('/{id}/run', name: 'run', methods: ['POST'], priority: 20)]
     public function run(string $id, TriggerDeploymentHandler $handler): JsonResponse
     {

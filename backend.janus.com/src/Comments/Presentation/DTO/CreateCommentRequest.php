@@ -1,9 +1,21 @@
 <?php
 
+/**
+ * @file CreateCommentRequest.php
+ *
+ * Presentation-layer DTO for parsing and validating comment creation request bodies.
+ *
+ * @package App\Comments\Presentation\DTO
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Comments\Presentation\DTO;
 
+/**
+ * Parses and validates the JSON body of a POST /comments request.
+ */
 final class CreateCommentRequest
 {
     public function __construct(

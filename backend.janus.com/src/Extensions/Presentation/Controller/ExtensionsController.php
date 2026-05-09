@@ -1,5 +1,15 @@
 <?php
 
+/**
+ * @file ExtensionsController.php
+ *
+ * HTTP controller for the Extensions resource. Thin presentation layer — delegates
+ * all business logic to Application-layer handlers.
+ *
+ * @package App\Extensions\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Extensions\Presentation\Controller;
@@ -14,9 +24,8 @@ use App\Extensions\Application\Query\GetExtensionByIdQuery;
 use App\Extensions\Application\Query\GetExtensionsQuery;
 use App\Extensions\Application\Query\Handler\GetExtensionByIdHandler;
 use App\Extensions\Application\Query\Handler\GetExtensionsHandler;
+use App\Extensions\Domain\Enum\ExtensionType;
 use App\Extensions\Domain\Exception\ExtensionNotFoundException;
-use App\Extensions\Presentation\DTO\RegisterExtensionRequest;
-use App\Extensions\Presentation\DTO\UpdateExtensionRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
@@ -27,14 +36,30 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * REST controller for the /extensions resource.
+ *
+ * GET /extensions and GET /extensions/{id} are accessible to all authenticated users.
+ * POST, PATCH, and DELETE require ROLE_ADMIN.
+ */
 #[Route('/extensions', name: 'extensions_')]
 final class ExtensionsController extends AbstractController
 {
+    /**
+     * @param RequestGuard $guard Authentication and client-type enforcement.
+     */
     public function __construct(
-        private readonly RequestGuard        $guard,
+        private readonly RequestGuard $guard,
     ) {}
 
-    /** GET /extensions — authenticated users can browse the registry */
+    /**
+     * Returns a paginated list of extensions. Accessible to all authenticated users.
+     *
+     * @param Request             $request HTTP request carrying pagination and filter params.
+     * @param GetExtensionsHandler $handler Retrieves the paginated result set.
+     *
+     * @return JsonResponse Paginated array under "data" with "meta" counts.
+     */
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetExtensionsHandler $handler): JsonResponse
     {
@@ -61,7 +86,14 @@ final class ExtensionsController extends AbstractController
         ]);
     }
 
-    /** GET /extensions/:id */
+    /**
+     * Returns a single extension by UUID. Accessible to all authenticated users.
+     *
+     * @param string                  $id      UUID path parameter.
+     * @param GetExtensionByIdHandler $handler Retrieves the extension DTO.
+     *
+     * @return JsonResponse Extension DTO under "data", or 404 error envelope.
+     */
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetExtensionByIdHandler $handler): JsonResponse
     {
@@ -80,7 +112,14 @@ final class ExtensionsController extends AbstractController
         return $this->json(['data' => $dto]);
     }
 
-    /** POST /extensions — admin: register a new extension in the registry */
+    /**
+     * Registers a new extension. Requires ROLE_ADMIN.
+     *
+     * @param Request                  $request HTTP request carrying the JSON body.
+     * @param RegisterExtensionHandler $handler Creates and persists the extension.
+     *
+     * @return JsonResponse Created extension DTO under "data" (HTTP 201), or error envelope.
+     */
     #[Route('', name: 'register', methods: ['POST'])]
     public function register(Request $request, RegisterExtensionHandler $handler): JsonResponse
     {
@@ -88,30 +127,47 @@ final class ExtensionsController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        /** @var RegisterExtensionRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), RegisterExtensionRequest::class, 'json');
+        $body = json_decode($request->getContent(), true) ?? [];
 
-        $errors = $this->validator->validate($dto);
-        if (count($errors) > 0) {
+        $name    = trim((string) ($body['name'] ?? ''));
+        $type    = trim((string) ($body['type'] ?? ''));
+        $version = trim((string) ($body['version'] ?? ''));
+
+        if ($name === '' || $version === '') {
             return $this->json(
-                ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
+                ['errors' => [['message' => 'name and version are required.', 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
+                Response::HTTP_UNPROCESSABLE_ENTITY,
+            );
+        }
+
+        if (ExtensionType::tryFrom($type) === null) {
+            return $this->json(
+                ['errors' => [['message' => "Invalid extension type '{$type}'.", 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
                 Response::HTTP_UNPROCESSABLE_ENTITY,
             );
         }
 
         $result = $handler->handle(new RegisterExtensionCommand(
-            $dto->name,
-            $dto->type,
-            $dto->version,
-            $dto->enabled,
-            $dto->description,
-            $dto->meta,
+            name:        $name,
+            type:        $type,
+            version:     $version,
+            enabled:     (bool) ($body['enabled'] ?? false),
+            description: isset($body['description']) ? (string) $body['description'] : null,
+            meta:        isset($body['meta']) && is_array($body['meta']) ? $body['meta'] : null,
         ));
 
         return $this->json(['data' => $result], Response::HTTP_CREATED);
     }
 
-    /** PATCH /extensions/:id — admin: update enabled flag, version, meta */
+    /**
+     * Partially updates an existing extension. Requires ROLE_ADMIN.
+     *
+     * @param string                  $id      UUID path parameter.
+     * @param Request                 $request HTTP request carrying the JSON body.
+     * @param UpdateExtensionHandler  $handler Applies the partial update.
+     *
+     * @return JsonResponse Updated extension DTO under "data", or error envelope.
+     */
     #[Route('/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request, UpdateExtensionHandler $handler): JsonResponse
     {
@@ -119,16 +175,13 @@ final class ExtensionsController extends AbstractController
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
-        /** @var UpdateExtensionRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), UpdateExtensionRequest::class, 'json');
+        $body    = json_decode($request->getContent(), true) ?? [];
+        $enabled = array_key_exists('enabled', $body) ? (bool) $body['enabled'] : UpdateExtensionCommand::UNCHANGED;
+        $version = array_key_exists('version', $body) ? (string) $body['version'] : UpdateExtensionCommand::UNCHANGED;
+        $meta    = array_key_exists('meta', $body) ? $body['meta'] : UpdateExtensionCommand::UNCHANGED;
 
         try {
-            $result = $handler->handle(new UpdateExtensionCommand(
-                $id,
-                $dto->enabled,
-                $dto->version,
-                $dto->meta,
-            ));
+            $result = $handler->handle(new UpdateExtensionCommand($id, $enabled, $version, $meta));
         } catch (ExtensionNotFoundException $e) {
             return $this->json(
                 ['errors' => [['message' => $e->getMessage(), 'extensions' => ['code' => 'NOT_FOUND']]]],
@@ -139,7 +192,14 @@ final class ExtensionsController extends AbstractController
         return $this->json(['data' => $result]);
     }
 
-    /** DELETE /extensions/:id — admin: remove extension from registry */
+    /**
+     * Deletes an extension by UUID. Requires ROLE_ADMIN.
+     *
+     * @param string                  $id      UUID path parameter.
+     * @param DeleteExtensionHandler  $handler Removes the extension from persistence.
+     *
+     * @return Response HTTP 204 No Content on success, or 404 error envelope.
+     */
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, DeleteExtensionHandler $handler): Response
     {
