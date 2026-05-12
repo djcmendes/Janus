@@ -88,9 +88,9 @@ final class VersionsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         /** @var SaveVersionRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), SaveVersionRequest::class, 'json');
+        $dto = $this->container->get('serializer')->deserialize($request->getContent(), SaveVersionRequest::class, 'json');
 
-        $errors = $this->validator->validate($dto);
+        $errors = $this->container->get('validator')->validate($dto);
         if (count($errors) > 0) {
             return $this->json(
                 ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
@@ -128,7 +128,7 @@ final class VersionsController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         /** @var UpdateVersionRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), UpdateVersionRequest::class, 'json');
+        $dto = $this->container->get('serializer')->deserialize($request->getContent(), UpdateVersionRequest::class, 'json');
 
         try {
             $result = $handler->handle(new UpdateVersionCommand($id, $dto->key, $dto->delta));
