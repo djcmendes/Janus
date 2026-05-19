@@ -1,0 +1,26 @@
+grumphp:
+    stop_on_failure: false
+    hide_circumvention_tip: false
+
+    tasks:
+
+        # ── Validate composer.json / lock file ────────────────────────────
+        composer:
+            file: ./composer.json
+            no_check_publish: true
+            no_check_lock: false
+            no_local_repository: false
+            no_check_all: false
+            with_dependencies: false
+
+        # ── All PHP quality checks via shell ──────────────────────────────
+        # GrumPHP v2.x removed built-in PHP tool tasks; shell is the
+        # reliable way to run them. Each script is a separate process;
+        # any non-zero exit blocks the commit.
+        shell:
+            scripts:
+                - "composer run cs-check"
+                - "composer run phpcs"
+                - "composer run phpstan"
+                - "composer run phpmd"
+                - "composer run phparkitect"

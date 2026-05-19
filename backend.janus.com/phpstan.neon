@@ -1,0 +1,42 @@
+includes:
+    - vendor/phpstan/phpstan-symfony/extension.neon
+    - vendor/phpstan/phpstan-doctrine/extension.neon
+
+parameters:
+
+    level: 9
+
+    paths:
+        - src/
+
+    excludePaths:
+        analyse:
+            - src/*/Infrastructure/Persistence/Migrations/*
+            - var/
+            - necrocon/
+
+    # ── Symfony extension ─────────────────────────────────────────────────
+    # Uncomment containerXmlPath after running `php bin/console cache:warmup --env=dev`
+    # to unlock container-aware service injection analysis locally.
+    #
+    # symfony:
+    #     containerXmlPath: var/cache/dev/App_KernelDevDebugContainer.xml
+    #     consoleApplicationLoader: tests/console-application.php
+
+    # ── Doctrine extension ────────────────────────────────────────────────
+    # Uncomment objectManagerLoader after creating tests/object-manager.php
+    # to enable entity mapping validation.
+    #
+    # doctrine:
+    #     objectManagerLoader: tests/object-manager.php
+
+    # ── Errors to ignore ──────────────────────────────────────────────────
+    ignoreErrors:
+        - '#named argument#'
+        -
+            message: '#Cannot unset property .+ because it might have hooks#'
+            path: src/*/Tests/*
+
+    # ── Parallel processing ────────────────────────────────────────────────
+    parallel:
+        maximumNumberOfProcesses: 4
