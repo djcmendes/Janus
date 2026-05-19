@@ -82,9 +82,9 @@ use App\Heimdall\Domain\Service\RequestGuard;
 public function __construct(private readonly RequestGuard $guard) {}
 
 // In action:
-$this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+$this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
 $this->guard->authorize(Client::WEB, Client::IOS);
-$userId = $this->guard->validate_authenticated_user_id();
+$userId = $this->guard->validateAuthenticatedUserId();
 ```
 
 ### Standard JSON Envelope
@@ -234,7 +234,7 @@ backend.janus.com/
       Domain/Enum/ApiVersion.php        ← V100, V200
       Domain/Enum/Client.php            ← ANDROID | IOS | WEB | CLI
       Domain/Exception/UnauthorizedException.php
-      Domain/Service/RequestGuard.php   ← validate_webservice_request(), authorize(), validate_authenticated_user_id()
+      Domain/Service/RequestGuard.php   ← validateWebserviceRequest(), authorize(), validateAuthenticatedUserId()
       Infrastructure/JWT/JwtService.php ← issueAccessToken(), decode()
       Application/DTO/AuthDto.php
       Presentation/Controller/AuthController.php

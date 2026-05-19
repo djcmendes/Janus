@@ -35,7 +35,7 @@ The `examples/` folder is a local clone of the Directus monorepo used as **refer
 - [x] `Domain/Enum/ApiVersion.php` — Version constants
 - [x] `Domain/Enum/Client.php` — `ANDROID`, `IOS`, `WEB`
 - [x] `Domain/Exception/UnauthorizedException.php`
-- [x] `Domain/Service/RequestGuard.php` — `validate_webservice_request()`, `authorize()`, `validate_authenticated_user_id()`
+- [x] `Domain/Service/RequestGuard.php` — `validateWebserviceRequest()`, `authorize()`, `validateAuthenticatedUserId()`
 - [x] `Infrastructure/JWT/JwtService.php` — Issue, validate, refresh tokens
 - [x] `Application/DTO/AuthDto.php`
 - [x] `Presentation/Controller/AuthController.php`

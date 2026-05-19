@@ -64,18 +64,18 @@ If you want to feed this architecture into an LLM (like Gemini) to bootstrap par
 
       where we then can use in our own way things like:
       
-          $this->guard->validate_webservice_request(static::API_VERSION_GET, ApiScope::LOCAL);
+          $this->guard->validateWebserviceRequest(static::API_VERSION_GET, ApiScope::LOCAL);
           $this->guard->authorize(Client::ANDROID, Client::IOS, Client::VEI);
 
           also
 
-        $this->guard->validate_webservice_request(static::API_VERSION_PATCH, ApiScope::LOCAL);
+        $this->guard->validateWebserviceRequest(static::API_VERSION_PATCH, ApiScope::LOCAL);
         $this->guard->authorize(Client::ANDROID, Client::IOS);
 
-        $user_id = $this->guard->validate_user_id();
+        $user_id = $this->guard->validateUserId();
         if ($this->request->api_version < ApiVersion::JANUS_150)
         {
-            $user_id = $this->guard->validate_authenticated_user_id();
+            $user_id = $this->guard->validateAuthenticatedUserId();
         }
 
         some reference links : 
