@@ -49,7 +49,7 @@ final class CommentsControllerGetTest extends CommentsControllerTest
         $this->readRepository->method('findById')->willReturn($this->makeComment());
 
         $response = $this->class->get(self::LOOKUP_UUID, $this->getCommentByIdHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('id', $body['data']);
@@ -77,7 +77,7 @@ final class CommentsControllerGetTest extends CommentsControllerTest
         $this->readRepository->method('findById')->willReturn(null);
 
         $response = $this->class->get('non-existent-id', $this->getCommentByIdHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);

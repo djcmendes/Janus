@@ -49,7 +49,7 @@ final class CommentsControllerListTest extends CommentsControllerTest
         $this->readRepository->method('countAll')->willReturn(0);
 
         $response = $this->class->list(new Request(), $this->getCommentsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
@@ -64,7 +64,7 @@ final class CommentsControllerListTest extends CommentsControllerTest
         $this->readRepository->method('countAll')->willReturn(5);
 
         $response = $this->class->list(new Request(), $this->getCommentsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('total_count', $body['meta']);
         $this->assertArrayHasKey('filter_count', $body['meta']);
@@ -79,7 +79,7 @@ final class CommentsControllerListTest extends CommentsControllerTest
         $this->readRepository->method('countAll')->willReturn(1);
 
         $response = $this->class->list(new Request(), $this->getCommentsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertCount(1, $body['data']);
     }

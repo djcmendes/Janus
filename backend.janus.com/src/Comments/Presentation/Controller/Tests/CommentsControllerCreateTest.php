@@ -55,7 +55,7 @@ final class CommentsControllerCreateTest extends CommentsControllerTest
         );
 
         $response = $this->class->create($request, $this->createCommentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -102,7 +102,7 @@ final class CommentsControllerCreateTest extends CommentsControllerTest
     {
         $request  = new Request(content: json_encode(['collection' => 'posts', 'item' => '42']));
         $response = $this->class->create($request, $this->createCommentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }

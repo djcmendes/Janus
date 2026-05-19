@@ -56,7 +56,7 @@ final class CommentsControllerPatchTest extends CommentsControllerTest
 
         $request  = new Request(content: json_encode(['comment' => 'Updated text']));
         $response = $this->class->patch($comment->getId(), $request, $this->updateCommentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -111,7 +111,7 @@ final class CommentsControllerPatchTest extends CommentsControllerTest
 
         $request  = new Request(content: json_encode(['comment' => 'Hijack']));
         $response = $this->class->patch($comment->getId(), $request, $this->updateCommentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame('FORBIDDEN', $body['errors'][0]['extensions']['code']);
     }

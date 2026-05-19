@@ -80,7 +80,7 @@ final class CommentsControllerDeleteTest extends CommentsControllerTest
         $this->writeRepository->method('findById')->willReturn($comment);
 
         $response = $this->class->delete($comment->getId(), new Request(), $this->deleteCommentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame('FORBIDDEN', $body['errors'][0]['extensions']['code']);
     }
