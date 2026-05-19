@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(UpdateExtensionHandler::class)]
+#[CoversClass(className: UpdateExtensionHandler::class)]
 abstract class UpdateExtensionHandlerTest extends TestCase
 {
     /** @var MockObject&ExtensionRepositoryInterface */

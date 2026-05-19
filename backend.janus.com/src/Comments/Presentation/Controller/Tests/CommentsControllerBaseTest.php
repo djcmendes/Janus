@@ -14,7 +14,7 @@ declare(strict_types=1);
 namespace App\Comments\Presentation\Controller\Tests;
 
 use App\Comments\Presentation\Controller\CommentsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionProperty;
 
@@ -22,7 +22,7 @@ use ReflectionProperty;
  * Verifies that the CommentsController stores each injected dependency
  * in the correct private property after construction.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 final class CommentsControllerBaseTest extends CommentsControllerTest
 {
     /**

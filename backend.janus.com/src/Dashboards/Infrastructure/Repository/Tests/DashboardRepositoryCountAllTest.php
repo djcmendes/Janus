@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies countAll() returns the integer total from the scalar query result.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositoryCountAllTest extends DashboardRepositoryTest
 {
     /**

@@ -17,7 +17,7 @@ use App\Collections\Domain\Exception\CollectionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(CollectionNotFoundException::class)]
+#[CoversClass(className: CollectionNotFoundException::class)]
 final class CollectionNotFoundExceptionTest extends TestCase
 {
     // Happy path ───────────────────────────────────────────────────

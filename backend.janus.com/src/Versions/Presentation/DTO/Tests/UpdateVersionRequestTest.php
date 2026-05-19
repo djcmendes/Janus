@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup and shared instance for all UpdateVersionRequest test suites.
  */
-#[CoversClass(UpdateVersionRequest::class)]
+#[CoversClass(className: UpdateVersionRequest::class)]
 abstract class UpdateVersionRequestTest extends TestCase
 {
     /** @var UpdateVersionRequest */

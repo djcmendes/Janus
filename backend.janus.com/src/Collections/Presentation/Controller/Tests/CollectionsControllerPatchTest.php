@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Covers: 200 updated collection, 404 not found, guard/auth failures,
  * and ROLE_ADMIN enforcement.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 #[CoversMethod(CollectionsController::class, 'patch')]
 final class CollectionsControllerPatchTest extends CollectionsControllerTest
 {

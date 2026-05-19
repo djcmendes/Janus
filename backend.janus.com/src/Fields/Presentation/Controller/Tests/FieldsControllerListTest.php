@@ -9,7 +9,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\Request;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerListTest extends FieldsControllerTest
 {
     public function testListReturns200(): void

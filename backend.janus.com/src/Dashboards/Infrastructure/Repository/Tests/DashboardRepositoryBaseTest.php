@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DashboardRepository implements the domain contract and is correctly constructed.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositoryBaseTest extends DashboardRepositoryTest
 {
     /**

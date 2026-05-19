@@ -7,7 +7,7 @@ namespace App\Extensions\Application\Command\Handler\Tests;
 use App\Extensions\Application\Command\Handler\UpdateExtensionHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(UpdateExtensionHandler::class)]
+#[CoversClass(className: UpdateExtensionHandler::class)]
 final class UpdateExtensionHandlerBaseTest extends UpdateExtensionHandlerTest
 {
     public function testHandlerCanBeInstantiated(): void

@@ -8,7 +8,7 @@ use App\Fields\Application\Command\UpdateFieldCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(UpdateFieldCommand::class)]
+#[CoversClass(className: UpdateFieldCommand::class)]
 final class UpdateFieldCommandTest extends TestCase
 {
     public function testStoresCollection(): void

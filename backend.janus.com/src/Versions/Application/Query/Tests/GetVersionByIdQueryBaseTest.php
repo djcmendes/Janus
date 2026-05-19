@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that GetVersionByIdQuery stores the id as a readonly property.
  */
-#[CoversClass(GetVersionByIdQuery::class)]
+#[CoversClass(className: GetVersionByIdQuery::class)]
 final class GetVersionByIdQueryBaseTest extends GetVersionByIdQueryTest
 {
     public function testIdIsStored(): void

@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Tests for CommentsController::list() — verifying 200 response shape and pagination.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 #[CoversMethod(CommentsController::class, 'list')]
 final class CommentsControllerListTest extends CommentsControllerTest
 {

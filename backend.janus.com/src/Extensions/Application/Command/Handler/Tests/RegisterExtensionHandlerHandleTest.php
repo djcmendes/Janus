@@ -9,7 +9,7 @@ use App\Extensions\Application\Command\RegisterExtensionCommand;
 use App\Extensions\Application\DTO\ExtensionDto;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(RegisterExtensionHandler::class)]
+#[CoversClass(className: RegisterExtensionHandler::class)]
 final class RegisterExtensionHandlerHandleTest extends RegisterExtensionHandlerTest
 {
     public function testHandleCallsSave(): void

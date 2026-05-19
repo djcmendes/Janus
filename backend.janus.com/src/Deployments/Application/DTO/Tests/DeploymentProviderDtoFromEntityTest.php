@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that fromEntity() maps all DeploymentProvider domain entity fields to DTO properties.
  */
-#[CoversClass(DeploymentProviderDto::class)]
+#[CoversClass(className: DeploymentProviderDto::class)]
 final class DeploymentProviderDtoFromEntityTest extends DeploymentProviderDtoTest
 {
     /**

@@ -23,7 +23,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for GetDashboardByIdHandler test suites.
  */
-#[CoversClass(GetDashboardByIdHandler::class)]
+#[CoversClass(className: GetDashboardByIdHandler::class)]
 abstract class GetDashboardByIdHandlerTest extends TestCase
 {
     /**

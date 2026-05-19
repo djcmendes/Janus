@@ -20,14 +20,15 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for Comment::reconstitute() — hydrating an entity from persisted state.
  */
-#[CoversClass(Comment::class)]
+#[CoversClass(className: Comment::class)]
 #[CoversMethod(Comment::class, 'reconstitute')]
 final class CommentReconstituteTest extends CommentTest
 {
-    /** @var string */
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     private const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
-
-    // Happy path ───────────────────────────────────────────────────
 
     /**
      * Test that reconstitute() uses the provided id instead of generating one.

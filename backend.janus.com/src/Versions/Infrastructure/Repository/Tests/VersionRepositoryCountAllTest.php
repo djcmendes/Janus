@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies countAll() returns the correct integer count from the repository.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'countAll')]
 final class VersionRepositoryCountAllTest extends VersionRepositoryTest
 {

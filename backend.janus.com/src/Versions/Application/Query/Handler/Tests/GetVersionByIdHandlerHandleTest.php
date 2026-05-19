@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() returns a VersionDto for found records and throws for missing ones.
  */
-#[CoversClass(GetVersionByIdHandler::class)]
+#[CoversClass(className: GetVersionByIdHandler::class)]
 #[CoversMethod(GetVersionByIdHandler::class, 'handle')]
 final class GetVersionByIdHandlerHandleTest extends GetVersionByIdHandlerTest
 {

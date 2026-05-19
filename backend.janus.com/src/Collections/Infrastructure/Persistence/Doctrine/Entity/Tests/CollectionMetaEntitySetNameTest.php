@@ -17,7 +17,7 @@ use App\Collections\Infrastructure\Persistence\Doctrine\Entity\CollectionMetaEnt
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CollectionMetaEntity::class)]
+#[CoversClass(className: CollectionMetaEntity::class)]
 #[CoversMethod(CollectionMetaEntity::class, 'setName')]
 final class CollectionMetaEntitySetNameTest extends CollectionMetaEntityTest
 {

@@ -8,7 +8,7 @@ use App\Fields\Presentation\DTO\CreateFieldRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(CreateFieldRequest::class)]
+#[CoversClass(className: CreateFieldRequest::class)]
 final class CreateFieldRequestTest extends TestCase
 {
     public function testFromArrayParsesRequiredFields(): void

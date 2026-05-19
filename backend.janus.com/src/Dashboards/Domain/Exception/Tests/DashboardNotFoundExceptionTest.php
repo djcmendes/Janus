@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup and teardown for DashboardNotFoundException test cases.
  */
-#[CoversClass(DashboardNotFoundException::class)]
+#[CoversClass(className: DashboardNotFoundException::class)]
 abstract class DashboardNotFoundExceptionTest extends TestCase
 {
     /** @var DashboardNotFoundException The system under test. */

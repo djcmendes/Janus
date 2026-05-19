@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that setLog() stores a log string and returns fluent self.
  */
-#[CoversClass(Deployment::class)]
+#[CoversClass(className: Deployment::class)]
 final class DeploymentSetLogTest extends DeploymentTest
 {
     /**

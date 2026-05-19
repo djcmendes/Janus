@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that VersionDto is correctly constructed and exposes all readonly properties.
  */
-#[CoversClass(VersionDto::class)]
+#[CoversClass(className: VersionDto::class)]
 final class VersionDtoBaseTest extends VersionDtoTest
 {
     /**

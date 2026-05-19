@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies GetDashboardByIdHandler instantiation.
  */
-#[CoversClass(GetDashboardByIdHandler::class)]
+#[CoversClass(className: GetDashboardByIdHandler::class)]
 final class GetDashboardByIdHandlerBaseTest extends GetDashboardByIdHandlerTest
 {
     /**

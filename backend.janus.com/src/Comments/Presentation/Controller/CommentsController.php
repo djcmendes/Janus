@@ -19,7 +19,7 @@ use App\Comments\Domain\Exception\CommentNotFoundException;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,7 +37,7 @@ final class CommentsController extends AbstractController
     #[Route(path: '', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetCommentsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         $limit      = max(1, (int) ($request->query->get('limit', 25)));
@@ -60,7 +60,7 @@ final class CommentsController extends AbstractController
     #[Route(path: '/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetCommentByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -79,9 +79,9 @@ final class CommentsController extends AbstractController
     #[Route(path: '', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateCommentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
 
         $data       = json_decode($request->getContent(), true) ?? [];
         $comment    = trim($data['comment'] ?? '');
@@ -104,9 +104,9 @@ final class CommentsController extends AbstractController
     #[Route(path: '/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request, UpdateCommentHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId  = $this->guard->validate_authenticated_user_id();
+        $userId  = $this->guard->validateAuthenticatedUserId();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
 
         $data    = json_decode($request->getContent(), true) ?? [];
@@ -140,9 +140,9 @@ final class CommentsController extends AbstractController
     #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, Request $request, DeleteCommentHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId  = $this->guard->validate_authenticated_user_id();
+        $userId  = $this->guard->validateAuthenticatedUserId();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
 
         try {

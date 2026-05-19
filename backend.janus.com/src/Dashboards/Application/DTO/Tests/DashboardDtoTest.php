@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DashboardDto test suites.
  */
-#[CoversClass(DashboardDto::class)]
+#[CoversClass(className: DashboardDto::class)]
 abstract class DashboardDtoTest extends TestCase
 {
     /** @var DashboardDto The system under test. */

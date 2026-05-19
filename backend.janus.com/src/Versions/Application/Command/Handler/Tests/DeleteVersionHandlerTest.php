@@ -24,7 +24,7 @@ use ReflectionClass;
 /**
  * Abstract base for DeleteVersionHandler tests.
  */
-#[CoversClass(DeleteVersionHandler::class)]
+#[CoversClass(className: DeleteVersionHandler::class)]
 abstract class DeleteVersionHandlerTest extends TestCase
 {
     /** @var string */

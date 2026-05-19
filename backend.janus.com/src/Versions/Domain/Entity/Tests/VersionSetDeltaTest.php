@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setDelta() stores the value, handles null, returns static, and sets updatedAt.
  */
-#[CoversClass(Version::class)]
+#[CoversClass(className: Version::class)]
 #[CoversMethod(Version::class, 'setDelta')]
 final class VersionSetDeltaTest extends VersionTest
 {

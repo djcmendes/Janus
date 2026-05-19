@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: GetVersionsQuery is a final value object with no dependencies.
  * Tests instantiate it directly — no mocking required.
  */
-#[CoversClass(GetVersionsQuery::class)]
+#[CoversClass(className: GetVersionsQuery::class)]
 abstract class GetVersionsQueryTest extends TestCase
 {
     /**

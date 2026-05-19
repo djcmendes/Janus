@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that GetVersionsQuery stores all constructor arguments as readonly properties.
  */
-#[CoversClass(GetVersionsQuery::class)]
+#[CoversClass(className: GetVersionsQuery::class)]
 final class GetVersionsQueryBaseTest extends GetVersionsQueryTest
 {
     public function testLimitIsStored(): void

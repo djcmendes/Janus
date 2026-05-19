@@ -26,7 +26,7 @@ use ReflectionClass;
  * Strategy: CreateCommentHandler is final — instantiated as a real object
  * backed by a mocked CommentRepositoryInterface.
  */
-#[CoversClass(CreateCommentHandler::class)]
+#[CoversClass(className: CreateCommentHandler::class)]
 abstract class CreateCommentHandlerTest extends TestCase
 {
     /**

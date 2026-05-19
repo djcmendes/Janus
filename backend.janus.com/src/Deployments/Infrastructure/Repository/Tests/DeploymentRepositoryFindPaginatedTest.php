@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that findPaginated() returns an array of mapped domain entities.
  */
-#[CoversClass(DeploymentRepository::class)]
+#[CoversClass(className: DeploymentRepository::class)]
 final class DeploymentRepositoryFindPaginatedTest extends DeploymentRepositoryTest
 {
     /**

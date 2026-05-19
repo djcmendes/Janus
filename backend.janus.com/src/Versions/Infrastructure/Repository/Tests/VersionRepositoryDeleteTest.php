@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies delete() removes the entity and flushes via the entity manager.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'delete')]
 final class VersionRepositoryDeleteTest extends VersionRepositoryTest
 {

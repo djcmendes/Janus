@@ -10,7 +10,7 @@ use App\Fields\Application\Query\Handler\GetFieldByCollectionAndNameHandler;
 use App\Fields\Domain\Exception\FieldNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetFieldByCollectionAndNameHandler::class)]
+#[CoversClass(className: GetFieldByCollectionAndNameHandler::class)]
 final class GetFieldByCollectionAndNameHandlerHandleTest extends GetFieldByCollectionAndNameHandlerTest
 {
     public function testHandleReturnsDto(): void

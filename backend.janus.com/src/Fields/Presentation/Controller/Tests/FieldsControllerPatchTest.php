@@ -9,7 +9,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerPatchTest extends FieldsControllerTest
 {
     public function testPatchReturns200WhenFound(): void

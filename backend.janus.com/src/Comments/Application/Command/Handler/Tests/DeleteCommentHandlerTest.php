@@ -27,7 +27,7 @@ use ReflectionClass;
  * Strategy: DeleteCommentHandler is final — instantiated as a real object
  * backed by a mocked CommentRepositoryInterface.
  */
-#[CoversClass(DeleteCommentHandler::class)]
+#[CoversClass(className: DeleteCommentHandler::class)]
 abstract class DeleteCommentHandlerTest extends TestCase
 {
     /**

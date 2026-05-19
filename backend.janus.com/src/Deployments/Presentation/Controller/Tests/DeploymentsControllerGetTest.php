@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the get action returns a provider DTO or a 404 error envelope.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 final class DeploymentsControllerGetTest extends DeploymentsControllerTest
 {
     /**

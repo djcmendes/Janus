@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DeleteDeploymentHandler test suites.
  */
-#[CoversClass(DeleteDeploymentHandler::class)]
+#[CoversClass(className: DeleteDeploymentHandler::class)]
 abstract class DeleteDeploymentHandlerTest extends TestCase
 {
     /** @var MockObject&DeploymentProviderRepositoryInterface */

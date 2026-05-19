@@ -20,7 +20,7 @@ use App\Collections\Domain\Exception\CollectionAlreadyExistsException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CreateCollectionHandler::class)]
+#[CoversClass(className: CreateCollectionHandler::class)]
 #[CoversMethod(CreateCollectionHandler::class, 'handle')]
 final class CreateCollectionHandlerHandleTest extends CreateCollectionHandlerTest
 {

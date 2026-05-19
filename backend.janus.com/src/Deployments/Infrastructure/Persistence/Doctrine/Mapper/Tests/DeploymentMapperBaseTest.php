@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentMapper instantiation.
  */
-#[CoversClass(DeploymentMapper::class)]
+#[CoversClass(className: DeploymentMapper::class)]
 final class DeploymentMapperBaseTest extends DeploymentMapperTest
 {
     /**

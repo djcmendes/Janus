@@ -10,7 +10,7 @@ use App\Fields\Application\DTO\FieldDto;
 use App\Fields\Domain\Exception\FieldNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(UpdateFieldHandler::class)]
+#[CoversClass(className: UpdateFieldHandler::class)]
 final class UpdateFieldHandlerHandleTest extends UpdateFieldHandlerTest
 {
     public function testHandleReturnsDto(): void

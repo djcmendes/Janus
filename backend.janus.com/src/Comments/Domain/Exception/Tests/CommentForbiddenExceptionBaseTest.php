@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that CommentForbiddenException is correctly constructed
  * and extends the expected base exception class.
  */
-#[CoversClass(CommentForbiddenException::class)]
+#[CoversClass(className: CommentForbiddenException::class)]
 final class CommentForbiddenExceptionBaseTest extends CommentForbiddenExceptionTest
 {
     // Happy path ───────────────────────────────────────────────────

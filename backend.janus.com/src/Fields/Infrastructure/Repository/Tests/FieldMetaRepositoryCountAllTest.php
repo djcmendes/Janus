@@ -7,7 +7,7 @@ namespace App\Fields\Infrastructure\Repository\Tests;
 use App\Fields\Infrastructure\Repository\FieldMetaRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMetaRepository::class)]
+#[CoversClass(className: FieldMetaRepository::class)]
 final class FieldMetaRepositoryCountAllTest extends FieldMetaRepositoryTest
 {
     public function testCountAllReturnsInt(): void

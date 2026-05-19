@@ -26,7 +26,7 @@ use ReflectionClass;
  *
  * Strategy: GetVersionsHandler is final — it is instantiated with a mocked repository interface.
  */
-#[CoversClass(GetVersionsHandler::class)]
+#[CoversClass(className: GetVersionsHandler::class)]
 abstract class GetVersionsHandlerTest extends TestCase
 {
     /**

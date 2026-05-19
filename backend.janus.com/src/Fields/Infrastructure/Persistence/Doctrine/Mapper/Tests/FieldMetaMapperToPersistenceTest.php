@@ -9,7 +9,7 @@ use App\Fields\Infrastructure\Persistence\Doctrine\Entity\FieldMetaEntity;
 use App\Fields\Infrastructure\Persistence\Doctrine\Mapper\FieldMetaMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMetaMapper::class)]
+#[CoversClass(className: FieldMetaMapper::class)]
 final class FieldMetaMapperToPersistenceTest extends FieldMetaMapperTest
 {
     public function testToPersistenceReturnsEntity(): void

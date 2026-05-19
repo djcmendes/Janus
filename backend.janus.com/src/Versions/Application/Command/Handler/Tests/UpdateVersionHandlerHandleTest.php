@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() applies partial updates and throws for missing versions.
  */
-#[CoversClass(UpdateVersionHandler::class)]
+#[CoversClass(className: UpdateVersionHandler::class)]
 #[CoversMethod(UpdateVersionHandler::class, 'handle')]
 final class UpdateVersionHandlerHandleTest extends UpdateVersionHandlerTest
 {

@@ -9,7 +9,7 @@ use App\Fields\Presentation\DTO\UpdateFieldRequest;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(UpdateFieldRequest::class)]
+#[CoversClass(className: UpdateFieldRequest::class)]
 final class UpdateFieldRequestTest extends TestCase
 {
     public function testFromArrayWithEmptyDataSetsUnchangedSentinels(): void

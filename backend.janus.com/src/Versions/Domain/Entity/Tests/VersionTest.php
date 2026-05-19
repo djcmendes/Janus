@@ -25,7 +25,7 @@ use ReflectionClass;
  * Strategy: Version is a final class with no injectable dependencies.
  * Tests instantiate it directly — no mocking is required.
  */
-#[CoversClass(Version::class)]
+#[CoversClass(className: Version::class)]
 abstract class VersionTest extends TestCase
 {
     /**

@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Tests for CommentsController::create() — verifying 201/422 responses.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 #[CoversMethod(CommentsController::class, 'create')]
 final class CommentsControllerCreateTest extends CommentsControllerTest
 {

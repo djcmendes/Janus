@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies setNote() updates the descriptive note and refreshes the updatedAt timestamp.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardSetNoteTest extends DashboardTest
 {
     /**

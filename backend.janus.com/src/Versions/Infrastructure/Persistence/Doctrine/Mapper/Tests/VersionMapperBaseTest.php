@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that VersionMapper can be instantiated without dependencies.
  */
-#[CoversClass(VersionMapper::class)]
+#[CoversClass(className: VersionMapper::class)]
 final class VersionMapperBaseTest extends VersionMapperTest
 {
     public function testIsInstanceOfVersionMapper(): void

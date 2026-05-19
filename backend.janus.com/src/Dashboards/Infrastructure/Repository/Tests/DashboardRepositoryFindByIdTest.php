@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies findById() maps a found DashboardEntity to a domain Dashboard and returns null when absent.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositoryFindByIdTest extends DashboardRepositoryTest
 {
     /**

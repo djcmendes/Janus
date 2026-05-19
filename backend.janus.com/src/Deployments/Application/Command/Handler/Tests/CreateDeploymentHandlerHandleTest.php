@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that handle() persists a provider and returns its DTO.
  */
-#[CoversClass(CreateDeploymentHandler::class)]
+#[CoversClass(className: CreateDeploymentHandler::class)]
 final class CreateDeploymentHandlerHandleTest extends CreateDeploymentHandlerTest
 {
     /**

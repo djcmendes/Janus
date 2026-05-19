@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies delete() removes a Dashboard when the entity is found by its ID.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositoryDeleteTest extends DashboardRepositoryTest
 {
     /**

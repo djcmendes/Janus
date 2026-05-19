@@ -19,7 +19,7 @@ use App\Collections\Application\Query\Handler\GetCollectionsHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(GetCollectionsHandler::class)]
+#[CoversClass(className: GetCollectionsHandler::class)]
 #[CoversMethod(GetCollectionsHandler::class, 'handle')]
 final class GetCollectionsHandlerHandleTest extends GetCollectionsHandlerTest
 {

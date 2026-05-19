@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that SaveVersionHandler can be constructed with a repository.
  */
-#[CoversClass(SaveVersionHandler::class)]
+#[CoversClass(className: SaveVersionHandler::class)]
 final class SaveVersionHandlerBaseTest extends SaveVersionHandlerTest
 {
     public function testIsInstanceOfSaveVersionHandler(): void

@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that toDomain() converts all VersionEntity fields to a correct domain Version.
  */
-#[CoversClass(VersionMapper::class)]
+#[CoversClass(className: VersionMapper::class)]
 #[CoversMethod(VersionMapper::class, 'toDomain')]
 final class VersionMapperToDomainTest extends VersionMapperTest
 {

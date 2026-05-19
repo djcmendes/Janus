@@ -23,7 +23,7 @@ use ReflectionClass;
  * This class contains common setup routines, providers
  * and shared attributes for testing the ActivityDto class.
  */
-#[CoversClass(className:  ActivityDto::class)]
+#[CoversClass(className: ActivityDto::class)]
 abstract class ActivityDtoTest extends TestCase
 {
     /**

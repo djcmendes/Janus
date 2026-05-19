@@ -277,7 +277,7 @@ HTTP `204 No Content` — empty body.
 | **Collections module** | `CollectionMetaRepositoryInterface` | `CreateFieldHandler` — verifies collection exists before adding field |
 | **Collections module** | `CollectionNotFoundException` | `CreateFieldHandler` — thrown when collection is missing |
 | **Collections module** | `SchemaManagerService` | `CreateFieldHandler`, `DeleteFieldHandler` — DDL column add/drop |
-| **Heimdall module** | `RequestGuard` | `FieldsController` — `validate_webservice_request()`, `authorize()` |
+| **Heimdall module** | `RequestGuard` | `FieldsController` — `validateWebserviceRequest()`, `authorize()` |
 | **Heimdall module** | `ApiScope`, `ApiVersion`, `Client` | `FieldsController` — guard configuration |
 | **Doctrine ORM** | `ServiceEntityRepository` | `FieldMetaRepository` base class |
 | **Symfony UID** | `Uuid` | `FieldMeta` — generates UUIDv7 on construction |

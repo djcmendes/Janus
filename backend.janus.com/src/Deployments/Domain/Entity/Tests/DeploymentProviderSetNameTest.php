@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that setName() updates the name, touches updatedAt, and returns fluent self.
  */
-#[CoversClass(DeploymentProvider::class)]
+#[CoversClass(className: DeploymentProvider::class)]
 final class DeploymentProviderSetNameTest extends DeploymentProviderTest
 {
     /**

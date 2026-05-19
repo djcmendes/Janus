@@ -10,7 +10,7 @@ use App\Fields\Domain\Enum\FieldType;
 use App\Fields\Domain\Exception\FieldNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(DeleteFieldHandler::class)]
+#[CoversClass(className: DeleteFieldHandler::class)]
 final class DeleteFieldHandlerHandleTest extends DeleteFieldHandlerTest
 {
     public function testHandleDeletesField(): void

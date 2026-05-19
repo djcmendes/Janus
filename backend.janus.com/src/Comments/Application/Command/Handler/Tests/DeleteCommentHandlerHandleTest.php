@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Tests for DeleteCommentHandler::handle() — verifying ownership enforcement,
  * admin bypass, not-found exception, and void return.
  */
-#[CoversClass(DeleteCommentHandler::class)]
+#[CoversClass(className: DeleteCommentHandler::class)]
 #[CoversMethod(DeleteCommentHandler::class, 'handle')]
 final class DeleteCommentHandlerHandleTest extends DeleteCommentHandlerTest
 {

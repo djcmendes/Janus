@@ -9,7 +9,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 final class ExtensionsControllerRegisterTest extends ExtensionsControllerTest
 {
     public function testRegisterReturns201OnValidInput(): void

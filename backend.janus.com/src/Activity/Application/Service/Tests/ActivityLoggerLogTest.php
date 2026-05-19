@@ -35,14 +35,14 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogCallsRepositoryRecordOnce(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
-        $this->repository->expects($this->once())
-                         ->method('record')
-                         ->with($this->isInstanceOf(Activity::class));
+        $this->repository->expects(invocationRule: $this->once())
+                         ->method(constraint: 'record')
+                         ->with(arguments: $this->isInstanceOf(className: Activity::class));
 
-        $this->class->log('create');
+        $this->class->log(action: 'create');
     }
 
     /**
@@ -50,14 +50,14 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogReturnsVoid(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
-        $this->repository->method('record');
+        $this->repository->method(constraint: 'record');
 
-        $this->class->log('create');
+        $this->class->log(action: 'create');
 
-        $this->addToAssertionCount(1);
+        $this->addToAssertionCount(count: 1);
     }
 
     /**
@@ -65,20 +65,22 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogSetsUserIdOnActivity(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(callback:
+                             $this->callback(static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                            })
+                         );
 
-        $this->class->log('create', null, null, 'user-uuid');
+        $this->class->log(action: 'create', userId: 'user-uuid');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertSame('user-uuid', $captured->userId);
+        $this->assertInstanceOf(expected: Activity::class, actual: $captured);
+        $this->assertSame(expected: 'user-uuid', actual: $captured->userId);
     }
 
     /**
@@ -86,22 +88,24 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogSetsActionCollectionAndItemOnActivity(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(
+                             arguments: $this->callback(callback: static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                             })
+                         );
 
-        $this->class->log('delete', 'posts', '5');
+        $this->class->log(action: 'delete', collection: 'posts', item: '5');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertSame('delete', $captured->action);
-        $this->assertSame('posts', $captured->collection);
-        $this->assertSame('5', $captured->item);
+        $this->assertInstanceOf(expected: Activity::class, actual: $captured);
+        $this->assertSame(expected: 'delete', actual: $captured->action);
+        $this->assertSame(expected: 'posts',  actual: $captured->collection);
+        $this->assertSame(expected: '5',      actual: $captured->item);
     }
 
     /**
@@ -109,21 +113,27 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogSetsIpFromCurrentRequestWhenAvailable(): void
     {
-        $request = Request::create('/', 'GET', [], [], [], ['REMOTE_ADDR' => '192.168.1.1']);
-        $this->requestStack->method('getCurrentRequest')
+        $request = Request::create(
+            uri:    '/',
+            server: [ 'REMOTE_ADDR' => '192.168.1.1' ]
+        );
+
+        $this->requestStack->method(constraint: 'getCurrentRequest')
                            ->willReturn($request);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(arguments:
+                             $this->callback(static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                             })
+                         );
 
         $this->class->log('create');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertSame('192.168.1.1', $captured->ip);
+        $this->assertInstanceOf(expected: Activity::class, actual: $captured);
+        $this->assertSame(expected: '192.168.1.1', actual: $captured->ip);
     }
 
     /**
@@ -131,22 +141,24 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogSetsUserAgentFromCurrentRequestWhenAvailable(): void
     {
-        $request = Request::create('/');
-        $request->headers->set('User-Agent', 'TestBrowser/1.0');
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn($request);
+        $request = Request::create(uri: '/');
+        $request->headers->set(key: 'User-Agent', values: 'TestBrowser/1.0');
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: $request);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(arguments:
+                             $this->callback(static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                            })
+                         );
 
-        $this->class->log('create');
+        $this->class->log(action: 'create');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertSame('TestBrowser/1.0', $captured->userAgent);
+        $this->assertInstanceOf(expected: Activity::class, actual: $captured);
+        $this->assertSame(expected: 'TestBrowser/1.0', actual: $captured->userAgent);
     }
 
     /**
@@ -154,20 +166,22 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogDoesNotSetIpWhenNoCurrentRequest(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(arguments:
+                             $this->callback(static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                             })
+                         );
 
-        $this->class->log('create');
+        $this->class->log(action: 'create');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertNull($captured->ip);
+        $this->assertInstanceOf(expected: Activity::class, actual:  $captured);
+        $this->assertNull(actual: $captured->ip);
     }
 
     /**
@@ -175,19 +189,21 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogDoesNotSetUserAgentWhenNoCurrentRequest(): void
     {
-        $this->requestStack->method('getCurrentRequest')
-                           ->willReturn(null);
+        $this->requestStack->method(constraint: 'getCurrentRequest')
+                           ->willReturn(value: null);
 
         $captured = null;
-        $this->repository->method('record')
-                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                             $captured = $a;
-                             return true;
-                         }));
+        $this->repository->method(constraint: 'record')
+                         ->with(
+                             arguments: $this->callback(static function (Activity $a) use (&$captured): bool {
+                                 $captured = $a;
+                                 return true;
+                            })
+                         );
 
-        $this->class->log('create');
+        $this->class->log(action: 'create');
 
-        $this->assertInstanceOf(Activity::class, $captured);
-        $this->assertNull($captured->userAgent);
+        $this->assertInstanceOf(expected: Activity::class, actual: $captured);
+        $this->assertNull(actual: $captured->userAgent);
     }
 }

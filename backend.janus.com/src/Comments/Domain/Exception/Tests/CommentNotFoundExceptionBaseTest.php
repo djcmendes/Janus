@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that CommentNotFoundException is correctly constructed
  * and extends the expected base exception class.
  */
-#[CoversClass(CommentNotFoundException::class)]
+#[CoversClass(className: CommentNotFoundException::class)]
 final class CommentNotFoundExceptionBaseTest extends CommentNotFoundExceptionTest
 {
     // Happy path ───────────────────────────────────────────────────

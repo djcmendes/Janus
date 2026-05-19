@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that all getters return the values set by the corresponding fluent setters.
  */
-#[CoversClass(DashboardEntity::class)]
+#[CoversClass(className: DashboardEntity::class)]
 final class DashboardEntityBaseTest extends DashboardEntityTest
 {
     /**

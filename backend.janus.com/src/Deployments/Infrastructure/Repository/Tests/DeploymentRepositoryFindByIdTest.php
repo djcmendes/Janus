@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that findById() returns a mapped domain entity or null.
  */
-#[CoversClass(DeploymentRepository::class)]
+#[CoversClass(className: DeploymentRepository::class)]
 final class DeploymentRepositoryFindByIdTest extends DeploymentRepositoryTest
 {
     /**

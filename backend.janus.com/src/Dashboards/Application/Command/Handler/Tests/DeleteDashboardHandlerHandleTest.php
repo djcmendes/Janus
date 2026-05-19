@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies handle() cascade-deletes panels, removes the dashboard, and throws when not found.
  */
-#[CoversClass(DeleteDashboardHandler::class)]
+#[CoversClass(className: DeleteDashboardHandler::class)]
 final class DeleteDashboardHandlerHandleTest extends DeleteDashboardHandlerTest
 {
     /**

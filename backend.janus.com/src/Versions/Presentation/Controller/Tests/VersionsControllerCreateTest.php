@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies create() persists a new Version, rejects bad input, and enforces authorization.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 #[CoversMethod(VersionsController::class, 'create')]
 final class VersionsControllerCreateTest extends VersionsControllerTest
 {

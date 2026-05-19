@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies fromEntity() correctly converts a domain Dashboard to a DashboardDto.
  */
-#[CoversClass(DashboardDto::class)]
+#[CoversClass(className: DashboardDto::class)]
 final class DashboardDtoFromEntityTest extends DashboardDtoTest
 {
     /**

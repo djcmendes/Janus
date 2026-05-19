@@ -37,7 +37,7 @@ final class FileDto
             width:            $f->getWidth(),
             height:           $f->getHeight(),
             uploadedBy:       $f->getUploadedBy(),
-            folderId:         $f->getFolder() ? (string) $f->getFolder()->getId() : null,
+            folderId:         $f->getFolderId(),
             createdAt:        $f->getCreatedAt()->format(\DateTimeInterface::ATOM),
             updatedAt:        $f->getUpdatedAt()?->format(\DateTimeInterface::ATOM),
         );

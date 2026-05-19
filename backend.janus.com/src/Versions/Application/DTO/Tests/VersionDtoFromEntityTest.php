@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that fromEntity() maps every Version field to the correct VersionDto property.
  */
-#[CoversClass(VersionDto::class)]
+#[CoversClass(className: VersionDto::class)]
 #[CoversMethod(VersionDto::class, 'fromEntity')]
 final class VersionDtoFromEntityTest extends VersionDtoTest
 {

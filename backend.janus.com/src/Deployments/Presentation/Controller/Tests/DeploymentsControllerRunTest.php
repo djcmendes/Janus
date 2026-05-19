@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the run action triggers a deployment and returns HTTP 201 or an error envelope.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 final class DeploymentsControllerRunTest extends DeploymentsControllerTest
 {
     /**

@@ -9,7 +9,7 @@ use App\Extensions\Domain\Enum\ExtensionType;
 use App\Extensions\Infrastructure\Persistence\Doctrine\Mapper\ExtensionMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionMapper::class)]
+#[CoversClass(className: ExtensionMapper::class)]
 final class ExtensionMapperToDomainTest extends ExtensionMapperTest
 {
     public function testToDomainReturnsDomainExtension(): void

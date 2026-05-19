@@ -8,7 +8,7 @@ use App\Fields\Domain\Enum\FieldType;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FieldType::class)]
+#[CoversClass(className: FieldType::class)]
 final class FieldTypeTest extends TestCase
 {
     public function testAllCasesHaveStringValues(): void

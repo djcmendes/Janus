@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DeploymentProvider entity test suites.
  */
-#[CoversClass(DeploymentProvider::class)]
+#[CoversClass(className: DeploymentProvider::class)]
 abstract class DeploymentProviderTest extends TestCase
 {
     /** @var DeploymentProvider The system under test. */

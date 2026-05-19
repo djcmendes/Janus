@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that VersionAlreadyExistsException is a RuntimeException with the expected message.
  */
-#[CoversClass(VersionAlreadyExistsException::class)]
+#[CoversClass(className: VersionAlreadyExistsException::class)]
 final class VersionAlreadyExistsExceptionBaseTest extends VersionAlreadyExistsExceptionTest
 {
     /**

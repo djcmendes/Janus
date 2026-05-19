@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Tests for CommentsController::patch() — verifying 200/403/404/422 responses.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 #[CoversMethod(CommentsController::class, 'patch')]
 final class CommentsControllerPatchTest extends CommentsControllerTest
 {

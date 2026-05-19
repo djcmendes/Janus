@@ -7,7 +7,7 @@ namespace App\Extensions\Infrastructure\Repository\Tests;
 use App\Extensions\Infrastructure\Repository\ExtensionRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionRepository::class)]
+#[CoversClass(className: ExtensionRepository::class)]
 final class ExtensionRepositoryBaseTest extends ExtensionRepositoryTest
 {
     public function testRepositoryCanBeInstantiated(): void

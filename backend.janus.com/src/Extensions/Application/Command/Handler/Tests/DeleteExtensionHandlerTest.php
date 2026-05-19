@@ -12,7 +12,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(DeleteExtensionHandler::class)]
+#[CoversClass(className: DeleteExtensionHandler::class)]
 abstract class DeleteExtensionHandlerTest extends TestCase
 {
     /** @var MockObject&ExtensionRepositoryInterface */

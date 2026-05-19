@@ -7,7 +7,7 @@ namespace App\Fields\Application\Query\Handler\Tests;
 use App\Fields\Application\Query\Handler\GetFieldsByCollectionHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetFieldsByCollectionHandler::class)]
+#[CoversClass(className: GetFieldsByCollectionHandler::class)]
 final class GetFieldsByCollectionHandlerBaseTest extends GetFieldsByCollectionHandlerTest
 {
     public function testHandlerInstantiates(): void

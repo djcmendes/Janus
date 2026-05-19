@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for Comment::setComment() — verifying text update and timestamp side-effect.
  */
-#[CoversClass(Comment::class)]
+#[CoversClass(className: Comment::class)]
 #[CoversMethod(Comment::class, 'setComment')]
 final class CommentSetCommentTest extends CommentTest
 {

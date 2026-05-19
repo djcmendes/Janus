@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies the delete action enforces authentication and ROLE_ADMIN and returns 204/404.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerDeleteTest extends DashboardsControllerTest
 {
     /**

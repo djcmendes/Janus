@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the get action returns a single dashboard or a 404 when not found.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerGetTest extends DashboardsControllerTest
 {
     /**

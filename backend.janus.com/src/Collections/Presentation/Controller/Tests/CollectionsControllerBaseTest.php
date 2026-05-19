@@ -19,7 +19,7 @@ use App\Collections\Application\Command\Handler\UpdateCollectionHandler;
 use App\Collections\Application\Query\Handler\GetCollectionByNameHandler;
 use App\Collections\Application\Query\Handler\GetCollectionsHandler;
 use App\Collections\Presentation\Controller\CollectionsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
 use ReflectionProperty;
@@ -28,7 +28,7 @@ use ReflectionProperty;
  * Verifies that CollectionsController stores each injected dependency
  * in the correct private property after construction.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 final class CollectionsControllerBaseTest extends CollectionsControllerTest
 {
     /**

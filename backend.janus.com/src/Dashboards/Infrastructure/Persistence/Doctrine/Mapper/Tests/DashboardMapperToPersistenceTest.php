@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies toPersistence() correctly maps a Dashboard domain entity to a DashboardEntity.
  */
-#[CoversClass(DashboardMapper::class)]
+#[CoversClass(className: DashboardMapper::class)]
 final class DashboardMapperToPersistenceTest extends DashboardMapperTest
 {
     /**

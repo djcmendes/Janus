@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies handle() creates a Dashboard, persists it, and returns a populated DTO.
  */
-#[CoversClass(CreateDashboardHandler::class)]
+#[CoversClass(className: CreateDashboardHandler::class)]
 final class CreateDashboardHandlerHandleTest extends CreateDashboardHandlerTest
 {
     /**

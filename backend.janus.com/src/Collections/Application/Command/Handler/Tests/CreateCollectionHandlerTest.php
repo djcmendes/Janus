@@ -34,7 +34,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * CreateCollectionHandler test suites.
  */
-#[CoversClass(CreateCollectionHandler::class)]
+#[CoversClass(className: CreateCollectionHandler::class)]
 abstract class CreateCollectionHandlerTest extends TestCase
 {
     /**

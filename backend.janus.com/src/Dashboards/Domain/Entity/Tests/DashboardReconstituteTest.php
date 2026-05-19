@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that reconstitute() rebuilds a Dashboard from persistence data without side effects.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardReconstituteTest extends DashboardTest
 {
     /**

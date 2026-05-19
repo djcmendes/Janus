@@ -18,7 +18,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(CollectionMetaEntity::class)]
+#[CoversClass(className: CollectionMetaEntity::class)]
 #[CoversMethod(CollectionMetaEntity::class, 'setId')]
 final class CollectionMetaEntitySetIdTest extends CollectionMetaEntityTest
 {

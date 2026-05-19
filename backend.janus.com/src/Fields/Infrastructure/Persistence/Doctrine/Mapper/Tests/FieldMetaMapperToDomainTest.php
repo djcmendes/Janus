@@ -9,7 +9,7 @@ use App\Fields\Domain\Enum\FieldType;
 use App\Fields\Infrastructure\Persistence\Doctrine\Mapper\FieldMetaMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMetaMapper::class)]
+#[CoversClass(className: FieldMetaMapper::class)]
 final class FieldMetaMapperToDomainTest extends FieldMetaMapperTest
 {
     public function testToDomainReturnsFieldMeta(): void

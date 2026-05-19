@@ -20,7 +20,7 @@ use ReflectionProperty;
 /**
  * Verifies that GetCommentsHandler stores its injected repository correctly.
  */
-#[CoversClass(GetCommentsHandler::class)]
+#[CoversClass(className: GetCommentsHandler::class)]
 final class GetCommentsHandlerBaseTest extends GetCommentsHandlerTest
 {
     /**

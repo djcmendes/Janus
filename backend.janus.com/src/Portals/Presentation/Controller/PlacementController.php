@@ -4,7 +4,7 @@ namespace App\Portals\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Portals\Application\Command\Handler\PlaceModuleHandler;
 use App\Portals\Application\Command\Handler\RemoveModuleHandler;
 use App\Portals\Application\Command\Handler\ReorderModulesHandler;
@@ -31,7 +31,7 @@ final class PlacementController extends AbstractController
     #[Route('/pages/{pageId}/placements', name: 'placements_create', methods: ['POST'])]
     public function create(string $pageId, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $data = json_decode($request->getContent(), true) ?? [];
@@ -50,7 +50,7 @@ final class PlacementController extends AbstractController
     #[Route('/pages/{pageId}/placements', name: 'placements_list', methods: ['GET'])]
     public function list(string $pageId): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $placements = $this->placementRepo->findByPage($pageId);
         return $this->json([
@@ -61,7 +61,7 @@ final class PlacementController extends AbstractController
     #[Route('/pages/{pageId}/placements/{id}', name: 'placements_delete', methods: ['DELETE'])]
     public function delete(string $pageId, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
@@ -75,7 +75,7 @@ final class PlacementController extends AbstractController
     #[Route('/pages/{pageId}/placements/reorder', name: 'placements_reorder', methods: ['POST'])]
     public function reorder(string $pageId, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $data = json_decode($request->getContent(), true) ?? [];

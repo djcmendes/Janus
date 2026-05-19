@@ -17,7 +17,7 @@ use App\Collections\Domain\Exception\CollectionAlreadyExistsException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(CollectionAlreadyExistsException::class)]
+#[CoversClass(className: CollectionAlreadyExistsException::class)]
 final class CollectionAlreadyExistsExceptionTest extends TestCase
 {
     // Happy path ───────────────────────────────────────────────────

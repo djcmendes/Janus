@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Verifies that toPersistence() accurately converts a domain Deployment to a DeploymentEntity.
  */
-#[CoversClass(DeploymentMapper::class)]
+#[CoversClass(className: DeploymentMapper::class)]
 final class DeploymentMapperToPersistenceTest extends DeploymentMapperTest
 {
     /**

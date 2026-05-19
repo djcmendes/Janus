@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that PromoteVersionHandler can be constructed with its dependencies.
  */
-#[CoversClass(PromoteVersionHandler::class)]
+#[CoversClass(className: PromoteVersionHandler::class)]
 final class PromoteVersionHandlerBaseTest extends PromoteVersionHandlerTest
 {
     public function testIsInstanceOfPromoteVersionHandler(): void

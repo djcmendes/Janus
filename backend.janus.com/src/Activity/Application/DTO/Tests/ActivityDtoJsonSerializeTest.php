@@ -14,6 +14,7 @@ declare(strict_types=1);
 namespace App\Activity\Application\DTO\Tests;
 
 use App\Activity\Application\DTO\ActivityDto;
+use JsonException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
@@ -57,10 +58,11 @@ final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
 
     /**
      * Test that json_encode() round-trips all eight expected keys.
+     * @throws JsonException
      */
     public function testJsonEncodeContainsAllExpectedKeys(): void
     {
-        $decoded = json_decode(json: json_encode(value: $this->class), associative: true);
+        $decoded = (array) json_decode(json: json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
 
         foreach (['id', 'action', 'collection', 'item', 'user', 'ip', 'user_agent', 'timestamp'] as $key) {
             $this->assertArrayHasKey(key: $key, array: $decoded);
@@ -69,10 +71,11 @@ final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
 
     /**
      * Test that json_encode() preserves scalar field values correctly.
+     * @throws JsonException
      */
     public function testJsonEncodeValuesMatchDtoProperties(): void
     {
-        $decoded = json_decode(json: json_encode(value: $this->class), associative: true);
+        $decoded = json_decode(json: json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
 
         $this->assertSame(expected: $this->class->id,        actual: $decoded['id']);
         $this->assertSame(expected: $this->class->action,    actual: $decoded['action']);

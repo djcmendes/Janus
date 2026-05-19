@@ -31,7 +31,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * GetCollectionsHandler test suites.
  */
-#[CoversClass(GetCollectionsHandler::class)]
+#[CoversClass(className: GetCollectionsHandler::class)]
 abstract class GetCollectionsHandlerTest extends TestCase
 {
     /**

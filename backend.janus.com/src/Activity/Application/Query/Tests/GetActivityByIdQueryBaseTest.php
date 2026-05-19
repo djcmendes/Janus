@@ -17,6 +17,7 @@ use App\Activity\Application\Query\GetActivityByIdQuery;
 use Error;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
+use ReflectionProperty;
 
 /**
  * Verifies that GetActivityByIdQuery stores its id correctly after construction.
@@ -24,14 +25,6 @@ use ReflectionException;
 #[CoversClass(className:  GetActivityByIdQuery::class)]
 final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
 {
-    /**
-     * Test that the SUT is an instance of GetActivityByIdQuery.
-     */
-    public function testIsInstanceOfGetActivityByIdQuery(): void
-    {
-        $this->assertInstanceOf(expected: GetActivityByIdQuery::class, actual: $this->class);
-    }
-
     /**
      * Test that the constructor stores the lookup UUID in the id property.
      */
@@ -52,12 +45,13 @@ final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
 
     /**
      * Test that the id property cannot be mutated after construction.
+     * @throws ReflectionException
      */
     public function testIdPropertyCannotBeMutatedAfterConstruction(): void
     {
         $this->expectException(exception: Error::class);
 
-        // @phpstan-ignore-next-line
-        $this->class->id = 'mutated';
+        $reflectionProperty = new ReflectionProperty(class: $this->class, property: 'id');
+        $reflectionProperty->setValue(objectOrValue: $this->class, value: 'mutated-uuid-value');
     }
 }

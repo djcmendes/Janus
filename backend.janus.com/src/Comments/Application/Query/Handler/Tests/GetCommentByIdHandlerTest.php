@@ -27,7 +27,7 @@ use ReflectionClass;
  * Strategy: GetCommentByIdHandler is final — instantiated as a real object
  * backed by a mocked CommentRepositoryInterface.
  */
-#[CoversClass(GetCommentByIdHandler::class)]
+#[CoversClass(className: GetCommentByIdHandler::class)]
 abstract class GetCommentByIdHandlerTest extends TestCase
 {
     /**

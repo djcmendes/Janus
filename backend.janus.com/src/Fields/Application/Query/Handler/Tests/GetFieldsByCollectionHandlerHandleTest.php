@@ -9,7 +9,7 @@ use App\Fields\Application\Query\GetFieldsByCollectionQuery;
 use App\Fields\Application\Query\Handler\GetFieldsByCollectionHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetFieldsByCollectionHandler::class)]
+#[CoversClass(className: GetFieldsByCollectionHandler::class)]
 final class GetFieldsByCollectionHandlerHandleTest extends GetFieldsByCollectionHandlerTest
 {
     public function testHandleReturnsDtoArray(): void

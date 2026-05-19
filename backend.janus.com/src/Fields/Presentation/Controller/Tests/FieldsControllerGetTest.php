@@ -8,7 +8,7 @@ use App\Fields\Presentation\Controller\FieldsController;
 use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerGetTest extends FieldsControllerTest
 {
     public function testGetReturns200WhenFound(): void

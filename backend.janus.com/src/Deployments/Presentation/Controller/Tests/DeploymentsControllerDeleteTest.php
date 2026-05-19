@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the delete action returns HTTP 204 or a 404 error envelope.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 final class DeploymentsControllerDeleteTest extends DeploymentsControllerTest
 {
     /**

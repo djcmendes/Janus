@@ -20,7 +20,7 @@ use App\Collections\Domain\Exception\CollectionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(GetCollectionByNameHandler::class)]
+#[CoversClass(className: GetCollectionByNameHandler::class)]
 #[CoversMethod(GetCollectionByNameHandler::class, 'handle')]
 final class GetCollectionByNameHandlerHandleTest extends GetCollectionByNameHandlerTest
 {

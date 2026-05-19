@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Verifies promote() applies a version snapshot, returns 404 when missing, and
  * returns 422 on a promotion runtime failure.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 #[CoversMethod(VersionsController::class, 'promote')]
 final class VersionsControllerPromoteTest extends VersionsControllerTest
 {

@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that CommentDto is correctly instantiated and exposes all expected properties.
  */
-#[CoversClass(CommentDto::class)]
+#[CoversClass(className: CommentDto::class)]
 final class CommentDtoBaseTest extends CommentDtoTest
 {
     // Happy path ───────────────────────────────────────────────────

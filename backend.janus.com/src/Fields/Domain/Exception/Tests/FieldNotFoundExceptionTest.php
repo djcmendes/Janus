@@ -8,7 +8,7 @@ use App\Fields\Domain\Exception\FieldNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FieldNotFoundException::class)]
+#[CoversClass(className: FieldNotFoundException::class)]
 final class FieldNotFoundExceptionTest extends TestCase
 {
     public function testMessageContainsFieldName(): void

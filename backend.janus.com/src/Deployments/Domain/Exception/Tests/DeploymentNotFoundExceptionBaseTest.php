@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentNotFoundException message formatting and inheritance.
  */
-#[CoversClass(DeploymentNotFoundException::class)]
+#[CoversClass(className: DeploymentNotFoundException::class)]
 final class DeploymentNotFoundExceptionBaseTest extends DeploymentNotFoundExceptionTest
 {
     /**

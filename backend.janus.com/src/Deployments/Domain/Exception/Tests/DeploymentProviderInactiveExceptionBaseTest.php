@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentProviderInactiveException message formatting and inheritance.
  */
-#[CoversClass(DeploymentProviderInactiveException::class)]
+#[CoversClass(className: DeploymentProviderInactiveException::class)]
 final class DeploymentProviderInactiveExceptionBaseTest extends DeploymentProviderInactiveExceptionTest
 {
     /**

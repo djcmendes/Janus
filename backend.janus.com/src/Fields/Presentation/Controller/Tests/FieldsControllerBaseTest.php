@@ -8,7 +8,7 @@ use App\Fields\Presentation\Controller\FieldsController;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionClass;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerBaseTest extends FieldsControllerTest
 {
     public function testControllerInstantiates(): void

@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that setStatus() updates the lifecycle state and returns fluent self.
  */
-#[CoversClass(Deployment::class)]
+#[CoversClass(className: Deployment::class)]
 final class DeploymentSetStatusTest extends DeploymentTest
 {
     /**

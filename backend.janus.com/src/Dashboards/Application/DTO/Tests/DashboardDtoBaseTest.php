@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that DashboardDto correctly stores all constructor arguments.
  */
-#[CoversClass(DashboardDto::class)]
+#[CoversClass(className: DashboardDto::class)]
 final class DashboardDtoBaseTest extends DashboardDtoTest
 {
     /**

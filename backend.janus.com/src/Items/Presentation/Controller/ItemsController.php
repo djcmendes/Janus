@@ -8,7 +8,7 @@ use App\Collections\Domain\Exception\CollectionNotFoundException;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Items\Application\Command\CreateItemCommand;
 use App\Items\Application\Command\DeleteItemCommand;
 use App\Items\Application\Command\Handler\CreateItemHandler;
@@ -42,7 +42,7 @@ final class ItemsController extends AbstractController
     #[Route('/{collection}', name: 'list', methods: ['GET'])]
     public function list(string $collection, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
@@ -64,7 +64,7 @@ final class ItemsController extends AbstractController
     #[Route('/{collection}/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $collection, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
@@ -84,7 +84,7 @@ final class ItemsController extends AbstractController
     #[Route('/{collection}', name: 'create', methods: ['POST'])]
     public function create(string $collection, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $data = json_decode($request->getContent(), true) ?? [];
@@ -104,7 +104,7 @@ final class ItemsController extends AbstractController
     #[Route('/{collection}/{id}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $collection, string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $data = json_decode($request->getContent(), true) ?? [];
@@ -126,7 +126,7 @@ final class ItemsController extends AbstractController
     #[Route('/{collection}/{id}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $collection, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {

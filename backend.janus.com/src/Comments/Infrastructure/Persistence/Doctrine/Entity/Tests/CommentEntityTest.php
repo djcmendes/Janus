@@ -26,7 +26,7 @@ use Symfony\Component\Uid\Uuid;
  * it directly — no mocking is required. The class is non-final (required for
  * Doctrine proxy generation), so a real instance is used as the SUT.
  */
-#[CoversClass(CommentEntity::class)]
+#[CoversClass(className: CommentEntity::class)]
 abstract class CommentEntityTest extends TestCase
 {
     /**

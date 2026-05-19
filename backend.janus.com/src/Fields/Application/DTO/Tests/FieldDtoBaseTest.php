@@ -7,7 +7,7 @@ namespace App\Fields\Application\DTO\Tests;
 use App\Fields\Application\DTO\FieldDto;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldDto::class)]
+#[CoversClass(className: FieldDto::class)]
 final class FieldDtoBaseTest extends FieldDtoTest
 {
     public function testConstructorStoresId(): void

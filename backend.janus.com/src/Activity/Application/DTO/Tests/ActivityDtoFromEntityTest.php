@@ -66,7 +66,10 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
      */
     public function testFromEntityMapsUserId(): void
     {
-        $this->assertSame(expected: 'bbbbbbbb-0000-7000-8000-000000000002', actual: $this->class->userId);
+        $this->assertSame(
+            expected: 'bbbbbbbb-0000-7000-8000-000000000002',
+            actual:   $this->class->userId
+        );
     }
 
     /**

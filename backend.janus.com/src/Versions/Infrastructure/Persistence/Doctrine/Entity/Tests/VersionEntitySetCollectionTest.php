@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setCollection() stores the value and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setCollection')]
 final class VersionEntitySetCollectionTest extends VersionEntityTest
 {

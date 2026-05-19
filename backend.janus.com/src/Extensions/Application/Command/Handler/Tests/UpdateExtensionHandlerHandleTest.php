@@ -10,7 +10,7 @@ use App\Extensions\Application\DTO\ExtensionDto;
 use App\Extensions\Domain\Exception\ExtensionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(UpdateExtensionHandler::class)]
+#[CoversClass(className: UpdateExtensionHandler::class)]
 final class UpdateExtensionHandlerHandleTest extends UpdateExtensionHandlerTest
 {
     public function testHandleThrowsWhenNotFound(): void

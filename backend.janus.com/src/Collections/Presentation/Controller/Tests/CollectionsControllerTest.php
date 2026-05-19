@@ -29,7 +29,7 @@ use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Collections\Infrastructure\Service\SchemaManagerService;
 use App\Collections\Presentation\Controller\CollectionsController;
 use App\Fields\Domain\Repository\FieldMetaRepositoryInterface;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
@@ -48,7 +48,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all CollectionsController test suites.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 abstract class CollectionsControllerTest extends TestCase
 {
     /**
@@ -259,7 +259,7 @@ abstract class CollectionsControllerTest extends TestCase
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return CollectionsController A controller pre-wired to fail on authentication.
      * @throws Exception

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies get() returns the requested Version or a 404 when missing.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 #[CoversMethod(VersionsController::class, 'get')]
 final class VersionsControllerGetTest extends VersionsControllerTest
 {

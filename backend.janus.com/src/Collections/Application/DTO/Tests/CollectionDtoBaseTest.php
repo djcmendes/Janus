@@ -16,7 +16,7 @@ namespace App\Collections\Application\DTO\Tests;
 use App\Collections\Application\DTO\CollectionDto;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CollectionDto::class)]
+#[CoversClass(className: CollectionDto::class)]
 final class CollectionDtoBaseTest extends CollectionDtoTest
 {
     // Happy path ───────────────────────────────────────────────────

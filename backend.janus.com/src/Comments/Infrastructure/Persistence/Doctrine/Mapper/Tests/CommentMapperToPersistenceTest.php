@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Tests for CommentMapper::toPersistence() — verifying field mapping from domain to persistence.
  */
-#[CoversClass(CommentMapper::class)]
+#[CoversClass(className: CommentMapper::class)]
 #[CoversMethod(CommentMapper::class, 'toPersistence')]
 final class CommentMapperToPersistenceTest extends CommentMapperTest
 {

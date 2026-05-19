@@ -23,7 +23,6 @@ final class UploadFileHandler
     /** @throws FolderNotFoundException */
     public function handle(UploadFileCommand $command): FileDto
     {
-        $folder = null;
         if ($command->folderId !== null) {
             $folder = $this->folderRepository->findById($command->folderId);
             if ($folder === null) {
@@ -49,7 +48,7 @@ final class UploadFileHandler
         );
 
         $file->setTitle($command->title);
-        $file->setFolder($folder);
+        $file->setFolderId($command->folderId);
         $file->setUploadedBy($command->uploadedBy);
 
         $this->fileRepository->save($file);

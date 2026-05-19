@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Constructor and interface compliance tests for the DeploymentProvider domain entity.
  */
-#[CoversClass(DeploymentProvider::class)]
+#[CoversClass(className: DeploymentProvider::class)]
 final class DeploymentProviderBaseTest extends DeploymentProviderTest
 {
     /**

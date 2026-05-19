@@ -30,7 +30,7 @@ use App\Collections\Presentation\DTO\UpdateCollectionRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -74,7 +74,7 @@ final class CollectionsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $limit  = min((int) $request->query->get('limit', 25), 100);
@@ -97,7 +97,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $name): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         try {
@@ -118,7 +118,7 @@ final class CollectionsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -159,7 +159,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'patch', methods: ['PATCH'], priority: -1)]
     public function patch(string $name, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -191,7 +191,7 @@ final class CollectionsController extends AbstractController
     #[Route('/{name}', name: 'delete', methods: ['DELETE'], priority: -1)]
     public function delete(string $name): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

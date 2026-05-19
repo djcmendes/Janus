@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies the create action enforces authentication, ROLE_ADMIN, and returns HTTP 201 on success.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerCreateTest extends DashboardsControllerTest
 {
     /**

@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentProviderRepository instantiation.
  */
-#[CoversClass(DeploymentProviderRepository::class)]
+#[CoversClass(className: DeploymentProviderRepository::class)]
 final class DeploymentProviderRepositoryBaseTest extends DeploymentProviderRepositoryTest
 {
     /**

@@ -7,7 +7,7 @@ namespace App\Revisions\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Revisions\Application\Query\GetRevisionByIdQuery;
 use App\Revisions\Application\Query\GetRevisionsQuery;
 use App\Revisions\Application\Query\Handler\GetRevisionByIdHandler;
@@ -35,7 +35,7 @@ final class RevisionsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -59,7 +59,7 @@ final class RevisionsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: -1)]
     public function get(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

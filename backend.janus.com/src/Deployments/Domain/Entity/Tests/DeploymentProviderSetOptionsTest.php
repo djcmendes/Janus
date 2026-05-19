@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that setOptions() stores options, touches updatedAt, and returns fluent self.
  */
-#[CoversClass(DeploymentProvider::class)]
+#[CoversClass(className: DeploymentProvider::class)]
 final class DeploymentProviderSetOptionsTest extends DeploymentProviderTest
 {
     /**

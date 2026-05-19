@@ -42,13 +42,13 @@ final class UpdateFileHandler
 
         if ($command->folderId !== UpdateFileCommand::UNCHANGED) {
             if ($command->folderId === null) {
-                $file->setFolder(null);
+                $file->setFolderId(null);
             } else {
                 $folder = $this->folderRepository->findById($command->folderId);
                 if ($folder === null) {
                     throw new FolderNotFoundException($command->folderId);
                 }
-                $file->setFolder($folder);
+                $file->setFolderId($command->folderId);
             }
         }
 

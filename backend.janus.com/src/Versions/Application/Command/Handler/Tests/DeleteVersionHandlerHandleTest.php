@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() deletes via the repository and throws for missing versions.
  */
-#[CoversClass(DeleteVersionHandler::class)]
+#[CoversClass(className: DeleteVersionHandler::class)]
 #[CoversMethod(DeleteVersionHandler::class, 'handle')]
 final class DeleteVersionHandlerHandleTest extends DeleteVersionHandlerTest
 {

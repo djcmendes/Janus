@@ -25,7 +25,7 @@ use ReflectionClass;
  *
  * Strategy: SaveVersionHandler is final — it is instantiated with a mocked repository interface.
  */
-#[CoversClass(SaveVersionHandler::class)]
+#[CoversClass(className: SaveVersionHandler::class)]
 abstract class SaveVersionHandlerTest extends TestCase
 {
     /**

@@ -8,7 +8,7 @@ use App\Extensions\Application\DTO\ExtensionDto;
 use App\Extensions\Domain\Enum\ExtensionType;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionDto::class)]
+#[CoversClass(className: ExtensionDto::class)]
 final class ExtensionDtoFromEntityTest extends ExtensionDtoTest
 {
     public function testFromEntityReturnsDtoInstance(): void

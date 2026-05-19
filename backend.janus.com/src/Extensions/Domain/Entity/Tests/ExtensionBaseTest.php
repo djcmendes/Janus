@@ -8,7 +8,7 @@ use App\Extensions\Domain\Enum\ExtensionType;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Extensions\Domain\Entity\Extension;
 
-#[CoversClass(Extension::class)]
+#[CoversClass(className: Extension::class)]
 final class ExtensionBaseTest extends ExtensionTest
 {
     public function testIdIsUuidV7Format(): void

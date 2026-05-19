@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: domain Comment array returned (mapped from CommentEntity), empty result,
  * limit/offset forwarded, and each filter applied as a WHERE clause.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 #[CoversMethod(CommentRepository::class, 'findPaginated')]
 final class CommentRepositoryFindPaginatedTest extends CommentRepositoryTest
 {

@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Constructor and interface compliance tests for the Comment domain entity.
  */
-#[CoversClass(Comment::class)]
+#[CoversClass(className: Comment::class)]
 final class CommentBaseTest extends CommentTest
 {
     // Happy path ───────────────────────────────────────────────────

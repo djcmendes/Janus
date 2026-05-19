@@ -5,7 +5,7 @@ namespace App\Portals\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Portals\Application\Command\Handler\TriggerMagnetRunHandler;
 use App\Portals\Application\Command\TriggerMagnetRunCommand;
 use App\Portals\Domain\Exception\MagnetNotFoundException;
@@ -42,7 +42,7 @@ final class WebhookController extends AbstractController
     #[Route('/{id}/webhook', methods: ['POST'])]
     public function receive(string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::PUBLIC);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::PUBLIC);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         $magnet = $this->magnetRepository->findById($id);

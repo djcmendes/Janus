@@ -18,7 +18,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-#[PHPUnit\Framework\Attributes\CoversClass(FieldMetaRepository::class)]
+#[PHPUnit\Framework\Attributes\CoversClass(className: FieldMetaRepository::class)]
 abstract class FieldMetaRepositoryTest extends TestCase
 {
     /** @var MockObject&ManagerRegistry */

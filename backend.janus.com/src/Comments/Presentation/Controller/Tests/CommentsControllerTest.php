@@ -27,7 +27,7 @@ use App\Comments\Application\Query\Handler\GetCommentsHandler;
 use App\Comments\Domain\Entity\Comment;
 use App\Comments\Domain\Repository\CommentRepositoryInterface;
 use App\Comments\Presentation\Controller\CommentsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -44,7 +44,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all CommentsController test suites.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 abstract class CommentsControllerTest extends TestCase
 {
     /** @var string UUID returned by the fake authenticated user's getId() method. */
@@ -203,7 +203,7 @@ abstract class CommentsControllerTest extends TestCase
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return CommentsController A controller instance pre-wired to fail on authentication.
      */

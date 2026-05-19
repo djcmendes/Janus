@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DeploymentNotFoundException test suites.
  */
-#[CoversClass(DeploymentNotFoundException::class)]
+#[CoversClass(className: DeploymentNotFoundException::class)]
 abstract class DeploymentNotFoundExceptionTest extends TestCase
 {
     /** @var DeploymentNotFoundException The system under test. */

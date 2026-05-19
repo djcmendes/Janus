@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Common setup, teardown, and factory helpers for DeploymentEntity test suites.
  */
-#[CoversClass(DeploymentEntity::class)]
+#[CoversClass(className: DeploymentEntity::class)]
 abstract class DeploymentEntityTest extends TestCase
 {
     /** @var DeploymentEntity The system under test. */

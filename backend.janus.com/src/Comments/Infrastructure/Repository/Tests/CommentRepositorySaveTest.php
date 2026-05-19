@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: entity persistence via CommentMapper, entity manager flush, and
  * the correct CommentEntity type forwarded to the entity manager.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 #[CoversMethod(CommentRepository::class, 'save')]
 final class CommentRepositorySaveTest extends CommentRepositoryTest
 {

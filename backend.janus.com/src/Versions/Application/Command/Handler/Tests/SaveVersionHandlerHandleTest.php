@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() creates a Version DTO, enforces uniqueness, and persists via the repository.
  */
-#[CoversClass(SaveVersionHandler::class)]
+#[CoversClass(className: SaveVersionHandler::class)]
 #[CoversMethod(SaveVersionHandler::class, 'handle')]
 final class SaveVersionHandlerHandleTest extends SaveVersionHandlerTest
 {

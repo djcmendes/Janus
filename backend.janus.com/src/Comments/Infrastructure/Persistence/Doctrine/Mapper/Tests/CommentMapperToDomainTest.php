@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for CommentMapper::toDomain() — verifying field mapping from persistence to domain.
  */
-#[CoversClass(CommentMapper::class)]
+#[CoversClass(className: CommentMapper::class)]
 #[CoversMethod(CommentMapper::class, 'toDomain')]
 final class CommentMapperToDomainTest extends CommentMapperTest
 {

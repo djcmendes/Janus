@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentsController instantiation.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 final class DeploymentsControllerBaseTest extends DeploymentsControllerTest
 {
     /**

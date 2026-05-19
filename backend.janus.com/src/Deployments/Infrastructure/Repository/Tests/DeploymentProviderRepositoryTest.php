@@ -34,7 +34,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Common setup, teardown, and shared Doctrine mock infrastructure for DeploymentProviderRepository test suites.
  */
-#[CoversClass(DeploymentProviderRepository::class)]
+#[CoversClass(className: DeploymentProviderRepository::class)]
 abstract class DeploymentProviderRepositoryTest extends TestCase
 {
     /** @var MockObject&ManagerRegistry */

@@ -27,7 +27,7 @@ use App\Dashboards\Application\Query\Handler\GetDashboardsHandler;
 use App\Dashboards\Domain\Entity\Dashboard;
 use App\Dashboards\Domain\Repository\DashboardRepositoryInterface;
 use App\Dashboards\Presentation\Controller\DashboardsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Panels\Domain\Repository\PanelRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -45,7 +45,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all DashboardsController test suites.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 abstract class DashboardsControllerTest extends TestCase
 {
     /** @var string UUID returned by the fake authenticated user's getId() method. */
@@ -216,7 +216,7 @@ abstract class DashboardsControllerTest extends TestCase
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return DashboardsController A controller instance pre-wired to fail on authentication.
      */

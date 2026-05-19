@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Heimdall\Domain\Service;
+namespace App\Heimdall\Application\Service;
 
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
@@ -17,9 +17,9 @@ use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInt
  *
  * Usage in a controller:
  *
- *   $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+ *   $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
  *   $this->guard->authorize(Client::WEB, Client::IOS);
- *   $userId = $this->guard->validate_authenticated_user_id();
+ *   $userId = $this->guard->validateAuthenticatedUserId();
  */
 final class RequestGuard
 {
@@ -33,7 +33,7 @@ final class RequestGuard
      *
      * @throws UnauthorizedException if the scope requires authentication and no user is logged in
      */
-    public function validate_webservice_request(ApiVersion $version, ApiScope $scope): void
+    public function validateWebserviceRequest(ApiVersion $version, ApiScope $scope): void
     {
         if ($scope === ApiScope::AUTHENTICATED) {
             $this->requireAuthentication();
@@ -64,7 +64,7 @@ final class RequestGuard
      *
      * @throws UnauthorizedException
      */
-    public function validate_authenticated_user_id(): string
+    public function validateAuthenticatedUserId(): string
     {
         $this->requireAuthentication();
 
@@ -84,9 +84,9 @@ final class RequestGuard
      *
      * @throws UnauthorizedException if there is no authenticated user
      */
-    public function validate_user_id(): string
+    public function validateUserId(): string
     {
-        return $this->validate_authenticated_user_id();
+        return $this->validateAuthenticatedUserId();
     }
 
     // ── Private helpers ────────────────────────────────────────────────────
@@ -95,7 +95,7 @@ final class RequestGuard
     {
         $token = $this->tokenStorage->getToken();
 
-        if ($token === null || $token->getUser() === null) {
+        if ($token?->getUser() === null) {
             throw new UnauthorizedException('This endpoint requires authentication.');
         }
     }

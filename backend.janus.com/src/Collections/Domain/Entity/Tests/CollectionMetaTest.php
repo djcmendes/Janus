@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: CollectionMeta is a final class with no injectable dependencies.
  * Tests instantiate it directly — no mocking is required.
  */
-#[CoversClass(CollectionMeta::class)]
+#[CoversClass(className: CollectionMeta::class)]
 abstract class CollectionMetaTest extends TestCase
 {
     protected CollectionMeta $class;

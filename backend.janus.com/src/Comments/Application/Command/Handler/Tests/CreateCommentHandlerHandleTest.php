@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for CreateCommentHandler::handle() — verifying save delegation and DTO return.
  */
-#[CoversClass(CreateCommentHandler::class)]
+#[CoversClass(className: CreateCommentHandler::class)]
 #[CoversMethod(CreateCommentHandler::class, 'handle')]
 final class CreateCommentHandlerHandleTest extends CreateCommentHandlerTest
 {

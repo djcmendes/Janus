@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that GetVersionsHandler can be constructed with a repository.
  */
-#[CoversClass(GetVersionsHandler::class)]
+#[CoversClass(className: GetVersionsHandler::class)]
 final class GetVersionsHandlerBaseTest extends GetVersionsHandlerTest
 {
     public function testIsInstanceOfGetVersionsHandler(): void

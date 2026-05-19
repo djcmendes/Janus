@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies setName() updates the name and refreshes the updatedAt timestamp.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardSetNameTest extends DashboardTest
 {
     /**

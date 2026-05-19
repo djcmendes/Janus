@@ -19,7 +19,7 @@ use App\Collections\Domain\Exception\CollectionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(DeleteCollectionHandler::class)]
+#[CoversClass(className: DeleteCollectionHandler::class)]
 #[CoversMethod(DeleteCollectionHandler::class, 'handle')]
 final class DeleteCollectionHandlerHandleTest extends DeleteCollectionHandlerTest
 {

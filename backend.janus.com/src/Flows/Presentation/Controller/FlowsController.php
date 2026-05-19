@@ -23,7 +23,7 @@ use App\Flows\Presentation\DTO\UpdateFlowRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,7 +41,7 @@ final class FlowsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetFlowsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -64,7 +64,7 @@ final class FlowsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetFlowByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -84,10 +84,10 @@ final class FlowsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateFlowHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
 
         /** @var CreateFlowRequest $dto */
         $dto = $this->serializer->deserialize($request->getContent(), CreateFlowRequest::class, 'json');
@@ -116,7 +116,7 @@ final class FlowsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'], priority: 10)]
     public function patch(string $id, Request $request, UpdateFlowHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -146,7 +146,7 @@ final class FlowsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteFlowHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -166,10 +166,10 @@ final class FlowsController extends AbstractController
     #[Route('/{id}/trigger', name: 'trigger', methods: ['POST'], priority: 20)]
     public function trigger(string $id, Request $request, TriggerFlowHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
 
         $body    = json_decode($request->getContent(), true) ?? [];
         $payload = $body['payload'] ?? [];

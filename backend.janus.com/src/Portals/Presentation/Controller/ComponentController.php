@@ -4,7 +4,7 @@ namespace App\Portals\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Portals\Application\Command\AssignCenterComponentCommand;
 use App\Portals\Application\Command\CreateComponentCommand;
 use App\Portals\Application\Command\DeleteComponentCommand;
@@ -42,7 +42,7 @@ final class ComponentController extends AbstractController
     #[Route('/components', name: 'components_list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $result = $this->listHandler->handle(new ListComponentsQuery(
             limit:  min((int) $request->query->get('limit', 25), 100),
@@ -56,7 +56,7 @@ final class ComponentController extends AbstractController
     #[Route('/components/{id}', name: 'components_get', methods: ['GET'])]
     public function get(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         try {
             $dto = $this->getByIdHandler->handle(new GetComponentByIdQuery($id));
@@ -68,7 +68,7 @@ final class ComponentController extends AbstractController
     #[Route('/components', name: 'components_create', methods: ['POST'])]
     public function create(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
@@ -86,7 +86,7 @@ final class ComponentController extends AbstractController
     #[Route('/components/{id}', name: 'components_patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $data = json_decode($request->getContent(), true) ?? [];
@@ -100,7 +100,7 @@ final class ComponentController extends AbstractController
     #[Route('/components/{id}', name: 'components_delete', methods: ['DELETE'])]
     public function delete(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         try {
@@ -114,7 +114,7 @@ final class ComponentController extends AbstractController
     #[Route('/pages/{id}/layout', name: 'pages_layout', methods: ['GET'])]
     public function layout(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         try {
             $dto = $this->layoutHandler->handle(new GetPageWithLayoutQuery($id));
@@ -127,7 +127,7 @@ final class ComponentController extends AbstractController
     #[Route('/pages/{id}/center-component', name: 'pages_assign_center', methods: ['POST'])]
     public function assignCenter(string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $data = json_decode($request->getContent(), true) ?? [];

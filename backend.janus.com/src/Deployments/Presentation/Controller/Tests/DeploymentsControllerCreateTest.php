@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the create action persists a provider and returns HTTP 201, or a validation error.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 final class DeploymentsControllerCreateTest extends DeploymentsControllerTest
 {
     /**

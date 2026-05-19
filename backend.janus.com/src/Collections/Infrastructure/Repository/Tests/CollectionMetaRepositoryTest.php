@@ -41,7 +41,7 @@ use Symfony\Component\Uid\Uuid;
  * Common setup, teardown, and shared mock infrastructure for all
  * CollectionMetaRepository test suites.
  */
-#[CoversClass(CollectionMetaRepository::class)]
+#[CoversClass(className: CollectionMetaRepository::class)]
 abstract class CollectionMetaRepositoryTest extends TestCase
 {
     /**

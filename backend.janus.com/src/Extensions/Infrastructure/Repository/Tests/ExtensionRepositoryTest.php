@@ -19,7 +19,7 @@ use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 use ReflectionClass;
 
-#[CoversClass(ExtensionRepository::class)]
+#[CoversClass(className: ExtensionRepository::class)]
 abstract class ExtensionRepositoryTest extends TestCase
 {
     /** @var MockObject&ManagerRegistry */

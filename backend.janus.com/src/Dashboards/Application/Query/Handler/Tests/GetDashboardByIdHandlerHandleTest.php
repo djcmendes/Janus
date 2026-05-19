@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies handle() returns a DashboardDto when found and throws when not found.
  */
-#[CoversClass(GetDashboardByIdHandler::class)]
+#[CoversClass(className: GetDashboardByIdHandler::class)]
 final class GetDashboardByIdHandlerHandleTest extends GetDashboardByIdHandlerTest
 {
     /**

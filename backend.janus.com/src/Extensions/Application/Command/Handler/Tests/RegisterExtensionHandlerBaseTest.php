@@ -7,7 +7,7 @@ namespace App\Extensions\Application\Command\Handler\Tests;
 use App\Extensions\Application\Command\Handler\RegisterExtensionHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(RegisterExtensionHandler::class)]
+#[CoversClass(className: RegisterExtensionHandler::class)]
 final class RegisterExtensionHandlerBaseTest extends RegisterExtensionHandlerTest
 {
     public function testHandlerCanBeInstantiated(): void

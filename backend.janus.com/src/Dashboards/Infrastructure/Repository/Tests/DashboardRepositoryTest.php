@@ -39,7 +39,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * DashboardRepository test suites.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 abstract class DashboardRepositoryTest extends TestCase
 {
     /**

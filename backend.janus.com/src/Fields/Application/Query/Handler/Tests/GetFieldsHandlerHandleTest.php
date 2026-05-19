@@ -9,7 +9,7 @@ use App\Fields\Application\Query\GetFieldsQuery;
 use App\Fields\Application\Query\Handler\GetFieldsHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetFieldsHandler::class)]
+#[CoversClass(className: GetFieldsHandler::class)]
 final class GetFieldsHandlerHandleTest extends GetFieldsHandlerTest
 {
     public function testHandleReturnsDataAndTotalKeys(): void

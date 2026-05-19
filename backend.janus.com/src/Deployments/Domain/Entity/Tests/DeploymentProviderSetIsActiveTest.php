@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that setIsActive() toggles the active flag, touches updatedAt, and returns fluent self.
  */
-#[CoversClass(DeploymentProvider::class)]
+#[CoversClass(className: DeploymentProvider::class)]
 final class DeploymentProviderSetIsActiveTest extends DeploymentProviderTest
 {
     /**

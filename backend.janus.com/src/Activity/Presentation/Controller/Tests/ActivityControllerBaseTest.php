@@ -16,7 +16,7 @@ namespace App\Activity\Presentation\Controller\Tests;
 use App\Activity\Application\Query\Handler\GetActivityByIdHandler;
 use App\Activity\Application\Query\Handler\GetActivityHandler;
 use App\Activity\Presentation\Controller\ActivityController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
 use ReflectionProperty;

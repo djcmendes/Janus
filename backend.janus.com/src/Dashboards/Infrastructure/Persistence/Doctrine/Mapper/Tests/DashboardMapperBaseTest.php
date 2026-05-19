@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DashboardMapper instantiation.
  */
-#[CoversClass(DashboardMapper::class)]
+#[CoversClass(className: DashboardMapper::class)]
 final class DashboardMapperBaseTest extends DashboardMapperTest
 {
     /**

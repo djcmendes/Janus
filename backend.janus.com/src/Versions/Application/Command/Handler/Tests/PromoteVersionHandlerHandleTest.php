@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() calls promote(), returns a VersionDto, and throws on failures.
  */
-#[CoversClass(PromoteVersionHandler::class)]
+#[CoversClass(className: PromoteVersionHandler::class)]
 #[CoversMethod(PromoteVersionHandler::class, 'handle')]
 final class PromoteVersionHandlerHandleTest extends PromoteVersionHandlerTest
 {

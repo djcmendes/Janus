@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for GetCommentByIdHandler::handle() — verifying DTO return and not-found exception.
  */
-#[CoversClass(GetCommentByIdHandler::class)]
+#[CoversClass(className: GetCommentByIdHandler::class)]
 #[CoversMethod(GetCommentByIdHandler::class, 'handle')]
 final class GetCommentByIdHandlerHandleTest extends GetCommentByIdHandlerTest
 {

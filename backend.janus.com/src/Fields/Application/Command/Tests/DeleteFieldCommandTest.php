@@ -8,7 +8,7 @@ use App\Fields\Application\Command\DeleteFieldCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(DeleteFieldCommand::class)]
+#[CoversClass(className: DeleteFieldCommand::class)]
 final class DeleteFieldCommandTest extends TestCase
 {
     public function testStoresCollection(): void

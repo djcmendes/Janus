@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies save() persists a Dashboard domain entity via the entity manager.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositorySaveTest extends DashboardRepositoryTest
 {
     /**

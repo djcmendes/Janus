@@ -18,7 +18,7 @@ use App\Collections\Domain\Entity\CollectionMeta;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CollectionDto::class)]
+#[CoversClass(className: CollectionDto::class)]
 #[CoversMethod(CollectionDto::class, 'fromEntity')]
 final class CollectionDtoFromEntityTest extends CollectionDtoTest
 {

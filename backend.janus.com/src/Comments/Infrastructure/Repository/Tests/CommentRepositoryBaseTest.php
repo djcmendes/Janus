@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * implements the domain interface, extends the Doctrine base, and is
  * configured for the CommentEntity persistence model.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 final class CommentRepositoryBaseTest extends CommentRepositoryTest
 {
     /**

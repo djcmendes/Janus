@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for CreateDeploymentHandler test suites.
  */
-#[CoversClass(CreateDeploymentHandler::class)]
+#[CoversClass(className: CreateDeploymentHandler::class)]
 abstract class CreateDeploymentHandlerTest extends TestCase
 {
     /** @var MockObject&DeploymentProviderRepositoryInterface */

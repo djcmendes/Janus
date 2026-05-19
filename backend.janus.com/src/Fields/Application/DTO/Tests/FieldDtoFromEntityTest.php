@@ -8,7 +8,7 @@ use App\Fields\Application\DTO\FieldDto;
 use App\Fields\Domain\Enum\FieldType;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldDto::class)]
+#[CoversClass(className: FieldDto::class)]
 final class FieldDtoFromEntityTest extends FieldDtoTest
 {
     public function testFromEntityMapsId(): void

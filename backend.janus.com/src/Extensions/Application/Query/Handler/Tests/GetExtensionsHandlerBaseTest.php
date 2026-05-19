@@ -7,7 +7,7 @@ namespace App\Extensions\Application\Query\Handler\Tests;
 use App\Extensions\Application\Query\Handler\GetExtensionsHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetExtensionsHandler::class)]
+#[CoversClass(className: GetExtensionsHandler::class)]
 final class GetExtensionsHandlerBaseTest extends GetExtensionsHandlerTest
 {
     public function testHandlerCanBeInstantiated(): void

@@ -43,7 +43,7 @@ use Symfony\Component\Uid\Uuid;
  * Common setup, teardown, and shared mock infrastructure for all
  * VersionRepository test suites.
  */
-#[CoversClass(className: VersionRepository::class)]
+#[CoversClass(className:  VersionRepository::class)]
 abstract class VersionRepositoryTest extends TestCase
 {
     /**

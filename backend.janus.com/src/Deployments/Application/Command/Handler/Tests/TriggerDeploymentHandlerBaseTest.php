@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies TriggerDeploymentHandler instantiation.
  */
-#[CoversClass(TriggerDeploymentHandler::class)]
+#[CoversClass(className: TriggerDeploymentHandler::class)]
 final class TriggerDeploymentHandlerBaseTest extends TriggerDeploymentHandlerTest
 {
     /**

@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Covers: response envelope shape, pagination forwarding, limit capping,
  * empty-list handling, and guard/auth failures.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 #[CoversMethod(CollectionsController::class, 'list')]
 final class CollectionsControllerListTest extends CollectionsControllerTest
 {

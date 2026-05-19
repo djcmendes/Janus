@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: locating the managed entity by id, calling remove() and flush(),
  * and skipping removal when no entity is found.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 #[CoversMethod(CommentRepository::class, 'delete')]
 final class CommentRepositoryDeleteTest extends CommentRepositoryTest
 {

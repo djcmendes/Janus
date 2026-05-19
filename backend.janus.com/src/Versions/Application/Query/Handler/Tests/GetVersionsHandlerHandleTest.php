@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that handle() delegates to the repository, maps results to DTOs, and returns totals.
  */
-#[CoversClass(GetVersionsHandler::class)]
+#[CoversClass(className: GetVersionsHandler::class)]
 #[CoversMethod(GetVersionsHandler::class, 'handle')]
 final class GetVersionsHandlerHandleTest extends GetVersionsHandlerTest
 {

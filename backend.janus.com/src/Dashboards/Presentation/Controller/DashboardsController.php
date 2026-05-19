@@ -30,7 +30,7 @@ use App\Dashboards\Presentation\DTO\UpdateDashboardRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -67,9 +67,9 @@ final class DashboardsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetDashboardsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $currentUserId = $this->guard->validate_authenticated_user_id();
+        $currentUserId = $this->guard->validateAuthenticatedUserId();
         $isAdmin       = $this->isGranted('ROLE_ADMIN');
 
         $limit  = max(1, (int) ($request->query->get('limit', 25)));
@@ -99,7 +99,7 @@ final class DashboardsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetDashboardByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -127,7 +127,7 @@ final class DashboardsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreateDashboardHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -141,7 +141,7 @@ final class DashboardsController extends AbstractController
             );
         }
 
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
         $result = $handler->handle(new CreateDashboardCommand($dto->name, $dto->icon, $dto->note, $userId));
 
         return $this->json(['data' => $result], Response::HTTP_CREATED);
@@ -161,7 +161,7 @@ final class DashboardsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request, UpdateDashboardHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -200,7 +200,7 @@ final class DashboardsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, DeleteDashboardHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

@@ -21,7 +21,7 @@ use Symfony\Component\Uid\Uuid;
  * Verifies that all CommentEntity setters store their values and return
  * the same instance (fluent interface), and that getters return the correct types.
  */
-#[CoversClass(CommentEntity::class)]
+#[CoversClass(className: CommentEntity::class)]
 final class CommentEntityBaseTest extends CommentEntityTest
 {
     // Happy path ───────────────────────────────────────────────────

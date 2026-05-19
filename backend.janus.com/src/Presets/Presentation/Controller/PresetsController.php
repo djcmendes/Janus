@@ -21,7 +21,7 @@ use App\Presets\Presentation\DTO\UpdatePresetRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -39,9 +39,9 @@ final class PresetsController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetPresetsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $currentUserId = $this->guard->validate_authenticated_user_id();
+        $currentUserId = $this->guard->validateAuthenticatedUserId();
         $isAdmin       = $this->isGranted('ROLE_ADMIN');
 
         $limit      = max(1, (int) ($request->query->get('limit', 25)));
@@ -68,7 +68,7 @@ final class PresetsController extends AbstractController
     #[Route('/{id}', name: 'get', methods: ['GET'])]
     public function get(string $id, GetPresetByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
 
         try {
@@ -87,9 +87,9 @@ final class PresetsController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(Request $request, CreatePresetHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
 
         /** @var CreatePresetRequest $dto */
         $dto = $this->serializer->deserialize($request->getContent(), CreatePresetRequest::class, 'json');
@@ -112,9 +112,9 @@ final class PresetsController extends AbstractController
     #[Route('/{id}', name: 'patch', methods: ['PATCH'])]
     public function patch(string $id, Request $request, UpdatePresetHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId  = $this->guard->validate_authenticated_user_id();
+        $userId  = $this->guard->validateAuthenticatedUserId();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
 
         /** @var UpdatePresetRequest $dto */
@@ -152,9 +152,9 @@ final class PresetsController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $id, DeletePresetHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID, Client::CLI);
-        $userId  = $this->guard->validate_authenticated_user_id();
+        $userId  = $this->guard->validateAuthenticatedUserId();
         $isAdmin = $this->isGranted('ROLE_ADMIN');
 
         try {

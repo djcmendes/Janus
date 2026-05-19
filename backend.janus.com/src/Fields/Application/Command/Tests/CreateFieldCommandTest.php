@@ -8,7 +8,7 @@ use App\Fields\Application\Command\CreateFieldCommand;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(CreateFieldCommand::class)]
+#[CoversClass(className: CreateFieldCommand::class)]
 final class CreateFieldCommandTest extends TestCase
 {
     public function testStoresCollection(): void

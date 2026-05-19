@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies save() persists a VersionEntity and flushes via the entity manager.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'save')]
 final class VersionRepositorySaveTest extends VersionRepositoryTest
 {

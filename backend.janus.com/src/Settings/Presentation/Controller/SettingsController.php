@@ -7,7 +7,7 @@ namespace App\Settings\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Settings\Application\Command\Handler\UpdateSettingsHandler;
 use App\Settings\Application\Command\UpdateSettingsCommand;
 use App\Settings\Application\Query\GetSettingsQuery;
@@ -32,7 +32,7 @@ final class SettingsController extends AbstractController
     #[Route('', name: 'get', methods: ['GET'])]
     public function get(): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
 
         $dto = $this->getSettingsHandler->handle(new GetSettingsQuery());
@@ -44,7 +44,7 @@ final class SettingsController extends AbstractController
     #[Route('', name: 'patch', methods: ['PATCH'])]
     public function patch(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

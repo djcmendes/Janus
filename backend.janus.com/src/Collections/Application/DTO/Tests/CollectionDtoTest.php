@@ -25,7 +25,7 @@ use ReflectionClass;
  * Strategy: CollectionDto is a final readonly class with no injectable dependencies.
  * Tests construct it via fromEntity() using a real CollectionMeta domain entity.
  */
-#[CoversClass(CollectionDto::class)]
+#[CoversClass(className: CollectionDto::class)]
 abstract class CollectionDtoTest extends TestCase
 {
     /**

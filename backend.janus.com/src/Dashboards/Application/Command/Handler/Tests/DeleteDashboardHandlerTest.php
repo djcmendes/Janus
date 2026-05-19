@@ -24,7 +24,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DeleteDashboardHandler test suites.
  */
-#[CoversClass(DeleteDashboardHandler::class)]
+#[CoversClass(className: DeleteDashboardHandler::class)]
 abstract class DeleteDashboardHandlerTest extends TestCase
 {
     /**

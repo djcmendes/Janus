@@ -35,7 +35,7 @@ use App\Versions\Infrastructure\Service\VersionService;
 use App\Versions\Presentation\Controller\VersionsController;
 use App\Versions\Presentation\DTO\SaveVersionRequest;
 use App\Versions\Presentation\DTO\UpdateVersionRequest;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies patch() updates a Version, returns 404 when missing, and enforces authorization.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 #[CoversMethod(VersionsController::class, 'patch')]
 final class VersionsControllerPatchTest extends VersionsControllerTest
 {

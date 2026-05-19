@@ -31,11 +31,11 @@ final class GetPortalDashboardMetricsHandler
 
         $recentActivity = array_map(
             static fn ($a) => [
-                'id'         => $a->getId(),
+                'id'         => $a->id,
                 'action'     => $a->getAction(),
                 'collection' => $a->getCollection(),
                 'item'       => $a->getItem(),
-                'timestamp'  => $a->getTimestamp()->format(\DateTimeInterface::ATOM),
+                'timestamp'  => $a->timestamp->format(\DateTimeInterface::ATOM),
             ],
             $this->activityRepository->findPaginated(
                 limit:      $query->activityLimit,

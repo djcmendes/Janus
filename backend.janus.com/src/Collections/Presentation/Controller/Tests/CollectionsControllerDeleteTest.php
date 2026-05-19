@@ -24,7 +24,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Covers: 204 on success, 404 not found, 422 on system table protection,
  * guard/auth failures, and ROLE_ADMIN enforcement.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 #[CoversMethod(CollectionsController::class, 'delete')]
 final class CollectionsControllerDeleteTest extends CollectionsControllerTest
 {

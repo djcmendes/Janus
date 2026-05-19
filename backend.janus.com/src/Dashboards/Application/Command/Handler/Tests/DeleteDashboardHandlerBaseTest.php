@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeleteDashboardHandler instantiation.
  */
-#[CoversClass(DeleteDashboardHandler::class)]
+#[CoversClass(className: DeleteDashboardHandler::class)]
 final class DeleteDashboardHandlerBaseTest extends DeleteDashboardHandlerTest
 {
     /**

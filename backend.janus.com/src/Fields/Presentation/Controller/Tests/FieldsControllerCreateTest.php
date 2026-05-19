@@ -10,7 +10,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerCreateTest extends FieldsControllerTest
 {
     private function makeCollectionMeta(): CollectionMeta

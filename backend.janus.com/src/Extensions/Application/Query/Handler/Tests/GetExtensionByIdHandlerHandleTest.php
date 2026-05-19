@@ -10,7 +10,7 @@ use App\Extensions\Application\Query\Handler\GetExtensionByIdHandler;
 use App\Extensions\Domain\Exception\ExtensionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetExtensionByIdHandler::class)]
+#[CoversClass(className: GetExtensionByIdHandler::class)]
 final class GetExtensionByIdHandlerHandleTest extends GetExtensionByIdHandlerTest
 {
     public function testHandleReturnsDtoWhenFound(): void

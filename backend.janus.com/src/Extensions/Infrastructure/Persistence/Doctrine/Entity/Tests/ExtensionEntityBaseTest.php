@@ -8,7 +8,7 @@ use App\Extensions\Domain\Enum\ExtensionType;
 use App\Extensions\Infrastructure\Persistence\Doctrine\Entity\ExtensionEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionEntity::class)]
+#[CoversClass(className: ExtensionEntity::class)]
 final class ExtensionEntityBaseTest extends ExtensionEntityTest
 {
     public function testGetIdReturnsStoredValue(): void

@@ -25,7 +25,7 @@ use ReflectionClass;
  * Strategy: VersionDto is final with no injectable dependencies.
  * Tests instantiate it via fromEntity() using a real Version domain entity.
  */
-#[CoversClass(VersionDto::class)]
+#[CoversClass(className: VersionDto::class)]
 abstract class VersionDtoTest extends TestCase
 {
     /**

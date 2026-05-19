@@ -8,7 +8,7 @@ use App\Extensions\Domain\Entity\Extension;
 use App\Extensions\Infrastructure\Repository\ExtensionRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionRepository::class)]
+#[CoversClass(className: ExtensionRepository::class)]
 final class ExtensionRepositoryFindByIdTest extends ExtensionRepositoryTest
 {
     public function testFindByIdReturnsMappedDomainEntity(): void

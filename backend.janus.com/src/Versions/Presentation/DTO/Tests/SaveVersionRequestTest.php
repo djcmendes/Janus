@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup and shared instance for all SaveVersionRequest test suites.
  */
-#[CoversClass(SaveVersionRequest::class)]
+#[CoversClass(className: SaveVersionRequest::class)]
 abstract class SaveVersionRequestTest extends TestCase
 {
     /** @var SaveVersionRequest */

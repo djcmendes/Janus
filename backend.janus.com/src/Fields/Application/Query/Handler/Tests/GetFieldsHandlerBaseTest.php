@@ -8,7 +8,7 @@ use App\Fields\Application\Query\Handler\GetFieldsHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionClass;
 
-#[CoversClass(GetFieldsHandler::class)]
+#[CoversClass(className: GetFieldsHandler::class)]
 final class GetFieldsHandlerBaseTest extends GetFieldsHandlerTest
 {
     public function testHandlerInstantiates(): void

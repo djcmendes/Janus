@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that UpdateVersionHandler can be constructed with a repository.
  */
-#[CoversClass(UpdateVersionHandler::class)]
+#[CoversClass(className: UpdateVersionHandler::class)]
 final class UpdateVersionHandlerBaseTest extends UpdateVersionHandlerTest
 {
     public function testIsInstanceOfUpdateVersionHandler(): void

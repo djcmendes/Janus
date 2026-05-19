@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeleteDeploymentHandler instantiation.
  */
-#[CoversClass(DeleteDeploymentHandler::class)]
+#[CoversClass(className: DeleteDeploymentHandler::class)]
 final class DeleteDeploymentHandlerBaseTest extends DeleteDeploymentHandlerTest
 {
     /**

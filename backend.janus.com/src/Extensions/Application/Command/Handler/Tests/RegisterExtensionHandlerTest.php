@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(RegisterExtensionHandler::class)]
+#[CoversClass(className: RegisterExtensionHandler::class)]
 abstract class RegisterExtensionHandlerTest extends TestCase
 {
     /** @var MockObject&ExtensionRepositoryInterface */

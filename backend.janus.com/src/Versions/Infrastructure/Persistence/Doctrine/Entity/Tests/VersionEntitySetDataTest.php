@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setData() stores the array and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setData')]
 final class VersionEntitySetDataTest extends VersionEntityTest
 {

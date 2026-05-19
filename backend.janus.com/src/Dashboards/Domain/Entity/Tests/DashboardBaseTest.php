@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Constructor and interface compliance tests for the Dashboard domain entity.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardBaseTest extends DashboardTest
 {
     /**

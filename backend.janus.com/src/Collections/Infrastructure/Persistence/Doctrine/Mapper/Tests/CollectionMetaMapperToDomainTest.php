@@ -18,7 +18,7 @@ use App\Collections\Infrastructure\Persistence\Doctrine\Mapper\CollectionMetaMap
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CollectionMetaMapper::class)]
+#[CoversClass(className: CollectionMetaMapper::class)]
 #[CoversMethod(CollectionMetaMapper::class, 'toDomain')]
 final class CollectionMetaMapperToDomainTest extends CollectionMetaMapperTest
 {

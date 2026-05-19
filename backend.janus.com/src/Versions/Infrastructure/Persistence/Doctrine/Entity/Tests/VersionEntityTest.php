@@ -26,7 +26,7 @@ use Symfony\Component\Uid\Uuid;
  * Strategy: VersionEntity is non-final (Doctrine proxy requirement) but has
  * no injectable dependencies. Tests instantiate it directly and use fluent setters.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 abstract class VersionEntityTest extends TestCase
 {
     /**

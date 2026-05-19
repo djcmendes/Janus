@@ -16,6 +16,7 @@ namespace App\Activity\Application\Query\Handler\Tests;
 use App\Activity\Application\Query\Handler\GetActivityHandler;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionException;
 
 /**
  * Verifies that GetActivityHandler stores its repository dependency correctly after construction.
@@ -25,33 +26,29 @@ final class GetActivityHandlerBaseTest extends GetActivityHandlerTest
 {
     /**
      * Test that the handler stores the injected repository in its repository property.
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testConstructorStoresRepository(): void
     {
         $property = $this->reflection->getProperty(name: 'repository');
-        $property->setAccessible(accessible: true);
 
-        $this->assertSame(expected: $this->repository, actual: $property->getValue(object: $this->class));
-    }
-
-    /**
-     * Test that GetActivityHandler can be instantiated with a mocked repository.
-     */
-    public function testIsInstantiable(): void
-    {
-        $this->assertInstanceOf(expected: GetActivityHandler::class, actual: $this->class);
+        $this->assertSame(
+            expected: $this->repository,
+            actual: $property->getValue(object: $this->class)
+        );
     }
 
     /**
      * Test that the stored repository implements ActivityRepositoryInterface.
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function testRepositoryIsActivityRepositoryInterface(): void
     {
         $property = $this->reflection->getProperty(name: 'repository');
-        $property->setAccessible(accessible: true);
 
-        $this->assertInstanceOf(expected: ActivityRepositoryInterface::class, actual: $property->getValue(object: $this->class));
+        $this->assertInstanceOf(
+            expected: ActivityRepositoryInterface::class,
+            actual: $property->getValue(object: $this->class)
+        );
     }
 }

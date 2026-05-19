@@ -9,7 +9,7 @@ use App\Extensions\Application\Query\GetExtensionsQuery;
 use App\Extensions\Application\Query\Handler\GetExtensionsHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetExtensionsHandler::class)]
+#[CoversClass(className: GetExtensionsHandler::class)]
 final class GetExtensionsHandlerHandleTest extends GetExtensionsHandlerTest
 {
     public function testHandleReturnsDataArray(): void

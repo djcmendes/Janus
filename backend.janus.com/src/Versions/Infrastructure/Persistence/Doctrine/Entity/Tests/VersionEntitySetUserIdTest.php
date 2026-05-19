@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setUserId() stores the value, handles null, and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setUserId')]
 final class VersionEntitySetUserIdTest extends VersionEntityTest
 {

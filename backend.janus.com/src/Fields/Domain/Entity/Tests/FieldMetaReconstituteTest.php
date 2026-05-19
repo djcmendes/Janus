@@ -8,7 +8,7 @@ use App\Fields\Domain\Entity\FieldMeta;
 use App\Fields\Domain\Enum\FieldType;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMeta::class)]
+#[CoversClass(className: FieldMeta::class)]
 final class FieldMetaReconstituteTest extends FieldMetaTest
 {
     public function testReconstitutePreservesId(): void

@@ -7,7 +7,7 @@ namespace App\Extensions\Domain\Entity\Tests;
 use PHPUnit\Framework\Attributes\CoversClass;
 use App\Extensions\Domain\Entity\Extension;
 
-#[CoversClass(Extension::class)]
+#[CoversClass(className: Extension::class)]
 final class ExtensionSetVersionTest extends ExtensionTest
 {
     public function testSetVersionStoresValue(): void

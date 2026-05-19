@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DashboardMapper test suites.
  */
-#[CoversClass(DashboardMapper::class)]
+#[CoversClass(className: DashboardMapper::class)]
 abstract class DashboardMapperTest extends TestCase
 {
     /** @var DashboardMapper The system under test. */

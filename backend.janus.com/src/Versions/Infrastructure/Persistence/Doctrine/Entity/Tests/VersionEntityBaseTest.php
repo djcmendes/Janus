@@ -20,7 +20,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Verifies that VersionEntity stores all fields correctly after population via setters.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 final class VersionEntityBaseTest extends VersionEntityTest
 {
     public function testGetIdReturnsUuid(): void

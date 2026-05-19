@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies isOwnedBy() correctly compares the dashboard owner against a given user UUID.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardIsOwnedByTest extends DashboardTest
 {
     /**

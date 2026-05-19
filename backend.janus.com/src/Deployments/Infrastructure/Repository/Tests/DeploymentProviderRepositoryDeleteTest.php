@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that delete() removes a provider and flushes, or does nothing when not found.
  */
-#[CoversClass(DeploymentProviderRepository::class)]
+#[CoversClass(className: DeploymentProviderRepository::class)]
 final class DeploymentProviderRepositoryDeleteTest extends DeploymentProviderRepositoryTest
 {
     /**

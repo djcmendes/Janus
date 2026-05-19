@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setCreatedAt() stores the timestamp and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setCreatedAt')]
 final class VersionEntitySetCreatedAtTest extends VersionEntityTest
 {

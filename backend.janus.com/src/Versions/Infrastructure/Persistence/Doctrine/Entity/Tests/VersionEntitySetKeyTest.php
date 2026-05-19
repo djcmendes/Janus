@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setKey() stores the label and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setKey')]
 final class VersionEntitySetKeyTest extends VersionEntityTest
 {

@@ -23,7 +23,7 @@ use Symfony\Component\HttpFoundation\Response;
  * Covers: 200 data envelope, field mapping, name forwarding, 404 handling,
  * NOT_FOUND error code, and guard/auth failures.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 #[CoversMethod(CollectionsController::class, 'get')]
 final class CollectionsControllerGetTest extends CollectionsControllerTest
 {

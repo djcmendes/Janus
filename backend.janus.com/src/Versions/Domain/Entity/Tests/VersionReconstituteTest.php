@@ -22,11 +22,14 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Verifies that reconstitute() bypasses the auto-generated id and timestamps
  * and correctly populates every field from the provided arguments.
  */
-#[CoversClass(Version::class)]
+#[CoversClass(className: Version::class)]
 #[CoversMethod(Version::class, 'reconstitute')]
 final class VersionReconstituteTest extends VersionTest
 {
-    /** @var string */
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     private const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
     /**

@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that DeleteVersionHandler can be constructed with a repository.
  */
-#[CoversClass(DeleteVersionHandler::class)]
+#[CoversClass(className: DeleteVersionHandler::class)]
 final class DeleteVersionHandlerBaseTest extends DeleteVersionHandlerTest
 {
     public function testIsInstanceOfDeleteVersionHandler(): void

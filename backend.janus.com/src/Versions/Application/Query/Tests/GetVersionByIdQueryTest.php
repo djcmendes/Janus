@@ -21,7 +21,7 @@ use ReflectionClass;
 /**
  * Abstract base for GetVersionByIdQuery tests.
  */
-#[CoversClass(GetVersionByIdQuery::class)]
+#[CoversClass(className: GetVersionByIdQuery::class)]
 abstract class GetVersionByIdQueryTest extends TestCase
 {
     /** @var string */

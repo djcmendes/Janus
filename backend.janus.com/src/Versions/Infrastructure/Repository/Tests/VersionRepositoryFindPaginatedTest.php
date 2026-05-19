@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies findPaginated() returns mapped domain Versions with correct query parameters.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'findPaginated')]
 final class VersionRepositoryFindPaginatedTest extends VersionRepositoryTest
 {

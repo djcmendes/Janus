@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that toPersistence() converts all domain Version fields to a correct VersionEntity.
  */
-#[CoversClass(VersionMapper::class)]
+#[CoversClass(className: VersionMapper::class)]
 #[CoversMethod(VersionMapper::class, 'toPersistence')]
 final class VersionMapperToPersistenceTest extends VersionMapperTest
 {

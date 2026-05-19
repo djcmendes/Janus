@@ -8,7 +8,7 @@ use App\Fields\Application\Query\GetFieldByCollectionAndNameQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(GetFieldByCollectionAndNameQuery::class)]
+#[CoversClass(className: GetFieldByCollectionAndNameQuery::class)]
 final class GetFieldByCollectionAndNameQueryTest extends TestCase
 {
     public function testStoresCollection(): void

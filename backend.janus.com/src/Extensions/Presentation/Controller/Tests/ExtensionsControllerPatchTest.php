@@ -10,7 +10,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 final class ExtensionsControllerPatchTest extends ExtensionsControllerTest
 {
     public function testPatchReturns200WhenFound(): void

@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies findById() returns a mapped domain Version or null.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'findById')]
 final class VersionRepositoryFindByIdTest extends VersionRepositoryTest
 {

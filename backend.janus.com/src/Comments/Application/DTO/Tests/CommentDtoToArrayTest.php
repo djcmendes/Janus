@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for CommentDto::toArray() — verifying the serialised representation.
  */
-#[CoversClass(CommentDto::class)]
+#[CoversClass(className: CommentDto::class)]
 #[CoversMethod(CommentDto::class, 'toArray')]
 final class CommentDtoToArrayTest extends CommentDtoTest
 {

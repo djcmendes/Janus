@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: CommentNotFoundException is a final class with no injectable
  * dependencies. Tests instantiate it directly.
  */
-#[CoversClass(CommentNotFoundException::class)]
+#[CoversClass(className: CommentNotFoundException::class)]
 abstract class CommentNotFoundExceptionTest extends TestCase
 {
     /**

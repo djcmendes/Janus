@@ -16,7 +16,7 @@ namespace App\Collections\Infrastructure\Persistence\Doctrine\Entity\Tests;
 use App\Collections\Infrastructure\Persistence\Doctrine\Entity\CollectionMetaEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CollectionMetaEntity::class)]
+#[CoversClass(className: CollectionMetaEntity::class)]
 final class CollectionMetaEntityBaseTest extends CollectionMetaEntityTest
 {
     // Happy path ───────────────────────────────────────────────────

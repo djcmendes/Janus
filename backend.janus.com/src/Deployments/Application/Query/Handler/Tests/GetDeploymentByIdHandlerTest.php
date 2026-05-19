@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for GetDeploymentByIdHandler test suites.
  */
-#[CoversClass(GetDeploymentByIdHandler::class)]
+#[CoversClass(className: GetDeploymentByIdHandler::class)]
 abstract class GetDeploymentByIdHandlerTest extends TestCase
 {
     /** @var MockObject&DeploymentProviderRepositoryInterface */

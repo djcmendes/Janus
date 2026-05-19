@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that SaveVersionRequest can be instantiated and that its default
  * property values match the documented contract.
  */
-#[CoversClass(SaveVersionRequest::class)]
+#[CoversClass(className: SaveVersionRequest::class)]
 final class SaveVersionRequestBaseTest extends SaveVersionRequestTest
 {
     public function testCanBeInstantiated(): void

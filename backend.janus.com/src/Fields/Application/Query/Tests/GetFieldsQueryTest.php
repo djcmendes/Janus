@@ -8,7 +8,7 @@ use App\Fields\Application\Query\GetFieldsQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(GetFieldsQuery::class)]
+#[CoversClass(className: GetFieldsQuery::class)]
 final class GetFieldsQueryTest extends TestCase
 {
     public function testStoresLimit(): void

@@ -17,7 +17,7 @@ use App\Collections\Domain\Entity\CollectionMeta;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CollectionMeta::class)]
+#[CoversClass(className: CollectionMeta::class)]
 #[CoversMethod(CollectionMeta::class, 'reconstitute')]
 final class CollectionMetaReconstituteTest extends CollectionMetaTest
 {

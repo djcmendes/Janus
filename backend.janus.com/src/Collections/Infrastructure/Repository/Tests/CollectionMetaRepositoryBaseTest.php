@@ -17,7 +17,7 @@ use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Collections\Infrastructure\Repository\CollectionMetaRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CollectionMetaRepository::class)]
+#[CoversClass(className: CollectionMetaRepository::class)]
 final class CollectionMetaRepositoryBaseTest extends CollectionMetaRepositoryTest
 {
     // Happy path ───────────────────────────────────────────────────

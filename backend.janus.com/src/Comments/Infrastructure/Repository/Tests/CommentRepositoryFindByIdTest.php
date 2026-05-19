@@ -25,7 +25,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: domain Comment returned when the record exists (mapped from CommentEntity),
  * null returned when no match, and the correct UUID forwarded to the entity manager.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 #[CoversMethod(CommentRepository::class, 'findById')]
 final class CommentRepositoryFindByIdTest extends CommentRepositoryTest
 {

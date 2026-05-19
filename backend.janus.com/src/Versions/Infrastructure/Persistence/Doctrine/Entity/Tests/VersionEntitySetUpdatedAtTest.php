@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setUpdatedAt() stores the timestamp, handles null, and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setUpdatedAt')]
 final class VersionEntitySetUpdatedAtTest extends VersionEntityTest
 {

@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for CommentsController::get() — verifying 200/404 responses.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 #[CoversMethod(CommentsController::class, 'get')]
 final class CommentsControllerGetTest extends CommentsControllerTest
 {

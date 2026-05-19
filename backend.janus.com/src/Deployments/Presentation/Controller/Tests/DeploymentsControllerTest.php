@@ -28,7 +28,7 @@ use App\Deployments\Domain\Enum\DeploymentProviderType;
 use App\Deployments\Domain\Repository\DeploymentProviderRepositoryInterface;
 use App\Deployments\Domain\Repository\DeploymentRepositoryInterface;
 use App\Deployments\Presentation\Controller\DeploymentsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -47,7 +47,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all DeploymentsController test suites.
  */
-#[CoversClass(DeploymentsController::class)]
+#[CoversClass(className: DeploymentsController::class)]
 abstract class DeploymentsControllerTest extends TestCase
 {
     /** @var string UUID returned by the fake authenticated user's getId() method. */
@@ -188,7 +188,7 @@ abstract class DeploymentsControllerTest extends TestCase
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return DeploymentsController
      */

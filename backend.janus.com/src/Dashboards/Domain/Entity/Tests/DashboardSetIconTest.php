@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies setIcon() updates the icon identifier and refreshes the updatedAt timestamp.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 final class DashboardSetIconTest extends DashboardTest
 {
     /**

@@ -21,7 +21,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Getter/setter compliance tests for DeploymentProviderEntity.
  */
-#[CoversClass(DeploymentProviderEntity::class)]
+#[CoversClass(className: DeploymentProviderEntity::class)]
 final class DeploymentProviderEntityBaseTest extends DeploymentProviderEntityTest
 {
     /**

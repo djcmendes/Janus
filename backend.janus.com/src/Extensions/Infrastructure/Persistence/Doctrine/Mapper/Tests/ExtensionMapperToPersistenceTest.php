@@ -9,7 +9,7 @@ use App\Extensions\Infrastructure\Persistence\Doctrine\Entity\ExtensionEntity;
 use App\Extensions\Infrastructure\Persistence\Doctrine\Mapper\ExtensionMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionMapper::class)]
+#[CoversClass(className: ExtensionMapper::class)]
 final class ExtensionMapperToPersistenceTest extends ExtensionMapperTest
 {
     public function testToPersistenceReturnsExtensionEntity(): void

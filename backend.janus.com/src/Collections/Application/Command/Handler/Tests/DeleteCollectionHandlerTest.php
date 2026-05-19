@@ -35,7 +35,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * DeleteCollectionHandler test suites.
  */
-#[CoversClass(DeleteCollectionHandler::class)]
+#[CoversClass(className: DeleteCollectionHandler::class)]
 abstract class DeleteCollectionHandlerTest extends TestCase
 {
     /**

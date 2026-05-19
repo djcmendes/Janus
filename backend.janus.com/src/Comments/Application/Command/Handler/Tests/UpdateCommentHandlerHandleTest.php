@@ -25,7 +25,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Tests for UpdateCommentHandler::handle() — verifying ownership enforcement,
  * admin bypass, not-found exception, and DTO return.
  */
-#[CoversClass(UpdateCommentHandler::class)]
+#[CoversClass(className: UpdateCommentHandler::class)]
 #[CoversMethod(UpdateCommentHandler::class, 'handle')]
 final class UpdateCommentHandlerHandleTest extends UpdateCommentHandlerTest
 {

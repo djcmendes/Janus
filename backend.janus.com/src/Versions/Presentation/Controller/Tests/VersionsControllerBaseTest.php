@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that the controller can be constructed and is the correct type.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 final class VersionsControllerBaseTest extends VersionsControllerTest
 {
     public function testControllerCanBeInstantiated(): void

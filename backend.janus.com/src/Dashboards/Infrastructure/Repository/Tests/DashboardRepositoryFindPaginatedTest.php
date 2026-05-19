@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies findPaginated() maps query results to domain Dashboard entities.
  */
-#[CoversClass(DashboardRepository::class)]
+#[CoversClass(className: DashboardRepository::class)]
 final class DashboardRepositoryFindPaginatedTest extends DashboardRepositoryTest
 {
     /**

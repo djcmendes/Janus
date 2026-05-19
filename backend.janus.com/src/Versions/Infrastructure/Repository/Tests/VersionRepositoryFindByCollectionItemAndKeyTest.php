@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies findByCollectionItemAndKey() returns a mapped domain Version or null.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 #[CoversMethod(VersionRepository::class, 'findByCollectionItemAndKey')]
 final class VersionRepositoryFindByCollectionItemAndKeyTest extends VersionRepositoryTest
 {

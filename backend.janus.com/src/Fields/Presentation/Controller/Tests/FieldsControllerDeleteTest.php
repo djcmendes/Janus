@@ -9,7 +9,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[CoversClass(FieldsController::class)]
+#[CoversClass(className: FieldsController::class)]
 final class FieldsControllerDeleteTest extends FieldsControllerTest
 {
     public function testDeleteReturns204WhenFound(): void

@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for GetCommentsHandler::handle() — verifying paginated result shape and filter forwarding.
  */
-#[CoversClass(GetCommentsHandler::class)]
+#[CoversClass(className: GetCommentsHandler::class)]
 #[CoversMethod(GetCommentsHandler::class, 'handle')]
 final class GetCommentsHandlerHandleTest extends GetCommentsHandlerTest
 {

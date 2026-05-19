@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: correct integer returned, zero count, filter WHERE clauses,
  * and no WHERE clause when no filters are provided.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 #[CoversMethod(CommentRepository::class, 'countAll')]
 final class CommentRepositoryCountAllTest extends CommentRepositoryTest
 {

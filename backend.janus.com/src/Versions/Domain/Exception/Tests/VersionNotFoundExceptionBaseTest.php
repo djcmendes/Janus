@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that VersionNotFoundException is a RuntimeException with the expected message format.
  */
-#[CoversClass(VersionNotFoundException::class)]
+#[CoversClass(className: VersionNotFoundException::class)]
 final class VersionNotFoundExceptionBaseTest extends VersionNotFoundExceptionTest
 {
     /**

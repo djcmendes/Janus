@@ -21,7 +21,7 @@ declare(strict_types=1);
 
 namespace App\Server\Presentation\Controller\Tests;
 
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Server\Application\Service\ServerService;
 use App\Server\Presentation\Controller\ServerController;
 use Doctrine\DBAL\Connection;

@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that reconstitute() restores a Deployment from persisted state without side effects.
  */
-#[CoversClass(Deployment::class)]
+#[CoversClass(className: Deployment::class)]
 final class DeploymentReconstituteTest extends DeploymentTest
 {
     /**

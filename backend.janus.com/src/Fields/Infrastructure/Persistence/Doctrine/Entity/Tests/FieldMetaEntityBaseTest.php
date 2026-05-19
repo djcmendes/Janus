@@ -8,7 +8,7 @@ use App\Fields\Domain\Enum\FieldType;
 use App\Fields\Infrastructure\Persistence\Doctrine\Entity\FieldMetaEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMetaEntity::class)]
+#[CoversClass(className: FieldMetaEntity::class)]
 final class FieldMetaEntityBaseTest extends FieldMetaEntityTest
 {
     public function testGetIdReturnsStoredValue(): void

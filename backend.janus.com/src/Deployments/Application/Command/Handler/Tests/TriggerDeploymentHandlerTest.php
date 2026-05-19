@@ -27,7 +27,7 @@ use Symfony\Contracts\HttpClient\ResponseInterface;
 /**
  * Common setup, teardown, and factory helpers for TriggerDeploymentHandler test suites.
  */
-#[CoversClass(TriggerDeploymentHandler::class)]
+#[CoversClass(className: TriggerDeploymentHandler::class)]
 abstract class TriggerDeploymentHandlerTest extends TestCase
 {
     /** @var MockObject&DeploymentProviderRepositoryInterface */

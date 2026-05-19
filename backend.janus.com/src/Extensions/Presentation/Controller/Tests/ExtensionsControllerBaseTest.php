@@ -7,7 +7,7 @@ namespace App\Extensions\Presentation\Controller\Tests;
 use App\Extensions\Presentation\Controller\ExtensionsController;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 final class ExtensionsControllerBaseTest extends ExtensionsControllerTest
 {
     public function testControllerCanBeInstantiated(): void

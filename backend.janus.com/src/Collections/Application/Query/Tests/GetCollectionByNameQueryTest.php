@@ -17,7 +17,7 @@ use App\Collections\Application\Query\GetCollectionByNameQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(GetCollectionByNameQuery::class)]
+#[CoversClass(className: GetCollectionByNameQuery::class)]
 final class GetCollectionByNameQueryTest extends TestCase
 {
     // Happy path ───────────────────────────────────────────────────

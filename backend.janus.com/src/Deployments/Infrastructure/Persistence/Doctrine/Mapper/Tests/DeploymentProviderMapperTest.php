@@ -24,7 +24,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Common setup, teardown, and factory helpers for DeploymentProviderMapper test suites.
  */
-#[CoversClass(DeploymentProviderMapper::class)]
+#[CoversClass(className: DeploymentProviderMapper::class)]
 abstract class DeploymentProviderMapperTest extends TestCase
 {
     /** @var DeploymentProviderMapper The system under test. */

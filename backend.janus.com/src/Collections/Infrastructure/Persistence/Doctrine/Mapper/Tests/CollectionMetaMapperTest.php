@@ -28,7 +28,7 @@ use Symfony\Component\Uid\Uuid;
  * instantiated as real objects. All three classes are pure with no injectable
  * dependencies, so no mocking is required.
  */
-#[CoversClass(CollectionMetaMapper::class)]
+#[CoversClass(className: CollectionMetaMapper::class)]
 abstract class CollectionMetaMapperTest extends TestCase
 {
     protected const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';

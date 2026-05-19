@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(CollectionMetaMapper::class)]
+#[CoversClass(className: CollectionMetaMapper::class)]
 #[CoversMethod(CollectionMetaMapper::class, 'toPersistence')]
 final class CollectionMetaMapperToPersistenceTest extends CollectionMetaMapperTest
 {

@@ -9,7 +9,7 @@ use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\Request;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 final class ExtensionsControllerListTest extends ExtensionsControllerTest
 {
     public function testListReturnsOk(): void

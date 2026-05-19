@@ -21,7 +21,7 @@ use Symfony\Component\Uid\Uuid;
 /**
  * Verifies that setId() stores the Uuid and returns static.
  */
-#[CoversClass(VersionEntity::class)]
+#[CoversClass(className: VersionEntity::class)]
 #[CoversMethod(VersionEntity::class, 'setId')]
 final class VersionEntitySetIdTest extends VersionEntityTest
 {

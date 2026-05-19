@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Tests for CommentsController::delete() — verifying 204/403/404 responses.
  */
-#[CoversClass(CommentsController::class)]
+#[CoversClass(className: CommentsController::class)]
 #[CoversMethod(CommentsController::class, 'delete')]
 final class CommentsControllerDeleteTest extends CommentsControllerTest
 {

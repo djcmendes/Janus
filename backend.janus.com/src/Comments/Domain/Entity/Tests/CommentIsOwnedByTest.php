@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for Comment::isOwnedBy() — verifying ownership checks.
  */
-#[CoversClass(Comment::class)]
+#[CoversClass(className: Comment::class)]
 #[CoversMethod(Comment::class, 'isOwnedBy')]
 final class CommentIsOwnedByTest extends CommentTest
 {

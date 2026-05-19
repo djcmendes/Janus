@@ -25,7 +25,7 @@ use App\Activity\Application\Query\Handler\GetActivityHandler;
 use App\Activity\Domain\Entity\Activity;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
 use App\Activity\Presentation\Controller\ActivityController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;

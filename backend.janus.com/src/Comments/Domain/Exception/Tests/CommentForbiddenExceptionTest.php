@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: CommentForbiddenException is a final class with no injectable
  * dependencies. Tests instantiate it directly.
  */
-#[CoversClass(CommentForbiddenException::class)]
+#[CoversClass(className: CommentForbiddenException::class)]
 abstract class CommentForbiddenExceptionTest extends TestCase
 {
     /**

@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that countAll() returns the correct integer count.
  */
-#[CoversClass(DeploymentRepository::class)]
+#[CoversClass(className: DeploymentRepository::class)]
 final class DeploymentRepositoryCountAllTest extends DeploymentRepositoryTest
 {
     /**

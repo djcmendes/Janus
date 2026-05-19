@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies handle() returns paginated DashboardDtos with the correct total count.
  */
-#[CoversClass(GetDashboardsHandler::class)]
+#[CoversClass(className: GetDashboardsHandler::class)]
 final class GetDashboardsHandlerHandleTest extends GetDashboardsHandlerTest
 {
     /**

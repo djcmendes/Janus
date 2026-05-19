@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Verifies that setKey() stores the new label, returns static for fluency, and sets updatedAt.
  */
-#[CoversClass(Version::class)]
+#[CoversClass(className: Version::class)]
 #[CoversMethod(Version::class, 'setKey')]
 final class VersionSetKeyTest extends VersionTest
 {

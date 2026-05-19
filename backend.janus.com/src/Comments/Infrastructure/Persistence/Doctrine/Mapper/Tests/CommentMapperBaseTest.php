@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that CommentMapper is correctly instantiated as a final class
  * with no dependencies.
  */
-#[CoversClass(CommentMapper::class)]
+#[CoversClass(className: CommentMapper::class)]
 final class CommentMapperBaseTest extends CommentMapperTest
 {
     // Happy path ───────────────────────────────────────────────────

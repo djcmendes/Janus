@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for DeploymentProviderInactiveException test suites.
  */
-#[CoversClass(DeploymentProviderInactiveException::class)]
+#[CoversClass(className: DeploymentProviderInactiveException::class)]
 abstract class DeploymentProviderInactiveExceptionTest extends TestCase
 {
     /** @var DeploymentProviderInactiveException The system under test. */

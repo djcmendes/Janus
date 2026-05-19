@@ -22,7 +22,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies delete() removes a Version and enforces authorization.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 #[CoversMethod(VersionsController::class, 'delete')]
 final class VersionsControllerDeleteTest extends VersionsControllerTest
 {

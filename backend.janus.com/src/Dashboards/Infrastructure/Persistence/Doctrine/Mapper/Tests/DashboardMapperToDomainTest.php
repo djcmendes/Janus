@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies toDomain() correctly maps DashboardEntity fields to a Dashboard domain entity.
  */
-#[CoversClass(DashboardMapper::class)]
+#[CoversClass(className: DashboardMapper::class)]
 final class DashboardMapperToDomainTest extends DashboardMapperTest
 {
     /**

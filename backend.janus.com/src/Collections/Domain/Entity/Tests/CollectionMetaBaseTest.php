@@ -16,7 +16,7 @@ namespace App\Collections\Domain\Entity\Tests;
 use App\Collections\Domain\Entity\CollectionMeta;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CollectionMeta::class)]
+#[CoversClass(className: CollectionMeta::class)]
 final class CollectionMetaBaseTest extends CollectionMetaTest
 {
     // Happy path ───────────────────────────────────────────────────

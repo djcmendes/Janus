@@ -8,7 +8,7 @@ use App\Extensions\Presentation\Controller\ExtensionsController;
 use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 final class ExtensionsControllerGetTest extends ExtensionsControllerTest
 {
     public function testGetReturns200WithData(): void

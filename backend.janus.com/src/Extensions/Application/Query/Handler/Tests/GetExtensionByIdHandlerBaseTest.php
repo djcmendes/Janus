@@ -7,7 +7,7 @@ namespace App\Extensions\Application\Query\Handler\Tests;
 use App\Extensions\Application\Query\Handler\GetExtensionByIdHandler;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(GetExtensionByIdHandler::class)]
+#[CoversClass(className: GetExtensionByIdHandler::class)]
 final class GetExtensionByIdHandlerBaseTest extends GetExtensionByIdHandlerTest
 {
     public function testHandlerCanBeInstantiated(): void

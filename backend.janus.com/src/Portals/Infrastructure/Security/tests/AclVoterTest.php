@@ -83,7 +83,7 @@ final class AclVoterTest extends TestCase
 
     public function testGrantsAccessWhenUserRoleMatchesRule(): void
     {
-        $roleId = 'role-uuid-0000-0000-0000-000000000001';
+        $roleId = '00000000-aaaa-7000-8000-000000000001';
         $user   = $this->makeUserWithRole($roleId);
         $token  = $this->tokenForUser($user);
 
@@ -96,7 +96,7 @@ final class AclVoterTest extends TestCase
 
     public function testGrantsEditWhenUserRoleMatchesEditRule(): void
     {
-        $roleId = 'role-uuid-0000-0000-0000-000000000001';
+        $roleId = '00000000-aaaa-7000-8000-000000000001';
         $user   = $this->makeUserWithRole($roleId);
         $token  = $this->tokenForUser($user);
 
@@ -111,10 +111,10 @@ final class AclVoterTest extends TestCase
 
     public function testDeniesAccessWhenUserRoleDoesNotMatchAnyRule(): void
     {
-        $user  = $this->makeUserWithRole('role-uuid-0000-0000-0000-000000000099');
+        $user  = $this->makeUserWithRole('00000000-bbbb-7000-8000-000000000099');
         $token = $this->tokenForUser($user);
 
-        $rule = new AclRule('page', 'page-uuid', 'role-uuid-0000-0000-0000-000000000001', 'view');
+        $rule = new AclRule('page', 'page-uuid', '00000000-aaaa-7000-8000-000000000001', 'view');
         $this->aclRepository->method('findBySubject')->willReturn([$rule]);
 
         $result = $this->voter->vote($token, 'page-uuid', [AclVoter::PAGE_VIEW]);
@@ -123,7 +123,7 @@ final class AclVoterTest extends TestCase
 
     public function testDeniesAccessWhenRoleMatchesButPermissionDiffers(): void
     {
-        $roleId = 'role-uuid-0000-0000-0000-000000000001';
+        $roleId = '00000000-aaaa-7000-8000-000000000001';
         $user   = $this->makeUserWithRole($roleId);
         $token  = $this->tokenForUser($user);
 
@@ -151,7 +151,7 @@ final class AclVoterTest extends TestCase
 
     public function testPortalViewUsesPortalSubjectType(): void
     {
-        $roleId = 'role-uuid-0000-0000-0000-000000000001';
+        $roleId = '00000000-aaaa-7000-8000-000000000001';
         $user   = $this->makeUserWithRole($roleId);
         $token  = $this->tokenForUser($user);
 

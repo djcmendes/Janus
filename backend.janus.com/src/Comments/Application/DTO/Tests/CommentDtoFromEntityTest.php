@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * Tests for CommentDto::fromEntity() — verifying field extraction from the domain entity.
  */
-#[CoversClass(CommentDto::class)]
+#[CoversClass(className: CommentDto::class)]
 #[CoversMethod(CommentDto::class, 'fromEntity')]
 final class CommentDtoFromEntityTest extends CommentDtoTest
 {

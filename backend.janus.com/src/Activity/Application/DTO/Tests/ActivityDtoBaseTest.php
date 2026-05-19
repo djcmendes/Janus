@@ -20,7 +20,7 @@ use ReflectionException;
 /**
  * This class contains tests for the ActivityDto class.
  */
-#[CoversClass(className:  ActivityDto::class)]
+#[CoversClass(className: ActivityDto::class)]
 final class ActivityDtoBaseTest extends ActivityDtoTest
 {
     /**
@@ -46,15 +46,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testIdPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: '123', actual: $activityDto->id);
     }
 
@@ -73,15 +74,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testActionPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: 'Hadouken', actual: $activityDto->action);
     }
 
@@ -100,15 +102,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testCollectionPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: 'things',
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: 'things', actual: $activityDto->collection);
     }
 
@@ -118,15 +121,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testCollectionPropertyIsSetCorrectlyAsNull(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: null, actual: $activityDto->collection);
     }
 
@@ -145,15 +149,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testItemPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: 'things',
-            item: 'glass',
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       'glass',
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: 'glass', actual: $activityDto->item);
     }
 
@@ -163,15 +168,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testItemPropertyIsSetCorrectlyAsNull(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: null, actual: $activityDto->item);
     }
 
@@ -190,15 +196,16 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testUserIdPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: 'things',
-            item: 'glass',
-            userId: 'riu',
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       'glass',
+            userId:     'riu',
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: 'riu', actual: $activityDto->userId);
     }
 
@@ -208,14 +215,14 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testUserIdPropertyIsSetCorrectlyAsNull(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
         $this->assertSame(expected: null, actual: $activityDto->userId);
     }
@@ -235,14 +242,14 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testIpPropertyIsSetCorrectly(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: 'things',
-            item: 'glass',
-            userId: 'riu',
-            ip: '123.1.1.1',
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       'glass',
+            userId:     'riu',
+            ip:         '123.1.1.1',
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
         $this->assertSame(expected: '123.1.1.1', actual: $activityDto->ip);
     }
@@ -253,14 +260,14 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
     public function testIpPropertyIsSetCorrectlyAsNull(): void
     {
         $activityDto = new ActivityDto(
-            id:     '123',
-            action: 'Hadouken',
+            id:         '123',
+            action:     'Hadouken',
             collection: null,
-            item: null,
-            userId: null,
-            ip: null,
-            userAgent: null,
-            timestamp: '2026-05-09T13:36:39.000Z'
+            item:       null,
+            userId:     null,
+            ip:         null,
+            userAgent:  null,
+            timestamp:  '2026-05-09T13:36:39.000Z'
         );
         $this->assertSame(expected: null, actual: $activityDto->ip);
     }
@@ -307,6 +314,7 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
             userAgent:  null,
             timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: null, actual: $activityDto->userAgent);
     }
 
@@ -334,6 +342,7 @@ final class ActivityDtoBaseTest extends ActivityDtoTest
             userAgent:  '007',
             timestamp:  '2026-05-09T13:36:39.000Z'
         );
+
         $this->assertSame(expected: '2026-05-09T13:36:39.000Z', actual: $activityDto->timestamp);
     }
 }

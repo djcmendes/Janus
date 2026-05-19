@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that save() persists and flushes a Deployment domain entity.
  */
-#[CoversClass(DeploymentRepository::class)]
+#[CoversClass(className: DeploymentRepository::class)]
 final class DeploymentRepositorySaveTest extends DeploymentRepositoryTest
 {
     /**

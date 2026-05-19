@@ -25,7 +25,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Covers: 201 created, 409 name conflict, 422 validation failure,
  * guard auth failures, and ROLE_ADMIN enforcement.
  */
-#[CoversClass(CollectionsController::class)]
+#[CoversClass(className: CollectionsController::class)]
 #[CoversMethod(CollectionsController::class, 'create')]
 final class CollectionsControllerCreateTest extends CollectionsControllerTest
 {

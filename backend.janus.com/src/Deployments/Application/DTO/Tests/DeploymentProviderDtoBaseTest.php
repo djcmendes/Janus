@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DeploymentProviderDto property storage via the constructor.
  */
-#[CoversClass(DeploymentProviderDto::class)]
+#[CoversClass(className: DeploymentProviderDto::class)]
 final class DeploymentProviderDtoBaseTest extends DeploymentProviderDtoTest
 {
     /**

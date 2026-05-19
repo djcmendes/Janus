@@ -20,7 +20,7 @@ use ReflectionProperty;
 /**
  * Verifies that DeleteCommentHandler stores its injected repository correctly.
  */
-#[CoversClass(DeleteCommentHandler::class)]
+#[CoversClass(className: DeleteCommentHandler::class)]
 final class DeleteCommentHandlerBaseTest extends DeleteCommentHandlerTest
 {
     /**

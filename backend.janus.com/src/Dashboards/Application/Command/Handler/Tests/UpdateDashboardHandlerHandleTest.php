@@ -22,7 +22,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies handle() applies partial updates to the Dashboard and throws when not found.
  */
-#[CoversClass(UpdateDashboardHandler::class)]
+#[CoversClass(className: UpdateDashboardHandler::class)]
 final class UpdateDashboardHandlerHandleTest extends UpdateDashboardHandlerTest
 {
     /**

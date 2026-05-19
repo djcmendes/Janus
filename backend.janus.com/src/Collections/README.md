@@ -223,7 +223,7 @@ HTTP `204 No Content` — empty body.
 |---|---|---|
 | **Fields module** | `FieldMetaRepositoryInterface` | `CreateCollectionHandler` (inserts PK field), `DeleteCollectionHandler` (removes all fields) |
 | **Fields module** | `FieldType` enum | `CreateCollectionHandler` — sets primary key field type |
-| **Heimdall module** | `RequestGuard` | `CollectionsController` — `validate_webservice_request()`, `authorize()` |
+| **Heimdall module** | `RequestGuard` | `CollectionsController` — `validateWebserviceRequest()`, `authorize()` |
 | **Heimdall module** | `ApiScope`, `ApiVersion`, `Client` | `CollectionsController` — guard configuration |
 | **Doctrine ORM** | `ServiceEntityRepository` | `CollectionMetaRepository` base class |
 | **Doctrine DBAL** | `Connection` | `SchemaManagerService` — executes raw DDL |

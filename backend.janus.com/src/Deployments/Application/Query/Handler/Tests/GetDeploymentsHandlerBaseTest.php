@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies GetDeploymentsHandler instantiation.
  */
-#[CoversClass(GetDeploymentsHandler::class)]
+#[CoversClass(className: GetDeploymentsHandler::class)]
 final class GetDeploymentsHandlerBaseTest extends GetDeploymentsHandlerTest
 {
     /**

@@ -23,7 +23,7 @@ use App\Versions\Presentation\DTO\UpdateVersionRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use RuntimeException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -42,7 +42,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '', name: 'list', methods: ['GET'])]
     public function list(Request $request, GetVersionsHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -63,7 +63,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '/{id}', name: 'get', methods: ['GET'], priority: 10)]
     public function get(string $id, GetVersionByIdHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -83,7 +83,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '', name: 'create', methods: ['POST'])]
     public function create(Request $request, SaveVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -98,7 +98,7 @@ final class VersionsController extends AbstractController
             );
         }
 
-        $userId = $this->guard->validate_authenticated_user_id();
+        $userId = $this->guard->validateAuthenticatedUserId();
 
         try {
             $result = $handler->handle(new SaveVersionCommand(
@@ -123,7 +123,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '/{id}', name: 'patch', methods: ['PATCH'], priority: 10)]
     public function patch(string $id, Request $request, UpdateVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -146,7 +146,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '/{id}', name: 'delete', methods: ['DELETE'], priority: 10)]
     public function delete(string $id, DeleteVersionHandler $handler): Response
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -166,7 +166,7 @@ final class VersionsController extends AbstractController
     #[Route(path: '/{id}/promote', name: 'promote', methods: ['POST'], priority: 20)]
     public function promote(string $id, PromoteVersionHandler $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

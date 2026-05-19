@@ -7,7 +7,7 @@ namespace App\Extensions\Domain\Exception\Tests;
 use App\Extensions\Domain\Exception\ExtensionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionNotFoundException::class)]
+#[CoversClass(className: ExtensionNotFoundException::class)]
 final class ExtensionNotFoundExceptionBaseTest extends ExtensionNotFoundExceptionTest
 {
     public function testExtendsRuntimeException(): void

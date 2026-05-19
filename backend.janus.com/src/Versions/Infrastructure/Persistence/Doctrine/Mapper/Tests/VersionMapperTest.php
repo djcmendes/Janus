@@ -28,7 +28,7 @@ use Symfony\Component\Uid\Uuid;
  * Strategy: VersionMapper is a final pure service with no dependencies.
  * It is instantiated directly — no mocking is required.
  */
-#[CoversClass(VersionMapper::class)]
+#[CoversClass(className: VersionMapper::class)]
 abstract class VersionMapperTest extends TestCase
 {
     /** @var string */

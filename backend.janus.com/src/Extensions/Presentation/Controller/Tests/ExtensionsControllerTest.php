@@ -13,7 +13,7 @@ use App\Extensions\Domain\Entity\Extension;
 use App\Extensions\Domain\Enum\ExtensionType;
 use App\Extensions\Domain\Repository\ExtensionRepositoryInterface;
 use App\Extensions\Presentation\Controller\ExtensionsController;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
@@ -26,7 +26,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[CoversClass(ExtensionsController::class)]
+#[CoversClass(className: ExtensionsController::class)]
 abstract class ExtensionsControllerTest extends TestCase
 {
     public const string AUTH_USER_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';

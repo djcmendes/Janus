@@ -24,14 +24,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class ActivityBaseTest extends ActivityTest
 {
     /**
-     * Test that the SUT is an instance of Activity.
-     */
-    public function testIsInstanceOfActivity(): void
-    {
-        $this->assertInstanceOf(expected: Activity::class, actual: $this->class);
-    }
-
-    /**
      * Test that the constructor stores the action argument.
      */
     public function testConstructorSetsAction(): void

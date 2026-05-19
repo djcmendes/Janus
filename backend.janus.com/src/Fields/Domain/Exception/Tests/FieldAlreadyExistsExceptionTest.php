@@ -8,7 +8,7 @@ use App\Fields\Domain\Exception\FieldAlreadyExistsException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-#[CoversClass(FieldAlreadyExistsException::class)]
+#[CoversClass(className: FieldAlreadyExistsException::class)]
 final class FieldAlreadyExistsExceptionTest extends TestCase
 {
     public function testMessageContainsFieldName(): void

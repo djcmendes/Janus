@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that VersionRepository is wired correctly: implements the domain interface,
  * extends the Doctrine base, and is configured for the VersionEntity persistence model.
  */
-#[CoversClass(VersionRepository::class)]
+#[CoversClass(className: VersionRepository::class)]
 final class VersionRepositoryBaseTest extends VersionRepositoryTest
 {
     public function testImplementsVersionRepositoryInterface(): void

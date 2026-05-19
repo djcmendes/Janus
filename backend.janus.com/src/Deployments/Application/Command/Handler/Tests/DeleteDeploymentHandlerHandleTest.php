@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that handle() deletes a provider or throws DeploymentNotFoundException.
  */
-#[CoversClass(DeleteDeploymentHandler::class)]
+#[CoversClass(className: DeleteDeploymentHandler::class)]
 final class DeleteDeploymentHandlerHandleTest extends DeleteDeploymentHandlerTest
 {
     /**

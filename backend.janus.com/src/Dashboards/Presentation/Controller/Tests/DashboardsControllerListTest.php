@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 /**
  * Verifies the list action returns paginated results and enforces authentication.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerListTest extends DashboardsControllerTest
 {
     /**

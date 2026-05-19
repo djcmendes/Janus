@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies DashboardsController instantiation.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerBaseTest extends DashboardsControllerTest
 {
     /**

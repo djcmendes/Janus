@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for CreateDashboardHandler test suites.
  */
-#[CoversClass(CreateDashboardHandler::class)]
+#[CoversClass(className: CreateDashboardHandler::class)]
 abstract class CreateDashboardHandlerTest extends TestCase
 {
     /**

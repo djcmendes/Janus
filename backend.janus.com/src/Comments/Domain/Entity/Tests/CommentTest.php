@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: Comment is a final class with no injectable dependencies.
  * Tests instantiate it directly — no mocking is required.
  */
-#[CoversClass(Comment::class)]
+#[CoversClass(className: Comment::class)]
 abstract class CommentTest extends TestCase
 {
     /**

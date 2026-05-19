@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * Common setup, teardown, and factory helpers for Dashboard entity test suites.
  */
-#[CoversClass(Dashboard::class)]
+#[CoversClass(className: Dashboard::class)]
 abstract class DashboardTest extends TestCase
 {
     /** @var Dashboard The system under test. */

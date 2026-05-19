@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: VersionNotFoundException is a final class with no injectable dependencies.
  * Tests instantiate it directly — no mocking is required.
  */
-#[CoversClass(VersionNotFoundException::class)]
+#[CoversClass(className: VersionNotFoundException::class)]
 abstract class VersionNotFoundExceptionTest extends TestCase
 {
     /** @var string */

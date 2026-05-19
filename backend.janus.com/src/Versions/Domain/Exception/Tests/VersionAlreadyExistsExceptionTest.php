@@ -21,7 +21,7 @@ use ReflectionClass;
 /**
  * Abstract base for VersionAlreadyExistsException tests.
  */
-#[CoversClass(VersionAlreadyExistsException::class)]
+#[CoversClass(className: VersionAlreadyExistsException::class)]
 abstract class VersionAlreadyExistsExceptionTest extends TestCase
 {
     /**

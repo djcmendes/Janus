@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that DashboardNotFoundException is a RuntimeException with the correct message format.
  */
-#[CoversClass(DashboardNotFoundException::class)]
+#[CoversClass(className: DashboardNotFoundException::class)]
 final class DashboardNotFoundExceptionBaseTest extends DashboardNotFoundExceptionTest
 {
     /**

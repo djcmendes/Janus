@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file AssetTransformService.php
+ *
+ * GD-based image transformation service supporting resize, crop, and format conversion.
+ *
+ * @package App\Assets\Domain\Service
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Assets\Domain\Service;
@@ -15,11 +24,18 @@ namespace App\Assets\Domain\Service;
 final class AssetTransformService
 {
     /**
-     * Transform a local image file.
+     * Transforms a local image file and returns its rendered binary content and MIME type.
      *
-     * @return array{content: string, mimeType: string}
+     * @param  string      $sourcePath  Absolute filesystem path to the source image.
+     * @param  string      $sourceMime  MIME type of the source image (e.g. 'image/jpeg').
+     * @param  ?int        $width       Target width in pixels, or null to derive proportionally.
+     * @param  ?int        $height      Target height in pixels, or null to derive proportionally.
+     * @param  string      $fit         Resize mode: 'contain', 'cover', or 'fill' (default 'contain').
+     * @param  string      $format      Output format: 'jpg', 'png', or 'webp' (default 'jpg').
      *
-     * @throws \RuntimeException when GD cannot load or process the image
+     * @return array{content: string, mimeType: string}  Rendered binary and resolved MIME type.
+     *
+     * @throws \RuntimeException  When GD cannot load the source file or render the output.
      */
     public function transform(
         string  $sourcePath,
@@ -61,7 +77,20 @@ final class AssetTransformService
 
     // ------------------------------------------------------------------ private
 
-    /** @return array{int,int,int,int,int,int} [dstW, dstH, srcX, srcY, srcCropW, srcCropH] */
+    /**
+     * Computes destination and crop dimensions for the requested fit mode.
+     *
+     * When both $targetW and $targetH are null the source dimensions are returned unchanged.
+     * A missing single dimension is derived proportionally before the fit is applied.
+     *
+     * @param  int    $srcW     Width of the loaded source image in pixels.
+     * @param  int    $srcH     Height of the loaded source image in pixels.
+     * @param  ?int   $targetW  Requested output width, or null.
+     * @param  ?int   $targetH  Requested output height, or null.
+     * @param  string $fit      One of 'contain', 'cover', or 'fill'.
+     *
+     * @return array{int,int,int,int,int,int}  [dstW, dstH, srcX, srcY, srcCropW, srcCropH]
+     */
     private function calculateDimensions(
         int     $srcW,
         int     $srcH,
@@ -88,7 +117,16 @@ final class AssetTransformService
         };
     }
 
-    /** Scale so image fills the target box, then crop center. */
+    /**
+     * Scales the source to fill the target box completely, then computes center-crop offsets.
+     *
+     * @param  int $srcW     Source image width in pixels.
+     * @param  int $srcH     Source image height in pixels.
+     * @param  int $targetW  Desired output width in pixels.
+     * @param  int $targetH  Desired output height in pixels.
+     *
+     * @return array{int,int,int,int,int,int}  [dstW, dstH, srcX, srcY, srcCropW, srcCropH]
+     */
     private function coverDimensions(int $srcW, int $srcH, int $targetW, int $targetH): array
     {
         $scaleW = $targetW / $srcW;
@@ -107,7 +145,16 @@ final class AssetTransformService
         return [$targetW, $targetH, $cropX, $cropY, $cropW, $cropH];
     }
 
-    /** Scale so the whole image fits within the target box. */
+    /**
+     * Scales the source so the entire image fits within the target box, preserving aspect ratio.
+     *
+     * @param  int $srcW     Source image width in pixels.
+     * @param  int $srcH     Source image height in pixels.
+     * @param  int $targetW  Maximum output width in pixels.
+     * @param  int $targetH  Maximum output height in pixels.
+     *
+     * @return array{int,int,int,int,int,int}  [dstW, dstH, srcX, srcY, srcCropW, srcCropH]
+     */
     private function containDimensions(int $srcW, int $srcH, int $targetW, int $targetH): array
     {
         $scaleW = $targetW / $srcW;
@@ -120,7 +167,16 @@ final class AssetTransformService
         return [$dstW, $dstH, 0, 0, $srcW, $srcH];
     }
 
-    /** @return \GdImage */
+    /**
+     * Loads an image from disk into a GD resource using the appropriate decoder for the MIME type.
+     *
+     * @param  string $path  Absolute path to the image file.
+     * @param  string $mime  MIME type used to select the GD loader function.
+     *
+     * @return \GdImage  The loaded GD image resource.
+     *
+     * @throws \RuntimeException  When the MIME type is unsupported or GD fails to decode the file.
+     */
     private function loadImage(string $path, string $mime): \GdImage
     {
         $image = match (true) {
@@ -138,6 +194,16 @@ final class AssetTransformService
         return $image;
     }
 
+    /**
+     * Renders a GD image resource to a binary string using the requested output format.
+     *
+     * @param  \GdImage $image   The GD image resource to render.
+     * @param  string   $format  Output format: 'png', 'webp', or any other value for JPEG at quality 85.
+     *
+     * @return string  Raw binary image data.
+     *
+     * @throws \RuntimeException  When the output buffer fails to capture GD's output.
+     */
     private function renderToString(\GdImage $image, string $format): string
     {
         ob_start();
@@ -157,6 +223,13 @@ final class AssetTransformService
         return $content;
     }
 
+    /**
+     * Maps a GD format string to the corresponding MIME type.
+     *
+     * @param  string $format  One of 'png', 'webp', or any other value (treated as JPEG).
+     *
+     * @return string  The MIME type string (e.g. 'image/png').
+     */
     private function formatToMime(string $format): string
     {
         return match ($format) {

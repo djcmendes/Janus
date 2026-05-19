@@ -24,7 +24,7 @@ use ReflectionClass;
 /**
  * Abstract base for UpdateVersionHandler tests.
  */
-#[CoversClass(UpdateVersionHandler::class)]
+#[CoversClass(className: UpdateVersionHandler::class)]
 abstract class UpdateVersionHandlerTest extends TestCase
 {
     /** @var string */

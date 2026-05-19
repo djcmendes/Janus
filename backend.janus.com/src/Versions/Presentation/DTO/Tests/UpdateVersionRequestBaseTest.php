@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * Verifies that UpdateVersionRequest can be instantiated and that its UNCHANGED
  * sentinel defaults are set correctly before the serializer populates the fields.
  */
-#[CoversClass(UpdateVersionRequest::class)]
+#[CoversClass(className: UpdateVersionRequest::class)]
 final class UpdateVersionRequestBaseTest extends UpdateVersionRequestTest
 {
     public function testCanBeInstantiated(): void

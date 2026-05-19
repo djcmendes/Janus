@@ -40,7 +40,7 @@ use Symfony\Component\Uid\Uuid;
  * Common setup, teardown, and shared mock infrastructure for all
  * CommentRepository test suites.
  */
-#[CoversClass(CommentRepository::class)]
+#[CoversClass(className: CommentRepository::class)]
 abstract class CommentRepositoryTest extends TestCase
 {
     /**

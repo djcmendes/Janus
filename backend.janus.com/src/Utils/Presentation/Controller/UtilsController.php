@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file UtilsController.php
+ *
+ * HTTP controller for utility endpoints (sort, hash, cache, random string).
+ *
+ * @package App\Utils\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Utils\Presentation\Controller;
@@ -8,18 +17,31 @@ use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use Doctrine\DBAL\Connection;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Psr\Cache\CacheItemPoolInterface;
 use Symfony\Component\Routing\Attribute\Route;
-use Symfony\Contracts\Cache\CacheInterface;
 
+/**
+ * Provides administrative utility operations over HTTP.
+ *
+ * All actions require ROLE_ADMIN. Available endpoints:
+ *   POST /utils/sort/{collection}  — reorder items by sort field
+ *   GET  /utils/hash/generate      — bcrypt hash of a value
+ *   GET  /utils/hash/verify        — verify a value against a bcrypt hash
+ *   POST /utils/cache/clear        — flush the application cache pool
+ *   GET  /utils/random/string      — cryptographically secure random string
+ */
 #[Route('/utils', name: 'utils_')]
 final class UtilsController extends AbstractController
 {
+    /**
+     * @param RequestGuard $guard Validates authentication and client type.
+     */
     public function __construct(private readonly RequestGuard $guard) {}
 
     /**
@@ -35,7 +57,7 @@ final class UtilsController extends AbstractController
         Connection                         $connection,
         CollectionMetaRepositoryInterface  $collectionRepository,
     ): JsonResponse {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -89,7 +111,7 @@ final class UtilsController extends AbstractController
     #[Route('/hash/generate', name: 'hash_generate', methods: ['GET'], priority: 20)]
     public function hashGenerate(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -113,7 +135,7 @@ final class UtilsController extends AbstractController
     #[Route('/hash/verify', name: 'hash_verify', methods: ['GET'], priority: 20)]
     public function hashVerify(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -136,9 +158,9 @@ final class UtilsController extends AbstractController
      * Clears the application cache pool.
      */
     #[Route('/cache/clear', name: 'cache_clear', methods: ['POST'], priority: 20)]
-    public function cacheClear(CacheInterface $cache): JsonResponse
+    public function cacheClear(CacheItemPoolInterface $cache): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -156,7 +178,7 @@ final class UtilsController extends AbstractController
     #[Route('/random/string', name: 'random_string', methods: ['GET'], priority: 20)]
     public function randomString(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

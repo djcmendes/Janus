@@ -28,7 +28,7 @@ use Symfony\Component\Uid\Uuid;
  * as real objects. All three classes are pure with no injectable dependencies,
  * so no mocking is required.
  */
-#[CoversClass(CommentMapper::class)]
+#[CoversClass(className: CommentMapper::class)]
 abstract class CommentMapperTest extends TestCase
 {
     /** @var string */

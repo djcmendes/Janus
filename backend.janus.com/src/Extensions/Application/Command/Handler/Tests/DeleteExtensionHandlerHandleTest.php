@@ -9,7 +9,7 @@ use App\Extensions\Application\Command\Handler\DeleteExtensionHandler;
 use App\Extensions\Domain\Exception\ExtensionNotFoundException;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(DeleteExtensionHandler::class)]
+#[CoversClass(className: DeleteExtensionHandler::class)]
 final class DeleteExtensionHandlerHandleTest extends DeleteExtensionHandlerTest
 {
     public function testHandleCallsDeleteWhenFound(): void

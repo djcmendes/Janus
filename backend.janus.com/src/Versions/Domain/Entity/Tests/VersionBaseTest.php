@@ -19,7 +19,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that Version is constructed correctly with generated UUID, timestamps, and all fields set.
  */
-#[CoversClass(Version::class)]
+#[CoversClass(className: Version::class)]
 final class VersionBaseTest extends VersionTest
 {
     /**

@@ -7,7 +7,7 @@ namespace App\Extensions\Application\DTO\Tests;
 use App\Extensions\Application\DTO\ExtensionDto;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ExtensionDto::class)]
+#[CoversClass(className: ExtensionDto::class)]
 final class ExtensionDtoBaseTest extends ExtensionDtoTest
 {
     public function testDtoCanBeInstantiated(): void

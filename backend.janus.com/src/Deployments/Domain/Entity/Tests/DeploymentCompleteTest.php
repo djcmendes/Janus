@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that complete() marks the run with a final status, log, and completedAt timestamp.
  */
-#[CoversClass(Deployment::class)]
+#[CoversClass(className: Deployment::class)]
 final class DeploymentCompleteTest extends DeploymentTest
 {
     /**

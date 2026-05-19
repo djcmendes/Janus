@@ -23,14 +23,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class GetActivityQueryBaseTest extends GetActivityQueryTest
 {
     /**
-     * Test that the SUT is an instance of GetActivityQuery.
-     */
-    public function testIsInstanceOfGetActivityQuery(): void
-    {
-        $this->assertInstanceOf(expected: GetActivityQuery::class, actual: $this->class);
-    }
-
-    /**
      * Test that the constructor stores the limit parameter.
      */
     public function testConstructorStoresLimit(): void
@@ -77,7 +69,7 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
      */
     public function testAllPropertiesAreReadonly(): void
     {
-        foreach (['limit', 'offset', 'collection', 'action', 'userId'] as $property) {
+        foreach ([ 'limit', 'offset', 'collection', 'action', 'userId' ] as $property) {
             $this->assertTrue(
                 condition: $this->reflection->getProperty(name: $property)->isReadOnly(),
                 message:   "Property \${$property} must be readonly.",

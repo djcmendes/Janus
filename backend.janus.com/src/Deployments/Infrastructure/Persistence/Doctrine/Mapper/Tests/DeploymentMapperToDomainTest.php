@@ -21,7 +21,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that toDomain() accurately converts a DeploymentEntity to a domain Deployment.
  */
-#[CoversClass(DeploymentMapper::class)]
+#[CoversClass(className: DeploymentMapper::class)]
 final class DeploymentMapperToDomainTest extends DeploymentMapperTest
 {
     /**

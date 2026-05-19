@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies the full trigger lifecycle: provider lookup, HTTP call, status recording, and DTO return.
  */
-#[CoversClass(TriggerDeploymentHandler::class)]
+#[CoversClass(className: TriggerDeploymentHandler::class)]
 final class TriggerDeploymentHandlerHandleTest extends TriggerDeploymentHandlerTest
 {
     /**

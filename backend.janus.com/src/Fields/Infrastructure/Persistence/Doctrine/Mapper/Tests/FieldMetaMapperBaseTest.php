@@ -7,7 +7,7 @@ namespace App\Fields\Infrastructure\Persistence\Doctrine\Mapper\Tests;
 use App\Fields\Infrastructure\Persistence\Doctrine\Mapper\FieldMetaMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMetaMapper::class)]
+#[CoversClass(className: FieldMetaMapper::class)]
 final class FieldMetaMapperBaseTest extends FieldMetaMapperTest
 {
     public function testMapperInstantiates(): void

@@ -25,7 +25,7 @@ use ReflectionClass;
  * Strategy: CommentDto and Comment are final classes with no injectable
  * dependencies. Tests instantiate them directly — no mocking is required.
  */
-#[CoversClass(CommentDto::class)]
+#[CoversClass(className: CommentDto::class)]
 abstract class CommentDtoTest extends TestCase
 {
     /**

@@ -26,7 +26,7 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 final class ActivityReconstituteTest extends ActivityTest
 {
     /**
-     *
+     * UUID used as the lookup identifier in all get() test scenarios.
      * @var string
      */
     private const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';

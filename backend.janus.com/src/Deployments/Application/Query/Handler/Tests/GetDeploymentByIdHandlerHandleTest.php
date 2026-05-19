@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that handle() returns a DTO or throws DeploymentNotFoundException.
  */
-#[CoversClass(GetDeploymentByIdHandler::class)]
+#[CoversClass(className: GetDeploymentByIdHandler::class)]
 final class GetDeploymentByIdHandlerHandleTest extends GetDeploymentByIdHandlerTest
 {
     /**

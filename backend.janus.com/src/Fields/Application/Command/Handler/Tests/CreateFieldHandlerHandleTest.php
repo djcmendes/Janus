@@ -13,7 +13,7 @@ use App\Fields\Domain\Enum\FieldType;
 use App\Fields\Domain\Entity\FieldMeta;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(CreateFieldHandler::class)]
+#[CoversClass(className: CreateFieldHandler::class)]
 final class CreateFieldHandlerHandleTest extends CreateFieldHandlerTest
 {
     private function makeCmd(string $type = 'string', string $field = 'title'): CreateFieldCommand

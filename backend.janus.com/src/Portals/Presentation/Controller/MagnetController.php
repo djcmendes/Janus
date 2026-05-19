@@ -5,7 +5,7 @@ namespace App\Portals\Presentation\Controller;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
 use App\Heimdall\Domain\Enum\Client;
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Portals\Application\Command\CreateMagnetCommand;
 use App\Portals\Application\Command\DeleteMagnetCommand;
 use App\Portals\Application\Command\Handler\CreateMagnetHandler;
@@ -48,7 +48,7 @@ final class MagnetController extends AbstractController
     #[Route('', name: 'list', methods: ['GET'])]
     public function list(string $portalId, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $this->denyAccessUnlessGranted('PORTAL_VIEW', $portalId);
 
@@ -64,7 +64,7 @@ final class MagnetController extends AbstractController
     #[Route('', name: 'create', methods: ['POST'])]
     public function create(string $portalId, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -95,7 +95,7 @@ final class MagnetController extends AbstractController
     #[Route('/{id}', name: 'update', methods: ['PATCH'])]
     public function update(string $portalId, string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -122,7 +122,7 @@ final class MagnetController extends AbstractController
     #[Route('/{id}/pause', name: 'pause', methods: ['POST'])]
     public function pause(string $portalId, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -139,7 +139,7 @@ final class MagnetController extends AbstractController
     #[Route('/{id}/trigger', name: 'trigger', methods: ['POST'])]
     public function trigger(string $portalId, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -156,7 +156,7 @@ final class MagnetController extends AbstractController
     #[Route('/{id}/runs', name: 'runs', methods: ['GET'])]
     public function runs(string $portalId, string $id, Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::IOS, Client::ANDROID);
         $this->denyAccessUnlessGranted('PORTAL_VIEW', $portalId);
 
@@ -178,7 +178,7 @@ final class MagnetController extends AbstractController
     #[Route('/{id}', name: 'delete', methods: ['DELETE'])]
     public function delete(string $portalId, string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 

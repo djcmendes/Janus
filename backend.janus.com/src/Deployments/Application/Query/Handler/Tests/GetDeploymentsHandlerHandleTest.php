@@ -23,7 +23,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that handle() returns paginated DTOs with the correct total count.
  */
-#[CoversClass(GetDeploymentsHandler::class)]
+#[CoversClass(className: GetDeploymentsHandler::class)]
 final class GetDeploymentsHandlerHandleTest extends GetDeploymentsHandlerTest
 {
     /**

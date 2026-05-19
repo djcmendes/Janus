@@ -22,7 +22,7 @@ declare(strict_types=1);
 
 namespace App\Schema\Presentation\Controller\Tests;
 
-use App\Heimdall\Domain\Service\RequestGuard;
+use App\Heimdall\Application\Service\RequestGuard;
 use App\Schema\Application\Command\Handler\ApplySchemaHandlerInterface;
 use App\Schema\Application\Query\Handler\GetSchemaSnapshotHandlerInterface;
 use App\Schema\Domain\Service\SchemaDiffServiceInterface;

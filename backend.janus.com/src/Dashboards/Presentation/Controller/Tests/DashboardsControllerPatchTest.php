@@ -23,7 +23,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 /**
  * Verifies the patch action enforces authentication and ROLE_ADMIN and returns 200/404.
  */
-#[CoversClass(DashboardsController::class)]
+#[CoversClass(className: DashboardsController::class)]
 final class DashboardsControllerPatchTest extends DashboardsControllerTest
 {
     /**

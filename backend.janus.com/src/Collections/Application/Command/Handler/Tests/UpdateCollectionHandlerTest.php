@@ -31,7 +31,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * UpdateCollectionHandler test suites.
  */
-#[CoversClass(UpdateCollectionHandler::class)]
+#[CoversClass(className: UpdateCollectionHandler::class)]
 abstract class UpdateCollectionHandlerTest extends TestCase
 {
     /**

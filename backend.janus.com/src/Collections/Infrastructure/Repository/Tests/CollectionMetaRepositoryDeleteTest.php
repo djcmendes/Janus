@@ -17,7 +17,7 @@ use App\Collections\Infrastructure\Repository\CollectionMetaRepository;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(CollectionMetaRepository::class)]
+#[CoversClass(className: CollectionMetaRepository::class)]
 #[CoversMethod(CollectionMetaRepository::class, 'delete')]
 final class CollectionMetaRepositoryDeleteTest extends CollectionMetaRepositoryTest
 {

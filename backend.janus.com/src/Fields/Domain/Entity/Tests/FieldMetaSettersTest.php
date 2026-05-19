@@ -8,7 +8,7 @@ use App\Fields\Domain\Entity\FieldMeta;
 use App\Fields\Domain\Enum\FieldType;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(FieldMeta::class)]
+#[CoversClass(className: FieldMeta::class)]
 final class FieldMetaSettersTest extends FieldMetaTest
 {
     public function testSetTypeUpdatesValue(): void
