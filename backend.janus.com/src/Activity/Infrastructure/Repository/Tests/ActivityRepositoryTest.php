@@ -41,7 +41,7 @@ use Symfony\Component\Uid\Uuid;
  * Common setup, teardown, and shared mock infrastructure for all
  * ActivityRepository test suites.
  */
-#[CoversClass(ActivityRepository::class)]
+#[CoversClass(className: ActivityRepository::class)]
 abstract class ActivityRepositoryTest extends TestCase
 {
     /**
@@ -59,7 +59,7 @@ abstract class ActivityRepositoryTest extends TestCase
     /**
      * Mock of the Doctrine ClassMetadata for the ActivityEntity persistence model.
      * Created with disableOriginalConstructor; name is set explicitly.
-     * @var MockObject&ClassMetadata
+     * @var MockObject&ClassMetadata<ActivityEntity>
      */
     protected MockObject $classMetadata;
 
@@ -71,7 +71,7 @@ abstract class ActivityRepositoryTest extends TestCase
 
     /**
      * Mock of the Doctrine Query returned by QueryBuilder::getQuery().
-     * @var MockObject&Query
+     * @var MockObject&Query<int, ActivityEntity>
      */
     protected MockObject $query;
 
@@ -105,43 +105,32 @@ abstract class ActivityRepositoryTest extends TestCase
         $this->query        = $this->createMock(type: Query::class);
         $this->queryBuilder = $this->createMock(type: QueryBuilder::class);
 
-        $this->queryBuilder->method('select')
-                           ->willReturn($this->queryBuilder);
+        foreach ([ 'select', 'from', 'orderBy', 'setMaxResults', 'setFirstResult', 'andWhere', 'setParameter' ] as $method) {
+            $this->queryBuilder->method(constraint: $method)
+                               ->willReturn(value: $this->queryBuilder);
+        }
 
-        $this->queryBuilder->method('from')
-                           ->willReturn($this->queryBuilder);
+        $this->queryBuilder->method(constraint: 'getQuery')
+                           ->willReturn(value: $this->query);
 
-        $this->queryBuilder->method('orderBy')
-                           ->willReturn($this->queryBuilder);
-
-        $this->queryBuilder->method('setMaxResults')
-                           ->willReturn($this->queryBuilder);
-
-        $this->queryBuilder->method('setFirstResult')
-                           ->willReturn($this->queryBuilder);
-
-        $this->queryBuilder->method('andWhere')
-                           ->willReturn($this->queryBuilder);
-
-        $this->queryBuilder->method('setParameter')
-                           ->willReturn($this->queryBuilder);
-
-        $this->queryBuilder->method('getQuery')
-                           ->willReturn($this->query);
-
-        // ── ClassMetadata — maps to ActivityEntity (Doctrine persistence model) ─
-        $this->classMetadata = $this->getMockBuilder(ClassMetadata::class)
+        $this->classMetadata = $this->getMockBuilder(className: ClassMetadata::class)
                                     ->disableOriginalConstructor()
                                     ->getMock();
 
         $this->classMetadata->name = ActivityEntity::class;
 
         $this->entityManager = $this->createMock(type: EntityManagerInterface::class);
-        $this->entityManager->method('createQueryBuilder')->willReturn($this->queryBuilder);
-        $this->entityManager->method('getClassMetadata')->willReturn($this->classMetadata);
+
+        $this->entityManager->method(constraint: 'createQueryBuilder')
+                            ->willReturn($this->queryBuilder);
+
+        $this->entityManager->method(constraint: 'getClassMetadata')
+                            ->willReturn(value: $this->classMetadata);
 
         $this->registry = $this->createMock(type: ManagerRegistry::class);
-        $this->registry->method('getManagerForClass')->willReturn($this->entityManager);
+
+        $this->registry->method(constraint: 'getManagerForClass')
+                       ->willReturn(value: $this->entityManager);
 
         $this->mapper = new ActivityMapper();
 
@@ -188,9 +177,9 @@ abstract class ActivityRepositoryTest extends TestCase
             collection: $collection,
             item:       $item
         );
-        $activity->setUserId(v: 'bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp(v: '127.0.0.1');
-        $activity->setUserAgent(v: 'PHPUnit');
+        $activity->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(ip: '127.0.0.1');
+        $activity->setUserAgent(userAgent: 'PHPUnit');
 
         return $activity;
     }
@@ -209,14 +198,13 @@ abstract class ActivityRepositoryTest extends TestCase
         ?string $collection = 'posts',
         ?string $item       = '1',
     ): ActivityEntity {
-        return (new ActivityEntity())
-            ->setId(id: Uuid::fromString(uuid: 'aaaaaaaa-0000-7000-8000-000000000001'))
-            ->setAction(action: $action)
-            ->setCollection(collection: $collection)
-            ->setItem(item: $item)
-            ->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002')
-            ->setIp(ip: '127.0.0.1')
-            ->setUserAgent(userAgent: 'PHPUnit')
-            ->setTimestamp(timestamp: new DateTimeImmutable(datetime: '2024-01-01T00:00:00+00:00'));
+        return (new ActivityEntity())->setId(id: Uuid::fromString(uuid: 'aaaaaaaa-0000-7000-8000-000000000001'))
+                                     ->setAction(action: $action)
+                                     ->setCollection(collection: $collection)
+                                     ->setItem(item: $item)
+                                     ->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002')
+                                     ->setIp(ip: '127.0.0.1')
+                                     ->setUserAgent(userAgent: 'PHPUnit')
+                                     ->setTimestamp(timestamp: new DateTimeImmutable(datetime: '2024-01-01T00:00:00+00:00'));
     }
 }

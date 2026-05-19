@@ -16,13 +16,17 @@ namespace App\Activity\Infrastructure\Persistence\Doctrine\Mapper\Tests;
 use App\Activity\Infrastructure\Persistence\Doctrine\Mapper\ActivityMapper;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ActivityMapper::class)]
+/**
+ * Test class for constructor and interface compliance tests for ActivityMapper.class.
+ */
+#[CoversClass(className:  ActivityMapper::class)]
 final class ActivityMapperBaseTest extends ActivityMapperTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that ActivityEntity can be instantiated with no arguments.
+     */
     public function testIsInstanceOfActivityMapper(): void
     {
-        $this->assertInstanceOf(ActivityMapper::class, $this->class);
+        $this->assertInstanceOf(expected: ActivityMapper::class, actual: $this->class);
     }
 }

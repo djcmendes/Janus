@@ -17,15 +17,13 @@ use App\Activity\Application\Query\GetActivityQuery;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
- *
+ * Verifies that GetActivityQuery stores all constructor arguments as readonly properties.
  */
-#[CoversClass(GetActivityQuery::class)]
+#[CoversClass(className:  GetActivityQuery::class)]
 final class GetActivityQueryBaseTest extends GetActivityQueryTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
     /**
-     *
+     * Test that the SUT is an instance of GetActivityQuery.
      */
     public function testIsInstanceOfGetActivityQuery(): void
     {
@@ -33,7 +31,7 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
     }
 
     /**
-     *
+     * Test that the constructor stores the limit parameter.
      */
     public function testConstructorStoresLimit(): void
     {
@@ -41,7 +39,7 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
     }
 
     /**
-     *
+     * Test that the constructor stores the offset parameter.
      */
     public function testConstructorStoresOffset(): void
     {
@@ -49,7 +47,7 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
     }
 
     /**
-     *
+     * Test that collection, action, and userId default to null when omitted.
      */
     public function testFiltersDefaultToNull(): void
     {
@@ -58,9 +56,8 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
         $this->assertNull(actual: $this->class->userId);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
     /**
-     *
+     * Test that all optional filter parameters are stored when provided.
      */
     public function testConstructorStoresAllFiltersWhenProvided(): void
     {
@@ -74,7 +71,7 @@ final class GetActivityQueryBaseTest extends GetActivityQueryTest
     }
 
     /**
-     *
+     * Test that all properties are declared readonly.
      *
      * @throws \ReflectionException
      */

@@ -31,7 +31,7 @@ use ReflectionClass;
  * Common setup, teardown, and shared mock infrastructure for all
  * GetActivityByIdHandler test suites.
  */
-#[CoversClass(GetActivityByIdHandler::class)]
+#[CoversClass(className:  GetActivityByIdHandler::class)]
 abstract class GetActivityByIdHandlerTest extends TestCase
 {
     /**

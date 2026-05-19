@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: Activity is a final class with no injectable dependencies.
  * Tests instantiate it directly — no mocking is required.
  */
-#[CoversClass(Activity::class)]
+#[CoversClass(className:  Activity::class)]
 abstract class ActivityTest extends TestCase
 {
     /**

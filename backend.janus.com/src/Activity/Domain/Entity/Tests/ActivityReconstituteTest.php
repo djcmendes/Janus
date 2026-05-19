@@ -14,38 +14,52 @@ declare(strict_types=1);
 namespace App\Activity\Domain\Entity\Tests;
 
 use App\Activity\Domain\Entity\Activity;
+use DateTimeImmutable;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(Activity::class)]
-#[CoversMethod(Activity::class, 'reconstitute')]
+/**
+ * Tests for Activity::reconstitute() — hydrating an entity from persisted state.
+ */
+#[CoversClass(className:  Activity::class)]
+#[CoversMethod(className: Activity::class, methodName: 'reconstitute')]
 final class ActivityReconstituteTest extends ActivityTest
 {
-    /** @var string */
+    /**
+     *
+     * @var string
+     */
     private const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that reconstitute() uses the provided id instead of generating one.
+     */
     public function testReconstituteUsesSuppliedId(): void
     {
         $activity = Activity::reconstitute(
             self::FIXED_UUID, 'create', 'posts', '1', null, null, null,
-            new \DateTimeImmutable(),
+            new DateTimeImmutable(),
         );
 
-        $this->assertSame(self::FIXED_UUID, $activity->getId());
+        $this->assertSame(self::FIXED_UUID, $activity->id);
     }
 
+    /**
+     * Test that reconstitute() uses the provided timestamp instead of generating one.
+     */
     public function testReconstituteUsesSuppliedTimestamp(): void
     {
-        $ts       = new \DateTimeImmutable('2020-01-01T00:00:00+00:00');
+        $ts       = new DateTimeImmutable('2020-01-01T00:00:00+00:00');
         $activity = Activity::reconstitute(
             self::FIXED_UUID, 'create', null, null, null, null, null, $ts,
         );
 
-        $this->assertSame($ts, $activity->getTimestamp());
+        $this->assertSame($ts, $activity->timestamp);
     }
 
+    /**
+     * Test that reconstitute() populates all fields when all arguments are provided.
+     */
     public function testReconstitutePopulatesAllFields(): void
     {
         $activity = Activity::reconstitute(
@@ -56,7 +70,7 @@ final class ActivityReconstituteTest extends ActivityTest
             userId:     'user-uuid',
             ip:         '10.0.0.1',
             userAgent:  'Bot/1.0',
-            timestamp:  new \DateTimeImmutable(),
+            timestamp:  new DateTimeImmutable(),
         );
 
         $this->assertSame('delete', $activity->getAction());
@@ -67,13 +81,14 @@ final class ActivityReconstituteTest extends ActivityTest
         $this->assertSame('Bot/1.0', $activity->getUserAgent());
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that reconstitute() accepts null for all optional fields.
+     */
     public function testReconstituteAcceptsNullForAllOptionalFields(): void
     {
         $activity = Activity::reconstitute(
             self::FIXED_UUID, 'login', null, null, null, null, null,
-            new \DateTimeImmutable(),
+            new DateTimeImmutable(),
         );
 
         $this->assertNull($activity->getCollection());

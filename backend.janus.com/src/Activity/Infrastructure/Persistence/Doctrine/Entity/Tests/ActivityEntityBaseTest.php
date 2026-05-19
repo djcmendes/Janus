@@ -16,25 +16,32 @@ namespace App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests;
 use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 
-#[CoversClass(ActivityEntity::class)]
+/**
+ * Test class for constructor and interface compliance tests for ActivityEntity.class.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
 final class ActivityEntityBaseTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that ActivityEntity can be instantiated with no arguments.
+     */
     public function testIsInstantiableWithNoArguments(): void
     {
-        $this->assertInstanceOf(ActivityEntity::class, $this->class);
+        $this->assertInstanceOf(expected: ActivityEntity::class, actual: $this->class);
     }
 
+    /**
+     * Test that ActivityEntity Fluent Setter Chain Populates all fields
+     */
     public function testFluentSetterChainPopulatesAllFields(): void
     {
         $entity = $this->makeEntity();
 
-        $this->assertSame('create', $entity->getAction());
-        $this->assertSame('posts', $entity->getCollection());
-        $this->assertSame('42', $entity->getItem());
-        $this->assertSame('bbbbbbbb-0000-7000-8000-000000000002', $entity->getUserId());
-        $this->assertSame('127.0.0.1', $entity->getIp());
-        $this->assertSame('PHPUnit', $entity->getUserAgent());
+        $this->assertSame(expected: 'create', actual: $entity->action);
+        $this->assertSame(expected: 'posts', actual: $entity->collection);
+        $this->assertSame(expected: '42', actual: $entity->item);
+        $this->assertSame(expected: 'bbbbbbbb-0000-7000-8000-000000000002', actual: $entity->userId);
+        $this->assertSame(expected: '127.0.0.1', actual: $entity->ip);
+        $this->assertSame(expected: 'PHPUnit', actual: $entity->userAgent);
     }
 }

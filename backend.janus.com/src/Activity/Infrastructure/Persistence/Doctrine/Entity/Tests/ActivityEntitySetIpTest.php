@@ -3,7 +3,7 @@
 /**
  * @file ActivityEntitySetIpTest.php
  *
- * Tests for ActivityEntity::setIp() and ActivityEntity::getIp().
+ * Tests for ActivityEntity::setIp() and ActivityEntity::ip { get; set }.
  *
  * @package App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests
  * @author  David Mendes
@@ -17,32 +17,40 @@ use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(ActivityEntity::class)]
-#[CoversMethod(ActivityEntity::class, 'setIp')]
+/**
+ * Test class for ActivityEntity::setIp() — storing and retrieving the ip.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
+#[CoversMethod(className: ActivityEntity::class, methodName: 'setIp')]
 final class ActivityEntitySetIpTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that setIp() stores the values.
+     */
     public function testSetIpStoresValue(): void
     {
-        $this->class->setIp('10.0.0.1');
+        $this->class->setIp(ip: '10.0.0.1');
 
-        $this->assertSame('10.0.0.1', $this->class->getIp());
+        $this->assertSame(expected: '10.0.0.1', actual: $this->class->ip);
     }
 
+    /**
+     * Test that setIp() returns static instance
+     */
     public function testSetIpReturnsStaticInstance(): void
     {
-        $result = $this->class->setIp('10.0.0.1');
+        $result = $this->class->setIp(ip: '10.0.0.1');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setIp() accepts null value
+     */
     public function testSetIpAcceptsNull(): void
     {
-        $this->class->setIp(null);
+        $this->class->setIp(ip: null);
 
-        $this->assertNull($this->class->getIp());
+        $this->assertNull(actual: $this->class->ip);
     }
 }

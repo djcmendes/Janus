@@ -19,6 +19,8 @@ namespace App\Activity\Application\Query;
 final readonly class GetActivityQuery
 {
     /**
+     * Constructor
+     *
      * @param int         $limit      Maximum number of records to return.
      * @param int         $offset     Number of records to skip (pagination offset).
      * @param string|null $collection Filter to activities on a specific collection, or null for all.

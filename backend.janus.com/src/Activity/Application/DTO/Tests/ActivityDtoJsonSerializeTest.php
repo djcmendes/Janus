@@ -1,9 +1,9 @@
 <?php
 
 /**
- * @file ActivityDtoFromEntityTest.php
+ * @file ActivityDtoJsonSerializeTest.php
  *
- * Tests for ActivityDto::fromEntity().
+ * Tests for ActivityDto::jsonSerialize().
  *
  * @package App\Activity\Application\DTO\Tests
  * @author  David Mendes
@@ -14,120 +14,68 @@ declare(strict_types=1);
 namespace App\Activity\Application\DTO\Tests;
 
 use App\Activity\Application\DTO\ActivityDto;
-use App\Activity\Domain\Entity\Activity;
-use DateTimeInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
 /**
- * This class contains tests for the ActivityDto class.
+ * Verifies that jsonSerialize() satisfies the JsonSerializable contract and
+ * produces output identical to toArray() so json_encode() works correctly.
  */
-#[CoversClass(className: ActivityDto::class)]
-#[CoversMethod(className: ActivityDto::class, methodName: 'fromEntity')]
-final class ActivityDtoFromEntityTest extends ActivityDtoTest
+#[CoversClass(className:  ActivityDto::class)]
+#[CoversMethod(className: ActivityDto::class, methodName: 'jsonSerialize')]
+final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
 {
     /**
-     * Test that fromEntity() maps the Activity UUID string to the id property.
+     * Test that jsonSerialize() returns an array.
      */
-    public function testFromEntityMapsId(): void
+    public function testJsonSerializeReturnsArray(): void
     {
-        $activity = $this->makeActivity();
-        $dto      = ActivityDto::fromEntity(a: $activity);
-
-        $this->assertSame(expected: (string) $activity->getId(), actual: $dto->id);
+        $this->assertIsArray(actual: $this->class->jsonSerialize());
     }
 
     /**
-     * Test that fromEntity() maps the action field to the action property.
+     * Test that jsonSerialize() returns the same data as toArray().
      */
-    public function testFromEntityMapsAction(): void
+    public function testJsonSerializeMatchesToArray(): void
     {
-        $this->assertSame(expected: 'create', actual: $this->class->action);
-    }
-
-    /**
-     * Test that fromEntity() maps the collection field to the collection property.
-     */
-    public function testFromEntityMapsCollection(): void
-    {
-        $this->assertSame(expected: 'posts', actual: $this->class->collection);
-    }
-
-    /**
-     * Test that fromEntity() maps the item identifier to the item property.
-     */
-    public function testFromEntityMapsItem(): void
-    {
-        $this->assertSame(expected: '42', actual: $this->class->item);
-    }
-
-    /**
-     * Test that fromEntity() maps the userId field to the userId property.
-     */
-    public function testFromEntityMapsUserId(): void
-    {
-        $this->assertSame(expected: 'bbbbbbbb-0000-7000-8000-000000000002', actual: $this->class->userId);
-    }
-
-    /**
-     * Test that fromEntity() maps the ip address to the ip property.
-     */
-    public function testFromEntityMapsIp(): void
-    {
-        $this->assertSame(expected: '127.0.0.1', actual: $this->class->ip);
-    }
-
-    /**
-     * Test that fromEntity() maps the userAgent string to the userAgent property.
-     */
-    public function testFromEntityMapsUserAgent(): void
-    {
-        $this->assertSame(expected: 'PHPUnit', actual: $this->class->userAgent);
-    }
-
-    /**
-     * Test that fromEntity() formats the Activity timestamp as an ATOM string on the timestamp property.
-     */
-    public function testFromEntityMapsTimestampAsAtomString(): void
-    {
-        $activity = $this->makeActivity();
-        $dto      = ActivityDto::fromEntity(a: $activity);
-
         $this->assertSame(
-            expected: $activity->getTimestamp()->format(format: DateTimeInterface::ATOM),
-            actual:   $dto->timestamp,
+            expected: $this->class->toArray(),
+            actual:   $this->class->jsonSerialize(),
         );
     }
 
     /**
-     * Test that fromEntity() stores null on collection and item when the Activity has neither.
+     * Test that json_encode() produces valid JSON from the DTO.
      */
-    public function testFromEntityMapsNullCollectionAndItem(): void
+    public function testJsonEncodeProducesValidJson(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $json = json_encode(value: $this->class);
 
-        $this->assertNull(actual: $dto->collection);
-        $this->assertNull(actual: $dto->item);
+        $this->assertIsString(actual: $json);
+        $this->assertJson(actual: $json);
     }
 
     /**
-     * Test that fromEntity() stores null on userId when no user is associated with the Activity.
+     * Test that json_encode() round-trips all eight expected keys.
      */
-    public function testFromEntityMapsNullUserId(): void
+    public function testJsonEncodeContainsAllExpectedKeys(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $decoded = json_decode(json: json_encode(value: $this->class), associative: true);
 
-        $this->assertNull(actual: $dto->userId);
+        foreach (['id', 'action', 'collection', 'item', 'user', 'ip', 'user_agent', 'timestamp'] as $key) {
+            $this->assertArrayHasKey(key: $key, array: $decoded);
+        }
     }
 
     /**
-     * Test that fromEntity() stores null on ip and userAgent when neither was set on the Activity.
+     * Test that json_encode() preserves scalar field values correctly.
      */
-    public function testFromEntityMapsNullIpAndUserAgent(): void
+    public function testJsonEncodeValuesMatchDtoProperties(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $decoded = json_decode(json: json_encode(value: $this->class), associative: true);
 
-        $this->assertNull(actual: $dto->ip);
-        $this->assertNull(actual: $dto->userAgent);
+        $this->assertSame(expected: $this->class->id,        actual: $decoded['id']);
+        $this->assertSame(expected: $this->class->action,    actual: $decoded['action']);
+        $this->assertSame(expected: $this->class->timestamp, actual: $decoded['timestamp']);
     }
 }

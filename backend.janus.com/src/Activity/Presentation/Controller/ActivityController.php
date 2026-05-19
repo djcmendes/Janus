@@ -70,7 +70,7 @@ final class ActivityController extends AbstractController
     #[Route(path: '', name: 'list', methods: ['GET'])]
     public function list(Request $request): JsonResponse
     {
-        $this->guard->validate_webservice_request(
+        $this->guard->validateWebserviceRequest(
             version: ApiVersion::JANUS_100,
             scope:   ApiScope::AUTHENTICATED
         );
@@ -114,10 +114,10 @@ final class ActivityController extends AbstractController
      *
      * @throws ActivityNotFoundException Caught internally; results in a 404 JSON error response.
      */
-    #[Route(path: '/{id}', name: 'get', methods: ['GET'], priority: -1)]
+    #[Route(path: '/{id}', name: 'get', methods: [ 'GET' ], priority: -1)]
     public function get(string $id): JsonResponse
     {
-        $this->guard->validate_webservice_request(
+        $this->guard->validateWebserviceRequest(
             version: ApiVersion::JANUS_100,
             scope:   ApiScope::AUTHENTICATED
         );

@@ -26,18 +26,17 @@ use Symfony\Component\HttpFoundation\Request;
  * the entity, IP and User-Agent captured from the current request when
  * available, and IP / User-Agent left as null when no request is active.
  */
-#[CoversClass(ActivityLogger::class)]
-#[CoversMethod(ActivityLogger::class, 'log')]
+#[CoversClass(className:  ActivityLogger::class)]
+#[CoversMethod(className: ActivityLogger::class, methodName: 'log')]
 final class ActivityLoggerLogTest extends ActivityLoggerTest
 {
-    // ── Happy path ────────────────────────────────────────────────────────────
-
     /**
      * Test that log() calls repository->record() exactly once with an Activity instance.
      */
     public function testLogCallsRepositoryRecordOnce(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
 
         $this->repository->expects($this->once())
                          ->method('record')
@@ -51,7 +50,9 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogReturnsVoid(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
+
         $this->repository->method('record');
 
         $result = $this->class->log('create');
@@ -59,21 +60,20 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
         $this->assertNull($result);
     }
 
-    // ── Activity field mapping ────────────────────────────────────────────────
-
     /**
      * Test that log() sets the given userId on the Activity entity before persisting.
      */
     public function testLogSetsUserIdOnActivity(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('create', null, null, 'user-uuid');
 
@@ -85,14 +85,15 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogSetsActionCollectionAndItemOnActivity(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('delete', 'posts', '5');
 
@@ -101,22 +102,21 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
         $this->assertSame('5', $captured->getItem());
     }
 
-    // ── Request capture ───────────────────────────────────────────────────────
-
     /**
      * Test that log() sets the IP address from the current request when one is available.
      */
     public function testLogSetsIpFromCurrentRequestWhenAvailable(): void
     {
         $request = Request::create('/', 'GET', [], [], [], ['REMOTE_ADDR' => '192.168.1.1']);
-        $this->requestStack->method('getCurrentRequest')->willReturn($request);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn($request);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('create');
 
@@ -130,35 +130,35 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
     {
         $request = Request::create('/');
         $request->headers->set('User-Agent', 'TestBrowser/1.0');
-        $this->requestStack->method('getCurrentRequest')->willReturn($request);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn($request);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('create');
 
         $this->assertSame('TestBrowser/1.0', $captured->getUserAgent());
     }
 
-    // ── No request ───────────────────────────────────────────────────────────
-
     /**
      * Test that log() leaves the IP as null on the Activity when no current request exists.
      */
     public function testLogDoesNotSetIpWhenNoCurrentRequest(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('create');
 
@@ -170,14 +170,15 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
      */
     public function testLogDoesNotSetUserAgentWhenNoCurrentRequest(): void
     {
-        $this->requestStack->method('getCurrentRequest')->willReturn(null);
+        $this->requestStack->method('getCurrentRequest')
+                           ->willReturn(null);
 
         $captured = null;
         $this->repository->method('record')
-            ->with($this->callback(static function (Activity $a) use (&$captured): bool {
-                $captured = $a;
-                return true;
-            }));
+                         ->with($this->callback(static function (Activity $a) use (&$captured): bool {
+                             $captured = $a;
+                             return true;
+                         }));
 
         $this->class->log('create');
 

@@ -22,7 +22,7 @@ use App\Activity\Domain\Repository\ActivityRepositoryInterface;
  * Handles GetActivityByIdQuery, loading the matching Activity entity and
  * converting it to an ActivityDto, or throwing if no record exists.
  */
-final class GetActivityByIdHandler
+final readonly class GetActivityByIdHandler
 {
     /**
      * Constructor
@@ -30,15 +30,14 @@ final class GetActivityByIdHandler
      * @param ActivityRepositoryInterface $repository Repository used to load Activity entities.
      */
     public function __construct(
-        private readonly ActivityRepositoryInterface $repository,
+        private ActivityRepositoryInterface $repository,
     ) {}
 
     /**
      * Loads the Activity record for the given UUID and returns it as a DTO.
      *
      * @param  GetActivityByIdQuery $query Query carrying the target UUID.
-     * @return ActivityDto          Serialisable representation of the found record.
-     *
+     * @return ActivityDto Serialisable representation of the found record.
      * @throws ActivityNotFoundException When no Activity exists for the given UUID.
      */
     public function handle(GetActivityByIdQuery $query): ActivityDto
@@ -49,6 +48,6 @@ final class GetActivityByIdHandler
             throw new ActivityNotFoundException(id: $query->id);
         }
 
-        return ActivityDto::fromEntity(a: $activity);
+        return ActivityDto::fromEntity(activity: $activity);
     }
 }

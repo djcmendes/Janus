@@ -25,12 +25,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * no WHERE clause when filters are null, and each individual filter
  * adding the correct WHERE clause and parameter.
  */
-#[CoversClass(ActivityRepository::class)]
-#[CoversMethod(ActivityRepository::class, 'countAll')]
+#[CoversClass(className:  ActivityRepository::class)]
+#[CoversMethod(className: ActivityRepository::class, methodName: 'countAll')]
 final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
 {
-    // ── Data Providers ────────────────────────────────────────────────────────
-
     /**
      * Provides a single active filter and the WHERE clause + parameter it should produce.
      *
@@ -73,18 +71,17 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
         ];
     }
 
-    // ── Happy path ────────────────────────────────────────────────────────────
-
     /**
      * Test that countAll() returns the integer count from the query result.
      */
     public function testCountAllReturnsCorrectCount(): void
     {
-        $this->query->method('getSingleScalarResult')->willReturn(42);
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: 42);
 
         $result = $this->class->countAll();
 
-        $this->assertSame(42, $result);
+        $this->assertSame(expected: 42, actual: $result);
     }
 
     /**
@@ -92,11 +89,12 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
      */
     public function testCountAllReturnsZeroWhenNoRecordsExist(): void
     {
-        $this->query->method('getSingleScalarResult')->willReturn(0);
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: 0);
 
         $result = $this->class->countAll();
 
-        $this->assertSame(0, $result);
+        $this->assertSame(expected: 0, actual: $result);
     }
 
     /**
@@ -104,26 +102,24 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
      */
     public function testCountAllCastsScalarResultToInt(): void
     {
-        $this->query->method('getSingleScalarResult')->willReturn('7');
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: '7');
 
         $result = $this->class->countAll();
 
-        $this->assertIsInt($result);
-        $this->assertSame(7, $result);
+        $this->assertSame(expected: 7, actual: $result);
     }
-
-    // ── Filter handling ───────────────────────────────────────────────────────
 
     /**
      * Test that countAll() adds no WHERE clause when all filters are null.
      */
     public function testCountAllDoesNotApplyWhereClauseWhenNoFilters(): void
     {
-        $this->queryBuilder
-            ->expects($this->never())
-            ->method('andWhere');
+        $this->queryBuilder->expects(invocationRule: $this->never())
+                           ->method(constraint: 'andWhere');
 
-        $this->query->method('getSingleScalarResult')->willReturn(0);
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: 0);
 
         $this->class->countAll();
     }
@@ -147,21 +143,20 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
         string  $expectedParam,
         string  $expectedValue,
     ): void {
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('andWhere')
-            ->with($expectedWhere)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'andWhere')
+                           ->with(arguments: $expectedWhere)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('setParameter')
-            ->with($expectedParam, $expectedValue)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'setParameter')
+                           ->with($expectedParam, $expectedValue)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getSingleScalarResult')->willReturn(0);
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: 0);
 
-        $this->class->countAll($collection, $action, $userId);
+        $this->class->countAll(collection: $collection, action: $action, userId: $userId);
     }
 
     /**
@@ -169,18 +164,17 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
      */
     public function testCountAllAppliesAllFiltersWhenAllProvided(): void
     {
-        $this->queryBuilder
-            ->expects($this->exactly(3))
-            ->method('andWhere')
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
+                           ->method(constraint: 'andWhere')
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder
-            ->expects($this->exactly(3))
-            ->method('setParameter')
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
+                           ->method(constraint: 'setParameter')
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getSingleScalarResult')->willReturn(0);
+        $this->query->method(constraint: 'getSingleScalarResult')
+                    ->willReturn(value: 0);
 
-        $this->class->countAll('posts', 'delete', 'user-uuid');
+        $this->class->countAll(collection: 'posts', action: 'delete', userId: 'user-uuid');
     }
 }

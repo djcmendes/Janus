@@ -25,11 +25,14 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: domain Activity returned when the record exists (mapped from ActivityEntity),
  * null returned when no match, and the correct UUID forwarded to the entity manager.
  */
-#[CoversClass(ActivityRepository::class)]
-#[CoversMethod(ActivityRepository::class, 'findById')]
+#[CoversClass(className:  ActivityRepository::class)]
+#[CoversMethod(className: ActivityRepository::class, methodName: 'findById')]
 final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
 {
-    /** @var string */
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     private const string LOOKUP_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
     /**
@@ -37,13 +40,12 @@ final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
      */
     public function testFindByIdReturnsDomainActivityForExistingId(): void
     {
-        $this->entityManager
-            ->method('find')
-            ->willReturn($this->makeActivityEntity());
+        $this->entityManager->method(constraint: 'find')
+                            ->willReturn(value: $this->makeActivityEntity());
 
-        $result = $this->class->findById(self::LOOKUP_UUID);
+        $result = $this->class->findById(id: self::LOOKUP_UUID);
 
-        $this->assertInstanceOf(Activity::class, $result);
+        $this->assertInstanceOf(expected: Activity::class, actual: $result);
     }
 
     /**
@@ -51,14 +53,14 @@ final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
      */
     public function testFindByIdMapsEntityToDomainActivity(): void
     {
-        $this->entityManager
-            ->method('find')
-            ->willReturn($this->makeActivityEntity('delete', 'articles', '7'));
+        $this->entityManager->method(constraint:'find')
+                            ->willReturn(value: $this->makeActivityEntity(action: 'delete', collection: 'articles', item: '7'));
 
-        $result = $this->class->findById(self::LOOKUP_UUID);
+        $result = $this->class->findById(id: self::LOOKUP_UUID);
 
-        $this->assertSame('delete', $result->getAction());
-        $this->assertSame('articles', $result->getCollection());
+        $this->assertNotNull(actual: $result);
+        $this->assertSame(expected: 'delete', actual: $result->action);
+        $this->assertSame(expected: 'articles', actual: $result->collection);
     }
 
     /**
@@ -66,13 +68,12 @@ final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
      */
     public function testFindByIdReturnsNullForNonExistentId(): void
     {
-        $this->entityManager
-            ->method('find')
-            ->willReturn(null);
+        $this->entityManager->method(constraint: 'find')
+                            ->willReturn(value: null);
 
-        $result = $this->class->findById(self::LOOKUP_UUID);
+        $result = $this->class->findById(id: self::LOOKUP_UUID);
 
-        $this->assertNull($result);
+        $this->assertNull(actual: $result);
     }
 
     /**
@@ -80,12 +81,11 @@ final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
      */
     public function testFindByIdPassesCorrectClassAndIdToEntityManager(): void
     {
-        $this->entityManager
-            ->expects($this->once())
-            ->method('find')
-            ->with(ActivityEntity::class, self::LOOKUP_UUID)
-            ->willReturn(null);
+        $this->entityManager->expects(invocationRule: $this->once())
+                            ->method(constraint: 'find')
+                            ->with(ActivityEntity::class, self::LOOKUP_UUID)
+                            ->willReturn(value: null);
 
-        $this->class->findById(self::LOOKUP_UUID);
+        $this->class->findById(id: self::LOOKUP_UUID);
     }
 }

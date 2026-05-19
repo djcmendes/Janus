@@ -21,15 +21,17 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Convenience service for recording activity log entries.
  * Inject this wherever an action should be audited.
  */
-final class ActivityLogger
+final readonly class ActivityLogger
 {
     /**
+     * Constructor
+     *
      * @param ActivityRepositoryInterface $repository   Repository used to persist activity records.
      * @param RequestStack                $requestStack Symfony request stack for resolving the current request's IP and User-Agent.
      */
     public function __construct(
-        private readonly ActivityRepositoryInterface $repository,
-        private readonly RequestStack               $requestStack,
+        private ActivityRepositoryInterface $repository,
+        private RequestStack                $requestStack,
     ) {}
 
     /**
@@ -40,7 +42,6 @@ final class ActivityLogger
      * @param string|null $collection Collection the action was performed on, or null.
      * @param string|null $item       Identifier of the affected item, or null.
      * @param string|null $userId     UUID of the user who performed the action, or null.
-     *
      * @return void
      */
     public function log(
@@ -49,15 +50,15 @@ final class ActivityLogger
         ?string $item       = null,
         ?string $userId     = null,
     ): void {
-        $activity = new Activity($action, $collection, $item);
-        $activity->setUserId($userId);
+        $activity = new Activity(action: $action, collection: $collection, item: $item);
+        $activity->setUserId(userId: $userId);
 
         $request = $this->requestStack->getCurrentRequest();
         if ($request !== null) {
-            $activity->setIp($request->getClientIp());
-            $activity->setUserAgent($request->headers->get('User-Agent'));
+            $activity->ip        = $request->getClientIp();
+            $activity->userAgent = $request->headers->get(key: 'User-Agent');
         }
 
-        $this->repository->record($activity);
+        $this->repository->record(activity: $activity);
     }
 }

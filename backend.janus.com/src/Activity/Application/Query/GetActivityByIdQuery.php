@@ -23,5 +23,6 @@ final readonly class GetActivityByIdQuery
      *
      * @param string $id UUID of the Activity record to look up.
      */
-    public function __construct(public string $id) {}
+    public function __construct(public string $id)
+    {}
 }

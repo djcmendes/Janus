@@ -19,59 +19,94 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use Symfony\Component\Uid\Uuid;
 
-#[CoversClass(ActivityMapper::class)]
-#[CoversMethod(ActivityMapper::class, 'toPersistence')]
+#[CoversClass(className:  ActivityMapper::class)]
+#[CoversMethod(className: ActivityMapper::class, methodName: 'toPersistence')]
 final class ActivityMapperToPersistenceTest extends ActivityMapperTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that toPersistence() returns an instance of the ActivityEntity persistence model.
+     */
     public function testToPersistenceReturnsActivityEntity(): void
     {
-        $this->assertInstanceOf(ActivityEntity::class, $this->class->toPersistence($this->makeDomain()));
+        $this->assertInstanceOf(
+            expected: ActivityEntity::class,
+            actual:   $this->class->toPersistence(domain: $this->makeDomain())
+        );
     }
 
+    /**
+     * Test that toPersistence() maps the domain id as a Uuid value object on the entity.
+     */
     public function testToPersistenceMapsIdAsUuid(): void
     {
         $domain = $this->makeDomain();
-        $entity = $this->class->toPersistence($domain);
+        $entity = $this->class->toPersistence(domain: $domain);
 
-        $this->assertInstanceOf(Uuid::class, $entity->getId());
-        $this->assertSame($domain->getId(), (string) $entity->getId());
+        $this->assertInstanceOf(expected: Uuid::class, actual: $entity->id);
+        $this->assertSame(
+            expected: $domain->id,
+            actual:   (string) $entity->id
+        );
     }
 
+    /**
+     * Test that toPersistence() maps the action field from the domain Activity to the entity.
+     */
     public function testToPersistenceMapsAction(): void
     {
-        $this->assertSame('create', $this->class->toPersistence($this->makeDomain())->getAction());
+        $this->assertSame(
+            expected: 'create',
+            actual:   $this->class->toPersistence(domain: $this->makeDomain())->action
+        );
     }
 
+    /**
+     * Test that toPersistence() maps the collection field from the domain Activity to the entity.
+     */
     public function testToPersistenceMapsCollection(): void
     {
-        $this->assertSame('posts', $this->class->toPersistence($this->makeDomain())->getCollection());
+        $this->assertSame(
+            expected: 'posts',
+            actual:   $this->class->toPersistence(domain: $this->makeDomain())->collection
+        );
     }
 
+    /**
+     * Test that toPersistence() maps the ip field from the domain Activity to the entity.
+     */
     public function testToPersistenceMapsIp(): void
     {
-        $this->assertSame('127.0.0.1', $this->class->toPersistence($this->makeDomain())->getIp());
+        $this->assertSame(
+            expected: '127.0.0.1',
+            actual:   $this->class->toPersistence(domain: $this->makeDomain())->ip
+        );
     }
 
+    /**
+     * Test that toPersistence() maps the userAgent field from the domain Activity to the entity.
+     */
     public function testToPersistenceMapsUserAgent(): void
     {
-        $this->assertSame('PHPUnit', $this->class->toPersistence($this->makeDomain())->getUserAgent());
+        $this->assertSame(
+            expected: 'PHPUnit',
+            actual: $this->class->toPersistence(domain: $this->makeDomain())->userAgent
+        );
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that toPersistence() maps nullable fields to null on the entity when not set on the domain Activity.
+     */
     public function testToPersistenceMapsNullOptionalFields(): void
     {
         $domain = $this->makeDomain();
-        $domain->setUserId(null);
-        $domain->setIp(null);
-        $domain->setUserAgent(null);
+        $domain->setUserId(userId: null);
+        $domain->setIp(ip: null);
+        $domain->setUserAgent(userAgent: null);
 
-        $entity = $this->class->toPersistence($domain);
+        $entity = $this->class->toPersistence(domain: $domain);
 
-        $this->assertNull($entity->getUserId());
-        $this->assertNull($entity->getIp());
-        $this->assertNull($entity->getUserAgent());
+        $this->assertNull(actual: $entity->userId);
+        $this->assertNull(actual: $entity->ip);
+        $this->assertNull(actual: $entity->userAgent);
     }
 }

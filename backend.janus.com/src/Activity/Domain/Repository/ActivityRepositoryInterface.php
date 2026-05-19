@@ -23,8 +23,7 @@ interface ActivityRepositoryInterface
     /**
      * Persists a new Activity record immediately.
      *
-     * @param Activity $activity The activity entity to store.
-     *
+     * @param  Activity $activity The activity entity to store.
      * @return void
      */
     public function record(Activity $activity): void;
@@ -32,8 +31,7 @@ interface ActivityRepositoryInterface
     /**
      * Finds a single Activity record by its UUID.
      *
-     * @param string $id The UUID of the activity record to retrieve.
-     *
+     * @param  string $id    The UUID of the activity record to retrieve.
      * @return Activity|null The matching entity, or null if no record exists.
      */
     public function findById(string $id): ?Activity;
@@ -46,7 +44,6 @@ interface ActivityRepositoryInterface
      * @param string|null $collection Filter to a specific collection, or null for all.
      * @param string|null $action     Filter to a specific action type, or null for all.
      * @param string|null $userId     Filter to a specific user UUID, or null for all.
-     *
      * @return Activity[] Ordered array of matching Activity entities.
      */
     public function findPaginated(
@@ -63,7 +60,6 @@ interface ActivityRepositoryInterface
      * @param string|null $collection Filter to a specific collection, or null for all.
      * @param string|null $action     Filter to a specific action type, or null for all.
      * @param string|null $userId     Filter to a specific user UUID, or null for all.
-     *
      * @return int Total count of matching records.
      */
     public function countAll(

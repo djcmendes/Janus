@@ -17,6 +17,7 @@ use App\Activity\Presentation\Controller\ActivityController;
 use App\Heimdall\Domain\Exception\UnauthorizedException;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
+use PHPUnit\Framework\Attributes\DataProvider;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
@@ -27,8 +28,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Covers: happy path, DTO mapping, meta counts, query-parameter forwarding
  * to the repository, limit capping, guard failures, and access-control.
  */
-#[CoversClass(ActivityController::class)]
-#[CoversMethod(ActivityController::class, 'list')]
+#[CoversClass(className:  ActivityController::class)]
+#[CoversMethod(className: ActivityController::class, methodName: 'list')]
 final class ActivityControllerListTest extends ActivityControllerTest
 {
     /**
@@ -94,7 +95,7 @@ final class ActivityControllerListTest extends ActivityControllerTest
     public function testListReturnsActivityCollectionForAdminUser(): void
     {
         $this->listRepository->method(constraint: 'findPaginated')
-                             ->willReturn(value: [$this->makeActivity()]);
+                             ->willReturn(value: [ $this->makeActivity() ]);
 
         $this->listRepository->method(constraint: 'countAll')
                              ->willReturn(value: 1);
@@ -126,7 +127,7 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $body = json_decode(json: $result, associative: true);
 
         $this->assertCount(expectedCount: 1, haystack: $body['data']);
-        $this->assertSame(expected: (string) $activity->getId(), actual: $body['data'][0]['id']);
+        $this->assertSame(expected: (string)$activity->id, actual: $body['data'][0]['id']);
         $this->assertSame(expected: 'create', actual: $body['data'][0]['action']);
         $this->assertSame(expected: 'posts', actual: $body['data'][0]['collection']);
         $this->assertSame(expected: '1', actual: $body['data'][0]['item']);
@@ -182,7 +183,7 @@ final class ActivityControllerListTest extends ActivityControllerTest
      * Asserts at the repository layer rather than the query object, exercising
      * the full controller → handler → repository call chain.
      */
-    #[\PHPUnit\Framework\Attributes\DataProvider('queryParameterProvider')]
+    #[DataProvider('queryParameterProvider')]
     public function testListForwardsQueryParametersToRepository(
         array   $params,
         int     $expectedLimit,

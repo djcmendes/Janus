@@ -43,7 +43,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all ActivityController test suites.
  */
-#[CoversClass(ActivityController::class)]
+#[CoversClass(className:  ActivityController::class)]
 abstract class ActivityControllerTest extends TestCase
 {
     /**
@@ -108,13 +108,15 @@ abstract class ActivityControllerTest extends TestCase
 
     /**
      * Reflection of ActivityController for reading private properties.
-     * @var ReflectionClass
+     * @var ReflectionClass<ActivityController>
      */
     protected ReflectionClass $reflection;
 
     /**
      * TestCase Constructor.
+     * Builds the SUT and its reflection mirror before each test.
      *
+     * @return void
      * @throws Exception
      */
     public function setUp(): void
@@ -127,27 +129,23 @@ abstract class ActivityControllerTest extends TestCase
 
         $this->tokenStorage = $this->createMock(type: TokenStorageInterface::class);
 
-        $this->tokenStorage->method(constraint:  'getToken')
+        $this->tokenStorage->method(constraint: 'getToken')
                            ->willReturn(value: $token);
 
-        // ── Client-type happy-path (WEB is in the allowed list) ───────────────
-        $webRequest = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
+        $webRequest = new Request(server: [ 'HTTP_X_CLIENT_TYPE' => 'web' ]);
 
         $this->requestStack = $this->createMock(type: RequestStack::class);
 
         $this->requestStack->method(constraint: 'getCurrentRequest')
                            ->willReturn(value: $webRequest);
 
-        // ── Repositories (tests configure per-scenario return values) ─────────
         $this->listRepository    = $this->createMock(type: ActivityRepositoryInterface::class);
         $this->getByIdRepository = $this->createMock(type: ActivityRepositoryInterface::class);
 
-        // ── Real final instances ──────────────────────────────────────────────
         $this->guard                  = new RequestGuard(tokenStorage: $this->tokenStorage, requestStack: $this->requestStack);
         $this->getActivityHandler     = new GetActivityHandler(repository: $this->listRepository);
         $this->getActivityByIdHandler = new GetActivityByIdHandler(repository: $this->getByIdRepository);
 
-        // ── Symfony container (satisfies denyAccessUnlessGranted + json()) ────
         $this->authorizationChecker = $this->createMock(type: AuthorizationCheckerInterface::class);
 
         $this->authorizationChecker->method(constraint: 'isGranted')
@@ -162,9 +160,7 @@ abstract class ActivityControllerTest extends TestCase
                         ]);
 
         $this->container->method(constraint: 'get')
-                        ->willReturnMap(valueMap: [
-                            [ 'security.authorization_checker', $this->authorizationChecker ]
-                        ]);
+                        ->willReturnMap(valueMap: [[ 'security.authorization_checker', $this->authorizationChecker ]]);
 
         $this->class = new ActivityController(
             guard:                  $this->guard,
@@ -179,27 +175,30 @@ abstract class ActivityControllerTest extends TestCase
 
     /**
      * TestCase Destructor.
+     * Releases SUT references after each test to prevent state bleed.
      *
      * @return void
      */
     public function tearDown(): void
     {
-        unset($this->tokenStorage);
-        unset($this->requestStack);
-        unset($this->listRepository);
-        unset($this->getByIdRepository);
-        unset($this->container);
-        unset($this->authorizationChecker);
-        unset($this->guard);
-        unset($this->getActivityHandler);
-        unset($this->getActivityByIdHandler);
-        unset($this->class);
-        unset($this->reflection);
+        unset(
+            $this->tokenStorage,
+            $this->requestStack,
+            $this->listRepository,
+            $this->getByIdRepository,
+            $this->container,
+            $this->authorizationChecker,
+            $this->guard,
+            $this->getActivityHandler,
+            $this->getActivityByIdHandler,
+            $this->class,
+            $this->reflection
+        );
     }
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return ActivityController A controller instance pre-wired to fail on authentication.
      * @throws Exception
@@ -237,7 +236,7 @@ abstract class ActivityControllerTest extends TestCase
      */
     protected function buildControllerWithUnauthorizedClient(): ActivityController
     {
-        $cliRequest = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'cli']);
+        $cliRequest = new Request(server: [ 'HTTP_X_CLIENT_TYPE' => 'cli' ]);
 
         $requestStack = $this->createMock(type: RequestStack::class);
 
@@ -277,8 +276,8 @@ abstract class ActivityControllerTest extends TestCase
 
         $container->method(constraint: 'has')
                   ->willReturnMap(valueMap: [
-                      ['security.authorization_checker', true],
-                      ['serializer', false],
+                      [ 'security.authorization_checker', true ],
+                      [ 'serializer', false ],
                   ]);
 
         $container->method(constraint: 'get')
@@ -321,9 +320,9 @@ abstract class ActivityControllerTest extends TestCase
             collection: $collection,
             item:       $item
         );
-        $activity->setUserId(v: 'bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp(v: '127.0.0.1');
-        $activity->setUserAgent(v: 'PHPUnit');
+        $activity->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(ip: '127.0.0.1');
+        $activity->setUserAgent(userAgent: 'PHPUnit');
 
         return $activity;
     }

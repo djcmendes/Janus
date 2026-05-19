@@ -3,7 +3,7 @@
 /**
  * @file ActivityEntitySetActionTest.php
  *
- * Tests for ActivityEntity::setAction() and ActivityEntity::getAction().
+ * Tests for ActivityEntity::setAction() and ActivityEntity::action { get; set }.
  *
  * @package App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests
  * @author  David Mendes
@@ -17,23 +17,31 @@ use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(ActivityEntity::class)]
-#[CoversMethod(ActivityEntity::class, 'setAction')]
+/**
+ * Test class for ActivityEntity::setAction() — storing and retrieving the action.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
+#[CoversMethod(className: ActivityEntity::class, methodName: 'setAction')]
 final class ActivityEntitySetActionTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
 
+    /**
+     * Test that setAction() stores the values.
+     */
     public function testSetActionStoresValue(): void
     {
-        $this->class->setAction('delete');
+        $this->class->setAction(action: 'delete');
 
-        $this->assertSame('delete', $this->class->getAction());
+        $this->assertSame(expected: 'delete', actual: $this->class->action);
     }
 
+    /**
+     * Test that setAction() returns static instance
+     */
     public function testSetActionReturnsStaticInstance(): void
     {
-        $result = $this->class->setAction('delete');
+        $result = $this->class->setAction(action: 'delete');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 }

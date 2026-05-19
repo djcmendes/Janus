@@ -3,7 +3,7 @@
 /**
  * @file ActivityEntitySetItemTest.php
  *
- * Tests for ActivityEntity::setItem() and ActivityEntity::getItem().
+ * Tests for ActivityEntity::setItem() and ActivityEntity::item { get; set }.
  *
  * @package App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests
  * @author  David Mendes
@@ -17,32 +17,41 @@ use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(ActivityEntity::class)]
-#[CoversMethod(ActivityEntity::class, 'setItem')]
+/**
+ * Test class for ActivityEntity::setItem() — storing and retrieving the item.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
+#[CoversMethod(className: ActivityEntity::class, methodName: 'setItem')]
 final class ActivityEntitySetItemTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
 
+    /**
+     * Test that setItem() stores the values.
+     */
     public function testSetItemStoresValue(): void
     {
-        $this->class->setItem('99');
+        $this->class->setItem(item: '99');
 
-        $this->assertSame('99', $this->class->getItem());
+        $this->assertSame(expected: '99', actual: $this->class->item);
     }
 
+    /**
+     * Test that setItem() returns static instance
+     */
     public function testSetItemReturnsStaticInstance(): void
     {
-        $result = $this->class->setItem('99');
+        $result = $this->class->setItem(item: '99');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setItem() accepts null value
+     */
     public function testSetItemAcceptsNull(): void
     {
-        $this->class->setItem(null);
+        $this->class->setItem(item: null);
 
-        $this->assertNull($this->class->getItem());
+        $this->assertNull(actual: $this->class->item);
     }
 }

@@ -20,7 +20,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that GetActivityByIdHandler stores its repository dependency correctly after construction.
  */
-#[CoversClass(GetActivityByIdHandler::class)]
+#[CoversClass(className:  GetActivityByIdHandler::class)]
 final class GetActivityByIdHandlerBaseTest extends GetActivityByIdHandlerTest
 {
     /**

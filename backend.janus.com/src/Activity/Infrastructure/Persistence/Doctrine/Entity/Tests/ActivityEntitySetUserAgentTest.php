@@ -3,7 +3,7 @@
 /**
  * @file ActivityEntitySetUserAgentTest.php
  *
- * Tests for ActivityEntity::setUserAgent() and ActivityEntity::getUserAgent().
+ * Tests for ActivityEntity::setUserAgent() and ActivityEntity::userAgent { get; set }.
  *
  * @package App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests
  * @author  David Mendes
@@ -17,32 +17,40 @@ use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(ActivityEntity::class)]
-#[CoversMethod(ActivityEntity::class, 'setUserAgent')]
+/**
+ * Test class for ActivityEntity::setUserAgent() — storing and retrieving the userAgent.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
+#[CoversMethod(className: ActivityEntity::class, methodName: 'setUserAgent')]
 final class ActivityEntitySetUserAgentTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that setUserAgent() stores the values.
+     */
     public function testSetUserAgentStoresValue(): void
     {
-        $this->class->setUserAgent('Mozilla/5.0');
+        $this->class->setUserAgent(userAgent: 'Mozilla/5.0');
 
-        $this->assertSame('Mozilla/5.0', $this->class->getUserAgent());
+        $this->assertSame(expected: 'Mozilla/5.0', actual: $this->class->userAgent);
     }
 
+    /**
+     * Test that setUserAgent() returns static instance
+     */
     public function testSetUserAgentReturnsStaticInstance(): void
     {
-        $result = $this->class->setUserAgent('Mozilla/5.0');
+        $result = $this->class->setUserAgent(userAgent: 'Mozilla/5.0');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setUserAgent() accepts null value
+     */
     public function testSetUserAgentAcceptsNull(): void
     {
-        $this->class->setUserAgent(null);
+        $this->class->setUserAgent(userAgent: null);
 
-        $this->assertNull($this->class->getUserAgent());
+        $this->assertNull(actual: $this->class->userAgent);
     }
 }

@@ -20,11 +20,12 @@ use PHPUnit\Framework\Attributes\CoversClass;
 /**
  * Verifies that GetActivityHandler stores its repository dependency correctly after construction.
  */
-#[CoversClass(GetActivityHandler::class)]
+#[CoversClass(className:  GetActivityHandler::class)]
 final class GetActivityHandlerBaseTest extends GetActivityHandlerTest
 {
     /**
      * Test that the handler stores the injected repository in its repository property.
+     * @throws \ReflectionException
      */
     public function testConstructorStoresRepository(): void
     {

@@ -27,51 +27,77 @@ use Symfony\Component\Uid\Uuid;
  */
 final class Activity
 {
-    /** UUID string of the persisted record.
+    /**
+     * UUID string of the persisted record.
      * @var string
      */
-    private string $id;
+    private(set) string $id;
 
-    /** Action type.
+    /**
+     * Action type (e.g. 'create', 'update', 'delete', 'login').
      * @var string
      */
-    private string $action;
+    public string $action
+    {
+        get => $this->action;
+    }
 
     /**
-     * Collection the action was performed on.
+     * Collection the action was performed on, or null.
      * @var string|null
      */
-    private ?string $collection;
+    public ?string $collection = null
+    {
+        get => $this->collection;
+    }
 
     /**
-     * Identifier of the affected item.
+     * Identifier of the affected item, or null.
      * @var string|null
      */
-    private ?string $item;
+    public ?string $item = null
+    {
+        get => $this->item;
+    }
 
     /**
-     * UUID of the user who performed the action.
+     * UUID of the user who performed the action, if authenticated.
      * @var string|null
      */
-    private ?string $userId = null;
+    public ?string $userId = null
+    {
+        get => $this->userId;
+        set => $this->userId = $value;
+    }
 
     /**
-     * IP address of the originating request.
+     * IP address of the originating request that triggered the activity, if captured.
      * @var string|null
      */
-    private ?string $ip = null;
+    public ?string $ip = null
+    {
+        get => $this->ip;
+        set => $this->ip = $value;
+    }
 
     /**
-     * User-Agent string of the originating request.
+     * User-Agent string of the originating request that triggered the activity, if captured.
      * @var string|null
      */
-    private ?string $userAgent = null;
+    public ?string $userAgent = null
+    {
+        get => $this->userAgent;
+        set => $this->userAgent = $value;
+    }
 
     /**
      * Timestamp of when the activity occurred.
      * @var DateTimeImmutable
      */
-    private DateTimeImmutable $timestamp;
+    public DateTimeImmutable $timestamp
+    {
+        get => $this->timestamp;
+    }
 
     /**
      * Constructor
@@ -80,7 +106,11 @@ final class Activity
      * @param string|null $collection Collection the action was performed on, or null.
      * @param string|null $item       Identifier of the affected item, or null.
      */
-    public function __construct(string $action, ?string $collection = null, ?string $item = null)
+    public function __construct(
+        string  $action,
+        ?string $collection = null,
+        ?string $item       = null,
+    )
     {
         $this->id         = (string) Uuid::v7();
         $this->action     = $action;
@@ -95,15 +125,14 @@ final class Activity
      *
      * Used exclusively by ActivityMapper when converting from ActivityEntity.
      *
-     * @param string             $id         UUID string of the persisted record.
-     * @param string             $action     Action type.
-     * @param string|null        $collection Collection name, or null.
-     * @param string|null        $item       Item identifier, or null.
-     * @param string|null        $userId     User UUID, or null.
-     * @param string|null        $ip         IP address, or null.
-     * @param string|null        $userAgent  User-Agent string, or null.
+     * @param string            $id         UUID string of the persisted record.
+     * @param string            $action     Action type.
+     * @param string|null       $collection Collection name, or null.
+     * @param string|null       $item       Item identifier, or null.
+     * @param string|null       $userId     User UUID, or null.
+     * @param string|null       $ip         IP address, or null.
+     * @param string|null       $userAgent  User-Agent string, or null.
      * @param DateTimeImmutable $timestamp  Original timestamp from persistence.
-     *
      * @return self A fully-populated Activity with the given id and timestamp.
      */
     public static function reconstitute(
@@ -127,119 +156,39 @@ final class Activity
     }
 
     /**
-     * Returns the unique UUID of this activity record.
-     *
-     * @return string UUID v4.
-     */
-    public function getId(): string
-    {
-        return $this->id;
-    }
-
-    /**
-     * Returns the action that was performed (e.g. "create", "update", "delete").
-     *
-     * @return string Action identifier.
-     */
-    public function getAction(): string
-    {
-        return $this->action;
-    }
-
-    /**
-     * Returns the name of the collection this action targeted, if applicable.
-     *
-     * @return string|null Collection name, or null when not collection-scoped.
-     */
-    public function getCollection(): ?string
-    {
-        return $this->collection;
-    }
-
-    /**
-     * Returns the primary key of the item this action targeted, if applicable.
-     *
-     * @return string|null Item identifier, or null when not item-scoped.
-     */
-    public function getItem(): ?string
-    {
-        return $this->item;
-    }
-
-    /**
-     * Returns the UUID of the user who performed the action, if authenticated.
-     *
-     * @return string|null User UUID, or null for anonymous/system actions.
-     */
-    public function getUserId(): ?string
-    {
-        return $this->userId;
-    }
-
-    /**
      * Sets the user identifier.
      *
-     * @param  string|null $v UUID of the user, or null to clear.
-     * @return static
+     * @param string|null $userId UUID of the user, or null to clear.
+     * @return static Return self for chaining
      */
-    public function setUserId(?string $v): static
+    public function setUserId(?string $userId): static
     {
-        $this->userId = $v;
+        $this->userId = $userId;
         return $this;
-    }
-
-    /**
-     * Returns the IP address of the request that triggered the activity, if captured.
-     *
-     * @return string|null IP address string, or null when not recorded.
-     */
-    public function getIp(): ?string
-    {
-        return $this->ip;
     }
 
     /**
      * Sets the originating IP address.
      *
-     * @param  string|null $v IP address string, or null to clear.
-     * @return static
+     * @param string|null $ip IP address string, or null to clear.
+     * @return static Return self for chaining
      */
-    public function setIp(?string $v): static
+    public function setIp(?string $ip): static
     {
-        $this->ip = $v;
+        $this->ip = $ip;
         return $this;
-    }
-
-    /**
-     * Returns the User-Agent string of the request that triggered the activity, if captured.
-     *
-     * @return string|null User-Agent string, or null when not recorded.
-     */
-    public function getUserAgent(): ?string
-    {
-        return $this->userAgent;
     }
 
     /**
      * Sets the originating User-Agent string.
      *
-     * @param  string|null $v User-Agent string, or null to clear.
-     * @return static
+     * @param string|null $userAgent User-Agent string, or null to clear.
+     * @return static Return self for chaining
      */
-    public function setUserAgent(?string $v): static
+    public function setUserAgent(?string $userAgent): static
     {
-        $this->userAgent = $v;
+        $this->userAgent = $userAgent;
         return $this;
-    }
-
-    /**
-     * Returns the UTC timestamp of when the activity was recorded.
-     *
-     * @return DateTimeImmutable Immutable datetime in UTC.
-     */
-    public function getTimestamp(): DateTimeImmutable
-    {
-        return $this->timestamp;
     }
 
     /**

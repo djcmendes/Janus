@@ -25,7 +25,7 @@ use ReflectionClass;
  * dependencies. Tests instantiate it directly using a deterministic UUID
  * constant — no mocks are required.
  */
-#[CoversClass(ActivityNotFoundException::class)]
+#[CoversClass(className:  ActivityNotFoundException::class)]
 abstract class ActivityNotFoundExceptionTest extends TestCase
 {
     /**

@@ -21,7 +21,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 /**
  * Verifies that ActivityLogger stores its dependencies correctly after construction.
  */
-#[CoversClass(ActivityLogger::class)]
+#[CoversClass(className:  ActivityLogger::class)]
 final class ActivityLoggerBaseTest extends ActivityLoggerTest
 {
     /**

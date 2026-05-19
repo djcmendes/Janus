@@ -30,7 +30,6 @@ use Doctrine\Persistence\ManagerRegistry;
  * recent entries first without needing to specify sorting.
  *
  * @extends ServiceEntityRepository<ActivityEntity>
- * @implements ActivityRepositoryInterface
  */
 final class ActivityRepository extends ServiceEntityRepository implements ActivityRepositoryInterface
 {
@@ -58,8 +57,11 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
     {
         $entity = $this->mapper->toPersistence(domain: $activity);
 
-        $this->getEntityManager()->persist(object: $entity);
-        $this->getEntityManager()->flush();
+        $this->getEntityManager()
+             ->persist(object: $entity);
+
+        $this->getEntityManager()
+             ->flush();
     }
 
     /**
@@ -95,30 +97,31 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
         ?string $action     = null,
         ?string $userId     = null,
     ): array {
-        $qb = $this->createQueryBuilder('a')
-                   ->orderBy('a.timestamp', 'DESC')
-                   ->setMaxResults($limit)
-                   ->setFirstResult($offset);
+        $qb = $this->createQueryBuilder(alias: 'a')
+                   ->orderBy(sort: 'a.timestamp', order:'DESC')
+                   ->setMaxResults(maxResults: $limit)
+                   ->setFirstResult(firstResult: $offset);
 
         if ($collection !== null) {
-            $qb->andWhere('a.collection = :collection')
-               ->setParameter('collection', $collection);
+            $qb->andWhere(where: 'a.collection = :collection')
+               ->setParameter(key: 'collection', value: $collection);
         }
 
         if ($action !== null) {
-            $qb->andWhere('a.action = :action')
-               ->setParameter('action', $action);
+            $qb->andWhere(where: 'a.action = :action')
+               ->setParameter(key: 'action', value: $action);
         }
 
         if ($userId !== null) {
-            $qb->andWhere('a.userId = :userId')
-               ->setParameter('userId', $userId);
+            $qb->andWhere(where: 'a.userId = :userId')
+               ->setParameter(key: 'userId', value: $userId);
         }
 
-        return array_map(
-            $this->mapper->toDomain(...),
-            $qb->getQuery()->getResult(),
-        );
+        $results = $qb->getQuery()
+                      ->getResult();
+
+        /** @var array<int, ActivityEntity> $results */
+        return array_map(callback: $this->mapper->toDomain(...), array: $results);
     }
 
     /**
@@ -136,18 +139,23 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
         ?string $action     = null,
         ?string $userId     = null,
     ): int {
-        $qb = $this->createQueryBuilder('a')->select('COUNT(a.id)');
+        $qb = $this->createQueryBuilder(alias: 'a')
+                   ->select(select: 'COUNT(a.id)');
 
         if ($collection !== null) {
-            $qb->andWhere('a.collection = :collection')->setParameter('collection', $collection);
+            $qb->andWhere(where: 'a.collection = :collection')
+               ->setParameter(key: 'collection', value: $collection);
         }
         if ($action !== null) {
-            $qb->andWhere('a.action = :action')->setParameter('action', $action);
+            $qb->andWhere(where: 'a.action = :action')
+               ->setParameter(key: 'action', value: $action);
         }
         if ($userId !== null) {
-            $qb->andWhere('a.userId = :userId')->setParameter('userId', $userId);
+            $qb->andWhere(where: 'a.userId = :userId')
+               ->setParameter(key: 'userId', value: $userId);
         }
 
-        return (int) $qb->getQuery()->getSingleScalarResult();
+        return (int) $qb->getQuery()
+                        ->getSingleScalarResult();
     }
 }

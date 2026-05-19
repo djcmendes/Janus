@@ -27,39 +27,38 @@ final class ActivityMapper
     /**
      * Converts a Doctrine ActivityEntity to a pure domain Activity.
      *
-     * @param  ActivityEntity $entity The hydrated Doctrine persistence model to convert.
-     * @return Activity                A domain entity reconstituted from the persisted record.
+     * @param ActivityEntity $entity The hydrated Doctrine persistence model to convert.
+     * @return Activity A domain entity reconstituted from the persisted record.
      */
     public function toDomain(ActivityEntity $entity): Activity
     {
         return Activity::reconstitute(
-            id:         (string) $entity->getId(),
-            action:     $entity->getAction(),
-            collection: $entity->getCollection(),
-            item:       $entity->getItem(),
-            userId:     $entity->getUserId(),
-            ip:         $entity->getIp(),
-            userAgent:  $entity->getUserAgent(),
-            timestamp:  $entity->getTimestamp(),
+            id:         (string) $entity->id,
+            action:     $entity->action,
+            collection: $entity->collection,
+            item:       $entity->item,
+            userId:     $entity->userId,
+            ip:         $entity->ip,
+            userAgent:  $entity->userAgent,
+            timestamp:  $entity->timestamp,
         );
     }
 
     /**
      * Converts a domain Activity to a Doctrine ActivityEntity ready for persistence.
      *
-     * @param  Activity       $domain The domain entity to convert.
-     * @return ActivityEntity          A Doctrine model populated from the domain entity.
+     * @param Activity $domain The domain entity to convert.
+     * @return ActivityEntity A Doctrine model populated from the domain entity.
      */
     public function toPersistence(Activity $domain): ActivityEntity
     {
-        return (new ActivityEntity())
-            ->setId(Uuid::fromString($domain->getId()))
-            ->setAction($domain->getAction())
-            ->setCollection($domain->getCollection())
-            ->setItem($domain->getItem())
-            ->setUserId($domain->getUserId())
-            ->setIp($domain->getIp())
-            ->setUserAgent($domain->getUserAgent())
-            ->setTimestamp($domain->getTimestamp());
+        return (new ActivityEntity())->setId(id: Uuid::fromString(uuid: $domain->id))
+                                     ->setAction(action: $domain->action)
+                                     ->setCollection(collection: $domain->collection)
+                                     ->setItem(item: $domain->item)
+                                     ->setUserId(userId: $domain->userId)
+                                     ->setIp(ip: $domain->ip)
+                                     ->setUserAgent(userAgent: $domain->userAgent)
+                                     ->setTimestamp(timestamp: $domain->timestamp);
     }
 }

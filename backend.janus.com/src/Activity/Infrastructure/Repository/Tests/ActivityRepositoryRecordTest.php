@@ -24,8 +24,8 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: entity persistence via ActivityMapper, entity manager flush, and
  * the correct ActivityEntity type forwarded to the entity manager.
  */
-#[CoversClass(ActivityRepository::class)]
-#[CoversMethod(ActivityRepository::class, 'record')]
+#[CoversClass(className:  ActivityRepository::class)]
+#[CoversMethod(className: ActivityRepository::class, methodName: 'record')]
 final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
 {
     /**
@@ -33,14 +33,13 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordPersistsActivityEntityToEntityManager(): void
     {
-        $this->entityManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->isInstanceOf(ActivityEntity::class));
+        $this->entityManager->expects(invocationRule: $this->once())
+                            ->method(constraint: 'persist')
+                            ->with(arguments: $this->isInstanceOf(className: ActivityEntity::class));
 
-        $this->entityManager->method('flush');
+        $this->entityManager->method(constraint: 'flush');
 
-        $this->class->record($this->makeActivity());
+        $this->class->record(activity: $this->makeActivity());
     }
 
     /**
@@ -48,13 +47,12 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordFlushesEntityManager(): void
     {
-        $this->entityManager->method('persist');
+        $this->entityManager->method(constraint: 'persist');
 
-        $this->entityManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->entityManager->expects(invocationRule: $this->once())
+                            ->method(constraint: 'flush');
 
-        $this->class->record($this->makeActivity());
+        $this->class->record(activity: $this->makeActivity());
     }
 
     /**
@@ -62,16 +60,14 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordPersistsAndFlushesInSingleCall(): void
     {
-        $this->entityManager
-            ->expects($this->once())
-            ->method('persist')
-            ->with($this->isInstanceOf(ActivityEntity::class));
+        $this->entityManager->expects(invocationRule: $this->once())
+                            ->method(constraint: 'persist')
+                            ->with(arguments: $this->isInstanceOf(className: ActivityEntity::class));
 
-        $this->entityManager
-            ->expects($this->once())
-            ->method('flush');
+        $this->entityManager->expects(invocationRule: $this->once())
+                            ->method(constraint: 'flush');
 
-        $this->class->record($this->makeActivity('delete', 'articles', '5'));
+        $this->class->record(activity: $this->makeActivity(action: 'delete', collection: 'articles', item: '5'));
     }
 
     /**
@@ -80,19 +76,19 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
     public function testRecordPersistsEntityWithCorrectAction(): void
     {
         $captured = null;
-        $this->entityManager
-            ->method('persist')
-            ->with($this->callback(static function (ActivityEntity $e) use (&$captured): bool {
-                $captured = $e;
-                return true;
-            }));
+        $this->entityManager->method(constraint: 'persist')
+                            ->with(arguments: $this->callback(callback: static function (ActivityEntity $e) use (&$captured): bool {
+                                $captured = $e;
+                                return true;
+                            }));
 
-        $this->entityManager->method('flush');
+        $this->entityManager->method(constraint: 'flush');
 
-        $this->class->record($this->makeActivity('delete', 'articles', '5'));
+        $this->class->record(activity: $this->makeActivity(action: 'delete', collection: 'articles', item: '5'));
 
-        $this->assertSame('delete', $captured->getAction());
-        $this->assertSame('articles', $captured->getCollection());
+        $this->assertNotNull(actual: $captured);
+        $this->assertSame(expected: 'delete', actual: $captured->action);
+        $this->assertSame(expected: 'articles', actual: $captured->collection);
     }
 
     /**
@@ -100,11 +96,10 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordReturnsVoid(): void
     {
-        $this->entityManager->method('persist');
-        $this->entityManager->method('flush');
+        $this->entityManager->method(constraint: 'persist');
+        $this->entityManager->method(constraint: 'flush');
 
-        $result = $this->class->record($this->makeActivity());
-
-        $this->assertNull($result);
+        $this->expectNotToPerformAssertions();
+        $this->class->record(activity: $this->makeActivity());
     }
 }

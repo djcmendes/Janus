@@ -22,8 +22,8 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Verifies that toArray() serialises every ActivityDto property into the
  * correct snake_case key and that nullable fields are preserved as null.
  */
-#[CoversClass(ActivityDto::class)]
-#[CoversMethod(ActivityDto::class, 'toArray')]
+#[CoversClass(className:  ActivityDto::class)]
+#[CoversMethod(className: ActivityDto::class, methodName: 'toArray')]
 final class ActivityDtoToArrayTest extends ActivityDtoTest
 {
     /**
@@ -77,7 +77,7 @@ final class ActivityDtoToArrayTest extends ActivityDtoTest
      */
     public function testToArrayNullableFieldsAreNull(): void
     {
-        $dto   = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $dto   = ActivityDto::fromEntity(activity: new Activity(action: 'login'));
         $array = $dto->toArray();
 
         $this->assertNull(actual: $array['collection']);

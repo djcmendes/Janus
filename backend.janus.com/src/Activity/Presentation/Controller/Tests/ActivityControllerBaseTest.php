@@ -25,7 +25,7 @@ use ReflectionProperty;
  * Verifies that the ActivityController stores each injected dependency
  * in the correct private property after construction.
  */
-#[CoversClass(ActivityController::class)]
+#[CoversClass(className:  ActivityController::class)]
 final class ActivityControllerBaseTest extends ActivityControllerTest
 {
     /**

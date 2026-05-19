@@ -17,12 +17,16 @@ use App\Activity\Domain\Entity\Activity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(Activity::class)]
-#[CoversMethod(Activity::class, 'setIp')]
+/**
+ * Tests for Activity::setIp() — storing and retrieving the remote IP address.
+ */
+#[CoversClass(className:  Activity::class)]
+#[CoversMethod(className: Activity::class, methodName: 'setIp')]
 final class ActivitySetIpTest extends ActivityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that setIp() stores the provided IP address.
+     */
     public function testSetIpStoresValue(): void
     {
         $this->class->setIp('127.0.0.1');
@@ -30,6 +34,9 @@ final class ActivitySetIpTest extends ActivityTest
         $this->assertSame('127.0.0.1', $this->class->getIp());
     }
 
+    /**
+     * Test that setIp() returns the same Activity instance for fluent chaining.
+     */
     public function testSetIpReturnsStaticInstance(): void
     {
         $result = $this->class->setIp('127.0.0.1');
@@ -37,8 +44,9 @@ final class ActivitySetIpTest extends ActivityTest
         $this->assertSame($this->class, $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setIp() accepts null to clear the IP address.
+     */
     public function testSetIpAcceptsNull(): void
     {
         $this->class->setIp(null);

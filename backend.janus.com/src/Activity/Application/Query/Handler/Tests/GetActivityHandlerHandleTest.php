@@ -25,8 +25,8 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: result shape, DTO mapping, empty results, pagination and filter
  * forwarding to findPaginated() and countAll().
  */
-#[CoversClass(GetActivityHandler::class)]
-#[CoversMethod(GetActivityHandler::class, 'handle')]
+#[CoversClass(className:  GetActivityHandler::class)]
+#[CoversMethod(className: GetActivityHandler::class, methodName: 'handle')]
 final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
 {
     /**
@@ -67,7 +67,7 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
     public function testHandleDataContainsActivityDtos(): void
     {
         $this->repository->method(constraint: 'findPaginated')
-                         ->willReturn(value: [$this->makeActivity()]);
+                         ->willReturn(value: [ $this->makeActivity() ]);
 
         $this->repository->method(constraint: 'countAll')
                          ->willReturn(value: 1);

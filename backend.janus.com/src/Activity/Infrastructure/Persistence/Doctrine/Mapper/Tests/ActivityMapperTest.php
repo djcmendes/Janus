@@ -29,23 +29,23 @@ use Symfony\Component\Uid\Uuid;
  * as real objects. All three classes are pure with no injectable dependencies,
  * so no mocking is required.
  */
-#[CoversClass(ActivityMapper::class)]
+#[CoversClass(className:  ActivityMapper::class)]
 abstract class ActivityMapperTest extends TestCase
 {
     /**
-     *
+     * UUID used as the lookup identifier in all get() test scenarios.
      * @var string
      */
     protected const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
     /**
-     *
+     * The instance of the query being tested.
      * @var ActivityMapper
      */
     protected ActivityMapper $class;
 
     /**
-     *
+     * Reflection of ActivityMapper class
      * @var ReflectionClass<ActivityMapper>
      */
     protected ReflectionClass $reflection;
@@ -59,7 +59,7 @@ abstract class ActivityMapperTest extends TestCase
     protected function setUp(): void
     {
         $this->class      = new ActivityMapper();
-        $this->reflection = new ReflectionClass(ActivityMapper::class);
+        $this->reflection = new ReflectionClass(objectOrClass: ActivityMapper::class);
     }
 
     /**
@@ -83,15 +83,14 @@ abstract class ActivityMapperTest extends TestCase
      */
     protected function makeEntity(): ActivityEntity
     {
-        return (new ActivityEntity())
-            ->setId(Uuid::fromString(self::FIXED_UUID))
-            ->setAction('create')
-            ->setCollection('posts')
-            ->setItem('42')
-            ->setUserId('bbbbbbbb-0000-7000-8000-000000000002')
-            ->setIp('127.0.0.1')
-            ->setUserAgent('PHPUnit')
-            ->setTimestamp(timestamp: new DateTimeImmutable(datetime: '2024-01-01T00:00:00+00:00'));
+        return (new ActivityEntity())->setId(id: Uuid::fromString(uuid: self::FIXED_UUID))
+                                     ->setAction(action: 'create')
+                                     ->setCollection(collection: 'posts')
+                                     ->setItem(item: '42')
+                                     ->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002')
+                                     ->setIp(ip: '127.0.0.1')
+                                     ->setUserAgent(userAgent: 'PHPUnit')
+                                     ->setTimestamp(timestamp: new DateTimeImmutable(datetime: '2024-01-01T00:00:00+00:00'));
     }
 
     /**
@@ -101,10 +100,10 @@ abstract class ActivityMapperTest extends TestCase
      */
     protected function makeDomain(): Activity
     {
-        $activity = new Activity('create', 'posts', '42');
-        $activity->setUserId('bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp('127.0.0.1');
-        $activity->setUserAgent('PHPUnit');
+        $activity = new Activity(action: 'create', collection: 'posts', item: '42');
+        $activity->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(ip: '127.0.0.1');
+        $activity->setUserAgent(userAgent: 'PHPUnit');
 
         return $activity;
     }

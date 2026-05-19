@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: GetActivityByIdQuery is a final class with no injectable dependencies.
  * Tests instantiate it directly with a deterministic UUID — no mocks required.
  */
-#[CoversClass(GetActivityByIdQuery::class)]
+#[CoversClass(className:  GetActivityByIdQuery::class)]
 abstract class GetActivityByIdQueryTest extends TestCase
 {
     /**

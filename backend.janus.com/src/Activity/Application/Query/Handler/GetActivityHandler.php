@@ -35,8 +35,8 @@ final readonly class GetActivityHandler
     /**
      * Returns a page of Activity DTOs and the total matching record count.
      *
-     * @param  GetActivityQuery                       $query Pagination and filter parameters.
-     * @return array{data: ActivityDto[], total: int}        Paged results alongside the unfiltered total.
+     * @param GetActivityQuery $query Pagination and filter parameters.
+     * @return array{data: ActivityDto[], total: int} Paged results alongside the unfiltered total.
      */
     public function handle(GetActivityQuery $query): array
     {

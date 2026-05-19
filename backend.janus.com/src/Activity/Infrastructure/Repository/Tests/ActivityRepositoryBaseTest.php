@@ -24,7 +24,7 @@ use PHPUnit\Framework\Attributes\CoversClass;
  * implements the domain interface, extends the Doctrine base, and is
  * configured for the ActivityEntity persistence model.
  */
-#[CoversClass(ActivityRepository::class)]
+#[CoversClass(className:  ActivityRepository::class)]
 final class ActivityRepositoryBaseTest extends ActivityRepositoryTest
 {
     /**
@@ -32,7 +32,7 @@ final class ActivityRepositoryBaseTest extends ActivityRepositoryTest
      */
     public function testImplementsActivityRepositoryInterface(): void
     {
-        $this->assertInstanceOf(ActivityRepositoryInterface::class, $this->class);
+        $this->assertInstanceOf(expected: ActivityRepositoryInterface::class, actual: $this->class);
     }
 
     /**
@@ -40,7 +40,7 @@ final class ActivityRepositoryBaseTest extends ActivityRepositoryTest
      */
     public function testExtendsServiceEntityRepository(): void
     {
-        $this->assertInstanceOf(ServiceEntityRepository::class, $this->class);
+        $this->assertInstanceOf(expected: ServiceEntityRepository::class, actual: $this->class);
     }
 
     /**
@@ -48,6 +48,6 @@ final class ActivityRepositoryBaseTest extends ActivityRepositoryTest
      */
     public function testIsConfiguredForActivityEntity(): void
     {
-        $this->assertSame(ActivityEntity::class, $this->classMetadata->name);
+        $this->assertSame(expected: ActivityEntity::class, actual: $this->classMetadata->name);
     }
 }

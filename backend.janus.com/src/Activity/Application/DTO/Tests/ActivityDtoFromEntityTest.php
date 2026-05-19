@@ -22,8 +22,8 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 /**
  * This class contains tests for the ActivityDto class.
  */
-#[CoversClass(ActivityDto::class)]
-#[CoversMethod(ActivityDto::class, 'fromEntity')]
+#[CoversClass(className:  ActivityDto::class)]
+#[CoversMethod(className: ActivityDto::class, methodName: 'fromEntity')]
 final class ActivityDtoFromEntityTest extends ActivityDtoTest
 {
     /**
@@ -34,7 +34,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
         $activity = $this->makeActivity();
         $dto      = ActivityDto::fromEntity(a: $activity);
 
-        $this->assertSame(expected: (string) $activity->getId(), actual: $dto->id);
+        $this->assertSame(expected: (string)$activity->id, actual: $dto->id);
     }
 
     /**
@@ -94,7 +94,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
         $dto      = ActivityDto::fromEntity(a: $activity);
 
         $this->assertSame(
-            expected: $activity->getTimestamp()->format(format: DateTimeInterface::ATOM),
+            expected: $activity->timestamp->format(format: DateTimeInterface::ATOM),
             actual:   $dto->timestamp,
         );
     }

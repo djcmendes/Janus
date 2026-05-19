@@ -26,8 +26,8 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * Covers: happy path, DTO field mapping, UUID forwarding to the repository,
  * not-found handling, guard failures, and access-control enforcement.
  */
-#[CoversClass(ActivityController::class)]
-#[CoversMethod(ActivityController::class, 'get')]
+#[CoversClass(className:  ActivityController::class)]
+#[CoversMethod(className: ActivityController::class, methodName: 'get')]
 final class ActivityControllerGetTest extends ActivityControllerTest
 {
     /**
@@ -65,7 +65,7 @@ final class ActivityControllerGetTest extends ActivityControllerTest
             associative: true
         );
 
-        $this->assertSame(expected: (string) $activity->getId(), actual: $body['data']['id']);
+        $this->assertSame(expected: (string)$activity->id, actual: $body['data']['id']);
         $this->assertSame(expected: 'update', actual: $body['data']['action']);
         $this->assertSame(expected: 'articles', actual: $body['data']['collection']);
         $this->assertSame(expected: '42', actual: $body['data']['item']);

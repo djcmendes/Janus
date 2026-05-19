@@ -26,8 +26,8 @@ use PHPUnit\Framework\Attributes\CoversMethod;
  * Covers: DTO returned for an existing record, exception thrown when no record
  * found, and the correct UUID forwarded to the repository lookup.
  */
-#[CoversClass(GetActivityByIdHandler::class)]
-#[CoversMethod(GetActivityByIdHandler::class, 'handle')]
+#[CoversClass(className:  GetActivityByIdHandler::class)]
+#[CoversMethod(className: GetActivityByIdHandler::class, methodName: 'handle')]
 final class GetActivityByIdHandlerHandleTest extends GetActivityByIdHandlerTest
 {
     /**

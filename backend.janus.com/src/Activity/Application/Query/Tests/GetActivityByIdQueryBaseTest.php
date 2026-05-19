@@ -19,13 +19,13 @@ use PHPUnit\Framework\Attributes\CoversClass;
 use ReflectionException;
 
 /**
- *
+ * Verifies that GetActivityByIdQuery stores its id correctly after construction.
  */
-#[CoversClass(GetActivityByIdQuery::class)]
+#[CoversClass(className:  GetActivityByIdQuery::class)]
 final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
 {
     /**
-     *
+     * Test that the SUT is an instance of GetActivityByIdQuery.
      */
     public function testIsInstanceOfGetActivityByIdQuery(): void
     {
@@ -33,7 +33,7 @@ final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
     }
 
     /**
-     *
+     * Test that the constructor stores the lookup UUID in the id property.
      */
     public function testConstructorStoresId(): void
     {
@@ -41,6 +41,7 @@ final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
     }
 
     /**
+     * Test that the id property is declared readonly.
      *
      * @throws ReflectionException
      */
@@ -50,7 +51,7 @@ final class GetActivityByIdQueryBaseTest extends GetActivityByIdQueryTest
     }
 
     /**
-     *
+     * Test that the id property cannot be mutated after construction.
      */
     public function testIdPropertyCannotBeMutatedAfterConstruction(): void
     {

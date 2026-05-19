@@ -31,7 +31,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
  * Common setup, teardown, and shared mock infrastructure for all
  * ActivityLogger test suites.
  */
-#[CoversClass(ActivityLogger::class)]
+#[CoversClass(className:  ActivityLogger::class)]
 abstract class ActivityLoggerTest extends TestCase
 {
     /**

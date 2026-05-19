@@ -3,7 +3,7 @@
 /**
  * @file ActivityEntitySetUserIdTest.php
  *
- * Tests for ActivityEntity::setUserId() and ActivityEntity::getUserId().
+ * Tests for ActivityEntity::setUserId() and ActivityEntity::setUserId { get; set }.
  *
  * @package App\Activity\Infrastructure\Persistence\Doctrine\Entity\Tests
  * @author  David Mendes
@@ -17,32 +17,40 @@ use App\Activity\Infrastructure\Persistence\Doctrine\Entity\ActivityEntity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(ActivityEntity::class)]
-#[CoversMethod(ActivityEntity::class, 'setUserId')]
+/**
+ * Test class for ActivityEntity::setUserId() — storing and retrieving the userId.
+ */
+#[CoversClass(className:  ActivityEntity::class)]
+#[CoversMethod(className: ActivityEntity::class, methodName: 'setUserId')]
 final class ActivityEntitySetUserIdTest extends ActivityEntityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that setUserId() stores the values.
+     */
     public function testSetUserIdStoresValue(): void
     {
-        $this->class->setUserId('user-uuid');
+        $this->class->setUserId(userId: 'user-uuid');
 
-        $this->assertSame('user-uuid', $this->class->getUserId());
+        $this->assertSame(expected: 'user-uuid', actual: $this->class->userId);
     }
 
+    /**
+     * Test that setUserId() returns static instance
+     */
     public function testSetUserIdReturnsStaticInstance(): void
     {
-        $result = $this->class->setUserId('user-uuid');
+        $result = $this->class->setUserId(userId: 'user-uuid');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setUserId() accepts null value
+     */
     public function testSetUserIdAcceptsNull(): void
     {
-        $this->class->setUserId(null);
+        $this->class->setUserId(userId: null);
 
-        $this->assertNull($this->class->getUserId());
+        $this->assertNull(actual: $this->class->userId);
     }
 }

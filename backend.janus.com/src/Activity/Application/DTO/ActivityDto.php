@@ -16,6 +16,7 @@ namespace App\Activity\Application\DTO;
 
 use App\Activity\Domain\Entity\Activity;
 use DateTimeInterface;
+use JsonSerializable;
 
 /**
  * Immutable DTO representing a single Activity audit-log record.
@@ -23,7 +24,7 @@ use DateTimeInterface;
  * Constructed exclusively via ActivityDto::fromEntity() to ensure all
  * fields are populated from a hydrated Activity domain object.
  */
-final readonly class ActivityDto
+final readonly class ActivityDto implements JsonSerializable
 {
     /**
      * Constructor
@@ -51,21 +52,20 @@ final readonly class ActivityDto
     /**
      * Constructs an ActivityDto from a hydrated Activity domain entity.
      *
-     * @param  Activity $a The Activity entity to convert.
-     * @return self        A fully-populated, immutable DTO.
+     * @param Activity $activity The Activity entity to convert.
+     * @return self A fully-populated, immutable DTO.
      */
-    public static function fromEntity(Activity $a): self
+    public static function fromEntity(Activity $activity): self
     {
         return new self(
-            id:         (string) $a->getId(),
-            action:     $a->getAction(),
-            collection: $a->getCollection(),
-            item:       $a->getItem(),
-            userId:     $a->getUserId(),
-            ip:         $a->getIp(),
-            userAgent:  $a->getUserAgent(),
-            timestamp:  $a->getTimestamp()
-                          ->format(format: DateTimeInterface::ATOM),
+            id:         (string) $activity->id,
+            action:     $activity->action,
+            collection: $activity->collection,
+            item:       $activity->item,
+            userId:     $activity->userId,
+            ip:         $activity->ip,
+            userAgent:  $activity->userAgent,
+            timestamp:  $activity->timestamp->format(format: DateTimeInterface::ATOM),
         );
     }
 
@@ -86,5 +86,15 @@ final readonly class ActivityDto
             'user_agent' => $this->userAgent,
             'timestamp'  => $this->timestamp,
         ];
+    }
+
+    /**
+     * This method is called automatically by json_encode().
+     *
+     * @return array<string, mixed> JSON Serialized array of the DTO
+     */
+    public function jsonSerialize(): array
+    {
+        return $this->toArray();
     }
 }

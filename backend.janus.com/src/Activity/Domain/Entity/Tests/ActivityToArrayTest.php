@@ -18,12 +18,16 @@ use DateTimeInterface;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(Activity::class)]
-#[CoversMethod(Activity::class, 'toArray')]
+/**
+ * Tests for Activity::toArray() — verifying the serialised representation.
+ */
+#[CoversClass(className:  Activity::class)]
+#[CoversMethod(className: Activity::class, methodName: 'toArray')]
 final class ActivityToArrayTest extends ActivityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that toArray() includes all expected keys.
+     */
     public function testToArrayContainsAllExpectedKeys(): void
     {
         $array = $this->makeActivity()->toArray();
@@ -33,28 +37,35 @@ final class ActivityToArrayTest extends ActivityTest
         }
     }
 
+    /**
+     * Test that toArray() includes the entity UUID as a string under the 'id' key.
+     */
     public function testToArrayIncludesIdAsString(): void
     {
         $activity = $this->makeActivity();
         $array    = $activity->toArray();
 
         $this->assertIsString($array['id']);
-        $this->assertSame($activity->getId(), $array['id']);
+        $this->assertSame($activity->id, $array['id']);
     }
 
+    /**
+     * Test that toArray() formats the timestamp as an ATOM-format string.
+     */
     public function testToArrayFormatsTimestampAsAtomString(): void
     {
         $activity = $this->makeActivity();
         $array    = $activity->toArray();
 
         $this->assertSame(
-            $activity->getTimestamp()->format(DateTimeInterface::ATOM),
+            $activity->timestamp->format(DateTimeInterface::ATOM),
             $array['timestamp'],
         );
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that toArray() maps userId to 'user' and omits 'userId'.
+     */
     public function testToArrayMapsUserIdToUserKey(): void
     {
         $activity = $this->makeActivity();
@@ -64,6 +75,9 @@ final class ActivityToArrayTest extends ActivityTest
         $this->assertArrayNotHasKey('userId', $array);
     }
 
+    /**
+     * Test that toArray() maps userAgent to 'user_agent' and omits 'userAgent'.
+     */
     public function testToArrayMapsUserAgentToSnakeCaseKey(): void
     {
         $activity = $this->makeActivity();
@@ -73,14 +87,17 @@ final class ActivityToArrayTest extends ActivityTest
         $this->assertArrayNotHasKey('userAgent', $array);
     }
 
+    /**
+     * Test that nullable fields are null in toArray() when not explicitly set.
+     */
     public function testToArrayNullableFieldsAreNullWhenNotSet(): void
     {
         $array = (new Activity('login'))->toArray();
 
-        $this->assertNull($array['collection']);
-        $this->assertNull($array['item']);
-        $this->assertNull($array['user']);
-        $this->assertNull($array['ip']);
-        $this->assertNull($array['user_agent']);
+        $this->assertNull(actual: $array['collection']);
+        $this->assertNull(actual: $array['item']);
+        $this->assertNull(actual: $array['user']);
+        $this->assertNull(actual: $array['ip']);
+        $this->assertNull(actual: $array['user_agent']);
     }
 }

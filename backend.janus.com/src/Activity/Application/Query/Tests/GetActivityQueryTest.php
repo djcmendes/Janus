@@ -24,7 +24,7 @@ use ReflectionClass;
  * Strategy: GetActivityQuery is a final class with no injectable dependencies.
  * Tests instantiate it directly with deterministic values — no mocks required.
  */
-#[CoversClass(GetActivityQuery::class)]
+#[CoversClass(className:  GetActivityQuery::class)]
 abstract class GetActivityQueryTest extends TestCase
 {
     /**

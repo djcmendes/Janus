@@ -26,12 +26,10 @@ use PHPUnit\Framework\Attributes\DataProvider;
  * limit/offset forwarding, no WHERE clause when filters are null, and each
  * individual filter adding the correct WHERE clause and parameter.
  */
-#[CoversClass(ActivityRepository::class)]
-#[CoversMethod(ActivityRepository::class, 'findPaginated')]
+#[CoversClass(className:  ActivityRepository::class)]
+#[CoversMethod(className: ActivityRepository::class, methodName: 'findPaginated')]
 final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
 {
-    // ── Data Providers ────────────────────────────────────────────────────────
-
     /**
      * Provides a single active filter and the WHERE clause + parameter it should produce.
      *
@@ -74,19 +72,18 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
         ];
     }
 
-    // ── Happy path ────────────────────────────────────────────────────────────
-
     /**
      * Test that findPaginated() maps ActivityEntity results to domain Activity instances.
      */
     public function testFindPaginatedReturnsMappedActivityCollection(): void
     {
-        $this->query->method('getResult')->willReturn([$this->makeActivityEntity()]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: [ $this->makeActivityEntity() ]);
 
-        $result = $this->class->findPaginated(25, 0);
+        $result = $this->class->findPaginated(limit: 25, offset: 0);
 
-        $this->assertCount(1, $result);
-        $this->assertInstanceOf(Activity::class, $result[0]);
+        $this->assertCount(expectedCount: 1, haystack: $result);
+        $this->assertInstanceOf(expected: Activity::class, actual: $result[0]);
     }
 
     /**
@@ -94,13 +91,15 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedMapsEntityActionToDomainActivity(): void
     {
-        $this->query->method('getResult')
-                    ->willReturn([$this->makeActivityEntity('delete', 'articles', '7')]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: [
+                        $this->makeActivityEntity(action: 'delete', collection: 'articles', item: '7')
+                    ]);
 
-        $result = $this->class->findPaginated(25, 0);
+        $result = $this->class->findPaginated(limit: 25, offset: 0);
 
-        $this->assertSame('delete', $result[0]->getAction());
-        $this->assertSame('articles', $result[0]->getCollection());
+        $this->assertSame(expected: 'delete', actual: $result[0]->action);
+        $this->assertSame(expected: 'articles', actual: $result[0]->collection);
     }
 
     /**
@@ -108,29 +107,28 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedReturnsEmptyArrayWhenNoRecordsExist(): void
     {
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $result = $this->class->findPaginated(25, 0);
+        $result = $this->class->findPaginated(limit: 25, offset: 0);
 
-        $this->assertSame([], $result);
+        $this->assertSame(expected: [], actual: $result);
     }
-
-    // ── Limit & offset forwarding ─────────────────────────────────────────────
 
     /**
      * Test that findPaginated() passes the limit value to setMaxResults().
      */
     public function testFindPaginatedSetsMaxResultsFromLimit(): void
     {
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('setMaxResults')
-            ->with(10)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'setMaxResults')
+                           ->with(10)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $this->class->findPaginated(10, 0);
+        $this->class->findPaginated(limit: 10, offset: 0);
     }
 
     /**
@@ -138,42 +136,40 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedSetsFirstResultFromOffset(): void
     {
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('setFirstResult')
-            ->with(50)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'setFirstResult')
+                           ->with(50)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $this->class->findPaginated(25, 50);
+        $this->class->findPaginated(limit: 25, offset: 50);
     }
-
-    // ── Filter handling ───────────────────────────────────────────────────────
 
     /**
      * Test that findPaginated() adds no WHERE clause when all filters are null.
      */
     public function testFindPaginatedDoesNotApplyWhereClauseWhenNoFilters(): void
     {
-        $this->queryBuilder
-            ->expects($this->never())
-            ->method('andWhere');
+        $this->queryBuilder->expects(invocationRule: $this->never())
+                           ->method(constraint: 'andWhere');
 
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $this->class->findPaginated(25, 0);
+        $this->class->findPaginated(limit: 25, offset: 0);
     }
 
     /**
      * Test that findPaginated() adds the correct WHERE clause and parameter for a single filter.
      *
-     * @param string|null $collection
-     * @param string|null $action
-     * @param string|null $userId
-     * @param string      $expectedWhere
-     * @param string      $expectedParam
-     * @param string      $expectedValue
+     * @param string|null $collection    Collection name filter, or null to skip.
+     * @param string|null $action        Action type filter (e.g. 'create', 'delete'), or null to skip.
+     * @param string|null $userId        User UUID filter, or null to skip.
+     * @param string      $expectedWhere DQL WHERE clause fragment expected to be passed to andWhere().
+     * @param string      $expectedParam Named parameter key expected to be bound via setParameter().
+     * @param string      $expectedValue Value expected to be bound to the named parameter.
      */
     #[DataProvider('singleFilterProvider')]
     public function testFindPaginatedAppliesSingleFilter(
@@ -184,21 +180,20 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
         string  $expectedParam,
         string  $expectedValue,
     ): void {
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('andWhere')
-            ->with($expectedWhere)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'andWhere')
+                           ->with(arguments: $expectedWhere)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder
-            ->expects($this->once())
-            ->method('setParameter')
-            ->with($expectedParam, $expectedValue)
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->once())
+                           ->method(constraint: 'setParameter')
+                           ->with($expectedParam, $expectedValue)
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $this->class->findPaginated(25, 0, $collection, $action, $userId);
+        $this->class->findPaginated(limit: 25, offset: 0, collection: $collection, action: $action, userId: $userId);
     }
 
     /**
@@ -206,18 +201,17 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedAppliesAllFiltersWhenAllProvided(): void
     {
-        $this->queryBuilder
-            ->expects($this->exactly(3))
-            ->method('andWhere')
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
+                           ->method(constraint: 'andWhere')
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder
-            ->expects($this->exactly(3))
-            ->method('setParameter')
-            ->willReturn($this->queryBuilder);
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count:3))
+                           ->method(constraint: 'setParameter')
+                           ->willReturn(value: $this->queryBuilder);
 
-        $this->query->method('getResult')->willReturn([]);
+        $this->query->method(constraint: 'getResult')
+                    ->willReturn(value: []);
 
-        $this->class->findPaginated(25, 0, 'posts', 'create', 'user-uuid');
+        $this->class->findPaginated(limit: 25,  offset: 0, collection: 'posts', action: 'create', userId: 'user-uuid');
     }
 }

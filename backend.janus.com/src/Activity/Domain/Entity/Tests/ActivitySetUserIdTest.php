@@ -17,12 +17,16 @@ use App\Activity\Domain\Entity\Activity;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 
-#[CoversClass(Activity::class)]
-#[CoversMethod(Activity::class, 'setUserId')]
+/**
+ * Tests for Activity::setUserId() — storing and retrieving the acting user's UUID.
+ */
+#[CoversClass(className:  Activity::class)]
+#[CoversMethod(className: Activity::class, methodName: 'setUserId')]
 final class ActivitySetUserIdTest extends ActivityTest
 {
-    // Happy path ───────────────────────────────────────────────────
-
+    /**
+     * Test that setUserId() stores the provided user UUID.
+     */
     public function testSetUserIdStoresValue(): void
     {
         $this->class->setUserId('user-uuid');
@@ -30,6 +34,9 @@ final class ActivitySetUserIdTest extends ActivityTest
         $this->assertSame('user-uuid', $this->class->getUserId());
     }
 
+    /**
+     * Test that setUserId() returns the same Activity instance for fluent chaining.
+     */
     public function testSetUserIdReturnsStaticInstance(): void
     {
         $result = $this->class->setUserId('user-uuid');
@@ -37,8 +44,9 @@ final class ActivitySetUserIdTest extends ActivityTest
         $this->assertSame($this->class, $result);
     }
 
-    // Edge cases / branching ───────────────────────────────────────
-
+    /**
+     * Test that setUserId() accepts null to clear the user ID.
+     */
     public function testSetUserIdAcceptsNull(): void
     {
         $this->class->setUserId(null);
