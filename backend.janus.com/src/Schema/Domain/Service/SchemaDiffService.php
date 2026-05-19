@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file SchemaDiffService.php
+ *
+ * Domain service that computes the structured diff between two schema snapshots.
+ *
+ * @package App\Schema\Domain\Service
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Schema\Domain\Service;
@@ -27,8 +36,15 @@ namespace App\Schema\Domain\Service;
  *   }
  * }
  */
-final class SchemaDiffService
+final class SchemaDiffService implements SchemaDiffServiceInterface
 {
+    /**
+     * Returns the diff that describes how to transform $current into $target.
+     *
+     * @param  array<string, mixed> $current Live schema snapshot.
+     * @param  array<string, mixed> $target  Reference snapshot (e.g. from a file or API body).
+     * @return array{collections: array, fields: array, relations: array} Structured diff.
+     */
     public function diff(array $current, array $target): array
     {
         return [

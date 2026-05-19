@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file ApplySchemaHandler.php
+ *
+ * Command handler that applies a schema snapshot to the live database.
+ *
+ * @package App\Schema\Application\Command\Handler
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Schema\Application\Command\Handler;
@@ -28,12 +37,34 @@ use App\Relations\Domain\Exception\RelationAlreadyExistsException;
 use App\Relations\Domain\Repository\RelationRepositoryInterface;
 use App\Schema\Application\Command\ApplySchemaCommand;
 use App\Schema\Domain\Service\SchemaDiffService;
-use App\Schema\Domain\Service\SchemaSnapshotService;
+use App\Schema\Domain\Service\SchemaSnapshotServiceInterface;
 
-final class ApplySchemaHandler
+/**
+ * Diffs the provided snapshot against the live schema and applies all changes.
+ *
+ * Collections, fields, and relations are created or updated unconditionally.
+ * Deletions only occur when ApplySchemaCommand::$force is true.
+ * Each operation is logged in the returned applied/skipped arrays.
+ */
+final class ApplySchemaHandler implements ApplySchemaHandlerInterface
 {
+    /**
+     * @param SchemaSnapshotServiceInterface    $snapshotService         Reads the current live schema.
+     * @param SchemaDiffService                 $diffService             Computes create/update/delete lists.
+     * @param CreateCollectionHandler           $createCollectionHandler Creates new collections.
+     * @param UpdateCollectionHandler           $updateCollectionHandler Updates existing collections.
+     * @param DeleteCollectionHandler           $deleteCollectionHandler Deletes collections (force only).
+     * @param CollectionMetaRepositoryInterface $collectionRepository    Looks up existing collections.
+     * @param CreateFieldHandler                $createFieldHandler      Creates new fields.
+     * @param UpdateFieldHandler                $updateFieldHandler      Updates existing fields.
+     * @param DeleteFieldHandler                $deleteFieldHandler      Deletes fields (force only).
+     * @param FieldMetaRepositoryInterface      $fieldRepository         Looks up existing fields.
+     * @param CreateRelationHandler             $createRelationHandler   Creates new relations.
+     * @param DeleteRelationHandler             $deleteRelationHandler   Deletes relations (force only).
+     * @param RelationRepositoryInterface       $relationRepository      Looks up existing relations.
+     */
     public function __construct(
-        private readonly SchemaSnapshotService             $snapshotService,
+        private readonly SchemaSnapshotServiceInterface    $snapshotService,
         private readonly SchemaDiffService                 $diffService,
         private readonly CreateCollectionHandler           $createCollectionHandler,
         private readonly UpdateCollectionHandler           $updateCollectionHandler,
@@ -48,7 +79,12 @@ final class ApplySchemaHandler
         private readonly RelationRepositoryInterface       $relationRepository,
     ) {}
 
-    /** @return array{applied: array, skipped: array} */
+    /**
+     * Applies the snapshot from the command to the live schema.
+     *
+     * @param  ApplySchemaCommand          $command Snapshot to apply and force flag.
+     * @return array{applied: list<string>, skipped: list<string>} Operation log.
+     */
     public function handle(ApplySchemaCommand $command): array
     {
         $current = $this->snapshotService->snapshot();

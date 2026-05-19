@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * @file SchemaSnapshotService.php
+ *
+ * Domain service that assembles a complete schema snapshot from metadata repositories.
+ *
+ * @package App\Schema\Domain\Service
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Schema\Domain\Service;
@@ -28,17 +37,27 @@ use App\Relations\Domain\Repository\RelationRepositoryInterface;
  *   ]
  * }
  */
-final class SchemaSnapshotService
+final class SchemaSnapshotService implements SchemaSnapshotServiceInterface
 {
     private const SNAPSHOT_VERSION = 1;
     private const MAX_ROWS         = 10_000;
 
+    /**
+     * @param CollectionMetaRepositoryInterface $collectionRepository Provides collection metadata.
+     * @param FieldMetaRepositoryInterface      $fieldRepository      Provides field metadata.
+     * @param RelationRepositoryInterface       $relationRepository   Provides relation metadata.
+     */
     public function __construct(
         private readonly CollectionMetaRepositoryInterface $collectionRepository,
         private readonly FieldMetaRepositoryInterface      $fieldRepository,
         private readonly RelationRepositoryInterface       $relationRepository,
     ) {}
 
+    /**
+     * Assembles and returns the full schema snapshot.
+     *
+     * @return array{version: int, collections: list<array>, relations: list<array>}
+     */
     public function snapshot(): array
     {
         $collections = $this->collectionRepository->findPaginated(self::MAX_ROWS, 0);

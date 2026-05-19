@@ -1,15 +1,24 @@
 <?php
 
+/**
+ * @file SchemaController.php
+ *
+ * HTTP controller for schema snapshot, diff, and apply endpoints.
+ *
+ * @package App\Schema\Presentation\Controller
+ * @author  David Mendes
+ */
+
 declare(strict_types=1);
 
 namespace App\Schema\Presentation\Controller;
 
 use App\Schema\Application\Command\ApplySchemaCommand;
-use App\Schema\Application\Command\Handler\ApplySchemaHandler;
+use App\Schema\Application\Command\Handler\ApplySchemaHandlerInterface;
 use App\Schema\Application\Query\GetSchemaSnapshotQuery;
-use App\Schema\Application\Query\Handler\GetSchemaSnapshotHandler;
-use App\Schema\Domain\Service\SchemaDiffService;
-use App\Schema\Domain\Service\SchemaSnapshotService;
+use App\Schema\Application\Query\Handler\GetSchemaSnapshotHandlerInterface;
+use App\Schema\Domain\Service\SchemaDiffServiceInterface;
+use App\Schema\Domain\Service\SchemaSnapshotServiceInterface;
 use App\Schema\Presentation\DTO\ApplySchemaRequest;
 use App\Heimdall\Domain\Enum\ApiScope;
 use App\Heimdall\Domain\Enum\ApiVersion;
@@ -21,18 +30,36 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
+/**
+ * Exposes schema snapshot, diff, and apply operations over HTTP.
+ *
+ * All three actions require ROLE_ADMIN. Endpoints:
+ *   GET  /schema/snapshot — export the full current schema
+ *   POST /schema/diff     — diff a posted snapshot against the live schema
+ *   POST /schema/apply    — apply a snapshot (create/update; delete only when force=true)
+ */
 #[Route('/schema', name: 'schema_')]
 final class SchemaController extends AbstractController
 {
+    /**
+     * @param RequestGuard $guard Validates authentication and client type.
+     */
     public function __construct(
         private readonly RequestGuard        $guard,
     ) {}
 
-    /** GET /schema/snapshot */
+    /**
+     * GET /schema/snapshot
+     *
+     * Returns a complete schema snapshot (collections, fields, relations).
+     *
+     * @param GetSchemaSnapshotHandlerInterface $handler Query handler that delegates to SchemaSnapshotService.
+     * @return JsonResponse 200 with { "data": { snapshot } }.
+     */
     #[Route('/snapshot', name: 'snapshot', methods: ['GET'])]
-    public function snapshot(GetSchemaSnapshotHandler $handler): JsonResponse
+    public function snapshot(GetSchemaSnapshotHandlerInterface $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -42,16 +69,21 @@ final class SchemaController extends AbstractController
     /**
      * POST /schema/diff
      *
+     * Computes the diff between a client-supplied snapshot and the live schema.
      * Body: { "snapshot": { ... } }
-     * Returns the diff between the posted snapshot and the current live schema.
+     *
+     * @param Request                        $request         Carries the JSON body with the reference snapshot.
+     * @param SchemaSnapshotServiceInterface $snapshotService Reads the current live schema state.
+     * @param SchemaDiffServiceInterface     $diffService     Computes the structured difference.
+     * @return JsonResponse 200 with { "data": { diff } } or 422 on invalid body.
      */
     #[Route('/diff', name: 'diff', methods: ['POST'])]
     public function diff(
-        Request              $request,
-        SchemaSnapshotService $snapshotService,
-        SchemaDiffService    $diffService,
+        Request                        $request,
+        SchemaSnapshotServiceInterface $snapshotService,
+        SchemaDiffServiceInterface     $diffService,
     ): JsonResponse {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -73,20 +105,25 @@ final class SchemaController extends AbstractController
     /**
      * POST /schema/apply
      *
+     * Applies a snapshot to the live schema (create/update always; delete only when force=true).
      * Body: { "snapshot": { ... }, "force": false }
-     * Applies the snapshot to the current schema (create/update; delete only if force=true).
+     *
+     * @param Request                      $request Carries the JSON body with snapshot and optional force flag.
+     * @param ApplySchemaHandlerInterface  $handler Command handler that orchestrates all DDL/metadata changes.
+     * @return JsonResponse 200 with { "data": { applied, skipped } }, 422 on validation error,
+     *                      or 422 with SCHEMA_ERROR code on invalid snapshot data.
      */
     #[Route('/apply', name: 'apply', methods: ['POST'])]
-    public function apply(Request $request, ApplySchemaHandler $handler): JsonResponse
+    public function apply(Request $request, ApplySchemaHandlerInterface $handler): JsonResponse
     {
-        $this->guard->validate_webservice_request(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
+        $this->guard->validateWebserviceRequest(ApiVersion::JANUS_100, ApiScope::AUTHENTICATED);
         $this->guard->authorize(Client::WEB, Client::CLI);
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
         /** @var ApplySchemaRequest $dto */
-        $dto = $this->serializer->deserialize($request->getContent(), ApplySchemaRequest::class, 'json');
+        $dto = $this->container->get('serializer')->deserialize($request->getContent(), ApplySchemaRequest::class, 'json');
 
-        $errors = $this->validator->validate($dto);
+        $errors = $this->container->get('validator')->validate($dto);
         if (count($errors) > 0) {
             return $this->json(
                 ['errors' => [['message' => (string) $errors->get(0)->getMessage(), 'extensions' => ['code' => 'VALIDATION_ERROR']]]],
