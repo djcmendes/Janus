@@ -1,0 +1,158 @@
+name: CI
+
+on:
+  push:
+    branches: [main, develop]
+    paths:
+      - 'backend.janus.com/**'
+      - '.github/workflows/ci.yml'
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - 'backend.janus.com/**'
+
+defaults:
+  run:
+    working-directory: backend.janus.com
+
+jobs:
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # QUALITY — all static checks (check-only, never auto-fix)
+  # ════════════════════════════════════════════════════════════════════════════
+  quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, zip, opcache, bcmath, redis
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: backend.janus.com/vendor
+          key: composer-${{ hashFiles('backend.janus.com/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: PHP CS Fixer (check only)
+        run: composer run cs-check
+
+      - name: PHP_CodeSniffer
+        run: composer run phpcs
+
+      - name: PHPStan
+        run: composer run phpstan
+
+      - name: PHP Mess Detector
+        run: composer run phpmd
+
+      - name: Architecture Check
+        run: composer run phparkitect
+
+      - name: Composer Security Audit
+        run: composer audit
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # TESTS — PHPUnit with real MariaDB + Redis
+  # ════════════════════════════════════════════════════════════════════════════
+  tests:
+    name: PHPUnit Tests
+    runs-on: ubuntu-latest
+
+    services:
+      mariadb:
+        image: mariadb:11.4
+        env:
+          MARIADB_ROOT_PASSWORD: root
+          MARIADB_DATABASE: janus_test
+          MARIADB_USER: janus
+          MARIADB_PASSWORD: janus
+        ports:
+          - 3306:3306
+        options: >-
+          --health-cmd="healthcheck.sh --connect --innodb_initialized"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd="redis-cli ping"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP 8.4
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.4'
+          extensions: pdo_mysql, intl, zip, opcache, bcmath, redis
+          coverage: none
+          tools: composer:v2
+
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: backend.janus.com/vendor
+          key: composer-${{ hashFiles('backend.janus.com/composer.lock') }}
+          restore-keys: composer-
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Create .env.test.local
+        run: |
+          cat > .env.test.local <<EOF
+          DATABASE_URL="mysql://janus:janus@127.0.0.1:3306/janus_test?serverVersion=11.4-MariaDB&charset=utf8mb4"
+          REDIS_URL=redis://127.0.0.1:6379
+          EOF
+
+      - name: Run migrations
+        run: php bin/console doctrine:migrations:migrate --no-interaction --env=test
+
+      - name: Run PHPUnit
+        run: php bin/phpunit --testdox
+
+  # ════════════════════════════════════════════════════════════════════════════
+  # SEMGREP — SAST security scan (free community rules, check-only)
+  # ════════════════════════════════════════════════════════════════════════════
+  semgrep:
+    name: Semgrep Security Scan
+    runs-on: ubuntu-latest
+    # Only run on PRs to main to avoid noise on every push
+    if: github.event_name == 'pull_request'
+    container:
+      image: returntocorp/semgrep
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        run: >
+          semgrep
+          --config=p/php
+          --config=p/security-audit
+          --config=p/owasp-top-ten
+          --error
+          --quiet
+          backend.janus.com/src/
