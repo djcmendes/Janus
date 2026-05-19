@@ -1,17 +1,12 @@
 <?php
 
-$finder = (new PhpCsFixer\Finder())
-    ->in(__DIR__)
-    ->exclude('var')
-    ->notPath([
-        'config/bundles.php',
-        'config/reference.php',
-    ])
-;
+declare(strict_types=1);
+
+require_once __DIR__ . '/necrocon/php-cs-fixer/JanusRules.php';
 
 return (new PhpCsFixer\Config())
-    ->setRules([
-        '@Symfony' => true,
-    ])
-    ->setFinder($finder)
-;
+    ->setRules(JanusRules::rules())
+    ->setFinder(JanusRules::finder(__DIR__))
+    ->setRiskyAllowed(true)
+    ->setUsingCache(true)
+    ->setCacheFile(__DIR__ . '/var/.php-cs-fixer.cache');
