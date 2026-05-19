@@ -36,7 +36,7 @@ final class DashboardsControllerListTest extends DashboardsControllerTest
         $response = $this->class->list(new Request(), $this->getDashboardsHandler);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
     }
@@ -62,7 +62,7 @@ final class DashboardsControllerListTest extends DashboardsControllerTest
         $this->readRepository->method('countAll')->willReturn(1);
 
         $response = $this->class->list(new Request(), $this->getDashboardsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(1, $body['meta']['total_count']);
         $this->assertSame(1, $body['meta']['filter_count']);

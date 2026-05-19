@@ -95,7 +95,7 @@ final class DashboardsControllerCreateTest extends DashboardsControllerTest
         );
 
         $response = $controller->create($request, $this->createDashboardHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }

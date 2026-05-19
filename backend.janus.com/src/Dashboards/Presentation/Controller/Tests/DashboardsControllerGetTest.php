@@ -44,7 +44,7 @@ final class DashboardsControllerGetTest extends DashboardsControllerTest
         $this->readRepository->method('findById')->willReturn($this->makeDashboard());
 
         $response = $this->class->get('bbbbbbbb-0000-7000-8000-000000000001', $this->getDashboardByIdHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -81,7 +81,7 @@ final class DashboardsControllerGetTest extends DashboardsControllerTest
         $this->readRepository->method('findById')->willReturn(null);
 
         $response = $this->class->get('missing', $this->getDashboardByIdHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
