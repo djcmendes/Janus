@@ -56,7 +56,7 @@ final class DeploymentsControllerCreateTest extends DeploymentsControllerTest
         $response = $this->class->create($this->makeRequest(), $this->createDeploymentHandler);
 
         $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
     }
 
@@ -74,7 +74,7 @@ final class DeploymentsControllerCreateTest extends DeploymentsControllerTest
         $response = $this->class->create($request, $this->createDeploymentHandler);
 
         $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }

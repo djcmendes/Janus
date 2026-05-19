@@ -34,7 +34,7 @@ final class DeploymentsControllerGetTest extends DeploymentsControllerTest
         $response = $this->class->get('bbbbbbbb-0000-7000-8000-000000000001', $this->getDeploymentByIdHandler);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
     }
 
@@ -48,7 +48,7 @@ final class DeploymentsControllerGetTest extends DeploymentsControllerTest
         $response = $this->class->get('nonexistent-id', $this->getDeploymentByIdHandler);
 
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }

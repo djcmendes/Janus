@@ -36,7 +36,7 @@ final class DeploymentsControllerListTest extends DeploymentsControllerTest
         $response = $this->class->list(new Request(), $this->getDeploymentsHandler);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
     }
@@ -62,7 +62,7 @@ final class DeploymentsControllerListTest extends DeploymentsControllerTest
         $this->providerRepository->method('countAll')->willReturn(1);
 
         $response = $this->class->list(new Request(), $this->getDeploymentsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(1, $body['meta']['total_count']);
         $this->assertSame(1, $body['meta']['filter_count']);
@@ -77,7 +77,7 @@ final class DeploymentsControllerListTest extends DeploymentsControllerTest
         $this->providerRepository->method('countAll')->willReturn(0);
 
         $response = $this->class->list(new Request(), $this->getDeploymentsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame([], $body['data']);
     }

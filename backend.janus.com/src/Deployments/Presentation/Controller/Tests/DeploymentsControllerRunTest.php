@@ -39,7 +39,7 @@ final class DeploymentsControllerRunTest extends DeploymentsControllerTest
         $response = $this->class->run('bbbbbbbb-0000-7000-8000-000000000001', $this->triggerDeploymentHandler);
 
         $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
     }
 
@@ -53,7 +53,7 @@ final class DeploymentsControllerRunTest extends DeploymentsControllerTest
         $response = $this->class->run('nonexistent-id', $this->triggerDeploymentHandler);
 
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 
@@ -78,7 +78,7 @@ final class DeploymentsControllerRunTest extends DeploymentsControllerTest
         $response = $this->class->run('bbbbbbbb-0000-7000-8000-000000000001', $this->triggerDeploymentHandler);
 
         $this->assertSame(Response::HTTP_UNPROCESSABLE_ENTITY, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('PROVIDER_INACTIVE', $body['errors'][0]['extensions']['code']);
     }
 
@@ -105,7 +105,7 @@ final class DeploymentsControllerRunTest extends DeploymentsControllerTest
         $this->httpClient->method('request')->willReturn($this->httpResponse);
 
         $response = $this->class->run('bbbbbbbb-0000-7000-8000-000000000001', $this->triggerDeploymentHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(self::AUTH_USER_UUID, $body['data']['triggeredBy']);
     }

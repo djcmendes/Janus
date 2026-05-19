@@ -46,7 +46,7 @@ final class DeploymentsControllerDeleteTest extends DeploymentsControllerTest
         $response = $this->class->delete('nonexistent-id', $this->deleteDeploymentHandler);
 
         $this->assertSame(Response::HTTP_NOT_FOUND, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
