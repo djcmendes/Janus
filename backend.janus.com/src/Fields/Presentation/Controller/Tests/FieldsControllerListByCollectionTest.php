@@ -27,7 +27,7 @@ final class FieldsControllerListByCollectionTest extends FieldsControllerTest
 
         $controller = $this->buildController();
         $response   = $controller->listByCollection('articles');
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
@@ -40,7 +40,7 @@ final class FieldsControllerListByCollectionTest extends FieldsControllerTest
 
         $controller = $this->buildController();
         $response   = $controller->listByCollection('articles');
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertCount(1, $body['data']);
     }

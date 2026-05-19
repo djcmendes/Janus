@@ -32,7 +32,7 @@ final class FieldsControllerListTest extends FieldsControllerTest
         $request    = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $controller = $this->buildController();
         $response   = $controller->list($request);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
@@ -47,7 +47,7 @@ final class FieldsControllerListTest extends FieldsControllerTest
         $request    = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $controller = $this->buildController();
         $response   = $controller->list($request);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertCount(1, $body['data']);
     }

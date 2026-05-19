@@ -53,7 +53,7 @@ final class FieldsControllerCreateTest extends FieldsControllerTest
         $request    = $this->jsonRequest(['field' => 'slug', 'type' => 'string']);
         $controller = $this->buildAdminController();
         $response   = $controller->create('articles', $request);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -83,7 +83,7 @@ final class FieldsControllerCreateTest extends FieldsControllerTest
         $response   = $controller->create('articles', $request);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }
 
@@ -108,7 +108,7 @@ final class FieldsControllerCreateTest extends FieldsControllerTest
         $response   = $controller->create('articles', $request);
 
         $this->assertSame(409, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('FIELD_EXISTS', $body['errors'][0]['extensions']['code']);
     }
 
