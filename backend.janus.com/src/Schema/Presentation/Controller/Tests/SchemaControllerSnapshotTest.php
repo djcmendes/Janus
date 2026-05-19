@@ -37,7 +37,7 @@ final class SchemaControllerSnapshotTest extends SchemaControllerTest
     public function testSnapshotResponseHasDataKey(): void
     {
         $controller = $this->buildControllerWithAdminGuard();
-        $body       = json_decode($controller->snapshot($this->snapshotHandler)->getContent(), true);
+        $body       = json_decode((string) $controller->snapshot($this->snapshotHandler)->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -48,7 +48,7 @@ final class SchemaControllerSnapshotTest extends SchemaControllerTest
         $this->snapshotHandlerReturn = $snapshot;
 
         $controller = $this->buildControllerWithAdminGuard();
-        $body       = json_decode($controller->snapshot($this->snapshotHandler)->getContent(), true);
+        $body       = json_decode((string) $controller->snapshot($this->snapshotHandler)->getContent(), true);
 
         $this->assertSame($snapshot, $body['data']);
     }

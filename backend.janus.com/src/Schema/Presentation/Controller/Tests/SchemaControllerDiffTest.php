@@ -53,7 +53,7 @@ final class SchemaControllerDiffTest extends SchemaControllerTest
 
         $request    = $this->jsonRequest(['snapshot' => ['version' => 1, 'collections' => [], 'relations' => []]]);
         $controller = $this->buildControllerWithAdminGuard();
-        $body       = json_decode($controller->diff($request, $this->snapshotService, $this->diffService)->getContent(), true);
+        $body       = json_decode((string) $controller->diff($request, $this->snapshotService, $this->diffService)->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -65,7 +65,7 @@ final class SchemaControllerDiffTest extends SchemaControllerTest
         $response   = $controller->diff($request, $this->snapshotService, $this->diffService);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }
 

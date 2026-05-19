@@ -53,7 +53,7 @@ final class SchemaControllerApplyTest extends SchemaControllerTest
 
         $request    = $this->jsonRequest(['snapshot' => []]);
         $controller = $this->buildControllerWithAdminGuard();
-        $body       = json_decode($controller->apply($request, $this->applyHandler)->getContent(), true);
+        $body       = json_decode((string) $controller->apply($request, $this->applyHandler)->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -77,7 +77,7 @@ final class SchemaControllerApplyTest extends SchemaControllerTest
         $response   = $controller->apply($request, $this->applyHandler);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }
 
@@ -95,7 +95,7 @@ final class SchemaControllerApplyTest extends SchemaControllerTest
         $response   = $controller->apply($request, $this->applyHandler);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('SCHEMA_ERROR', $body['errors'][0]['extensions']['code']);
     }
 
