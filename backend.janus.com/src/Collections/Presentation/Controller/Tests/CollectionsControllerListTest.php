@@ -39,7 +39,7 @@ final class CollectionsControllerListTest extends CollectionsControllerTest
         $this->repository->method('count')->willReturn(0);
 
         $response = $this->class->list(new Request());
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('data', $body);
@@ -55,7 +55,7 @@ final class CollectionsControllerListTest extends CollectionsControllerTest
         $this->repository->method('findPaginated')->willReturn([$collection]);
         $this->repository->method('count')->willReturn(1);
 
-        $body = json_decode($this->class->list(new Request())->getContent(), true);
+        $body = json_decode((string) $this->class->list(new Request())->getContent(), true);
 
         $this->assertCount(1, $body['data']);
         $this->assertArrayHasKey('id', $body['data'][0]);
@@ -72,7 +72,7 @@ final class CollectionsControllerListTest extends CollectionsControllerTest
         $this->repository->method('findPaginated')->willReturn([$collection]);
         $this->repository->method('count')->willReturn(5);
 
-        $body = json_decode($this->class->list(new Request())->getContent(), true);
+        $body = json_decode((string) $this->class->list(new Request())->getContent(), true);
 
         $this->assertSame(5, $body['meta']['total_count']);
         $this->assertSame(1, $body['meta']['filter_count']);
@@ -128,7 +128,7 @@ final class CollectionsControllerListTest extends CollectionsControllerTest
         $this->repository->method('findPaginated')->willReturn([]);
         $this->repository->method('count')->willReturn(0);
 
-        $body = json_decode($this->class->list(new Request())->getContent(), true);
+        $body = json_decode((string) $this->class->list(new Request())->getContent(), true);
 
         $this->assertSame([], $body['data']);
         $this->assertSame(0, $body['meta']['total_count']);

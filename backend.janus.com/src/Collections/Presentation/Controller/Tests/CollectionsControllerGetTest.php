@@ -37,7 +37,7 @@ final class CollectionsControllerGetTest extends CollectionsControllerTest
         $this->repository->method('findByName')->willReturn($this->makeCollectionMeta());
 
         $response = $this->class->get('articles');
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('data', $body);
@@ -50,7 +50,7 @@ final class CollectionsControllerGetTest extends CollectionsControllerTest
     {
         $this->repository->method('findByName')->willReturn($this->makeCollectionMeta());
 
-        $body = json_decode($this->class->get('articles')->getContent(), true);
+        $body = json_decode((string) $this->class->get('articles')->getContent(), true);
 
         $this->assertArrayHasKey('id', $body['data']);
         $this->assertSame('articles', $body['data']['collection']);
@@ -91,7 +91,7 @@ final class CollectionsControllerGetTest extends CollectionsControllerTest
     {
         $this->repository->method('findByName')->willReturn(null);
 
-        $body = json_decode($this->class->get('nonexistent')->getContent(), true);
+        $body = json_decode((string) $this->class->get('nonexistent')->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
@@ -104,7 +104,7 @@ final class CollectionsControllerGetTest extends CollectionsControllerTest
     {
         $this->repository->method('findByName')->willReturn(null);
 
-        $body = json_decode($this->class->get('nonexistent')->getContent(), true);
+        $body = json_decode((string) $this->class->get('nonexistent')->getContent(), true);
 
         $this->assertStringContainsString('nonexistent', $body['errors'][0]['message']);
     }

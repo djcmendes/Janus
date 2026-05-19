@@ -41,7 +41,7 @@ final class CollectionsControllerPatchTest extends CollectionsControllerTest
 
         $request  = new Request([], [], [], [], [], [], json_encode(['label' => 'Updated Articles']));
         $response = $this->class->patch('articles', $request);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(Response::HTTP_OK, $response->getStatusCode());
         $this->assertArrayHasKey('data', $body);
@@ -97,7 +97,7 @@ final class CollectionsControllerPatchTest extends CollectionsControllerTest
         $this->repository->method('findByName')->willReturn(null);
 
         $request = new Request([], [], [], [], [], [], json_encode(['label' => 'Updated']));
-        $body    = json_decode($this->class->patch('nonexistent', $request)->getContent(), true);
+        $body    = json_decode((string) $this->class->patch('nonexistent', $request)->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);

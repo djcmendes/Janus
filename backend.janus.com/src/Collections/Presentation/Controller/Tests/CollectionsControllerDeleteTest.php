@@ -76,7 +76,7 @@ final class CollectionsControllerDeleteTest extends CollectionsControllerTest
     {
         $this->repository->method('findByName')->willReturn(null);
 
-        $body = json_decode($this->class->delete('nonexistent')->getContent(), true);
+        $body = json_decode((string) $this->class->delete('nonexistent')->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
@@ -106,7 +106,7 @@ final class CollectionsControllerDeleteTest extends CollectionsControllerTest
         $collection = $this->makeCollectionMeta();
         $this->repository->method('findByName')->willReturn($collection);
 
-        $body = json_decode($this->class->delete('users')->getContent(), true);
+        $body = json_decode((string) $this->class->delete('users')->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);

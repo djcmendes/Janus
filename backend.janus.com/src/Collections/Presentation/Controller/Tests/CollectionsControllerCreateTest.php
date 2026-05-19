@@ -40,7 +40,7 @@ final class CollectionsControllerCreateTest extends CollectionsControllerTest
 
         $request  = new Request([], [], [], [], [], [], json_encode(['name' => 'articles']));
         $response = $this->class->create($request);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame(Response::HTTP_CREATED, $response->getStatusCode());
         $this->assertArrayHasKey('data', $body);
@@ -84,7 +84,7 @@ final class CollectionsControllerCreateTest extends CollectionsControllerTest
         $this->repository->method('findByName')->willReturn($existing);
 
         $request = new Request([], [], [], [], [], [], json_encode(['name' => 'articles']));
-        $body    = json_decode($this->class->create($request)->getContent(), true);
+        $body    = json_decode((string) $this->class->create($request)->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('COLLECTION_EXISTS', $body['errors'][0]['extensions']['code']);
@@ -118,7 +118,7 @@ final class CollectionsControllerCreateTest extends CollectionsControllerTest
     public function testCreateValidationErrorResponseContainsErrorCode(): void
     {
         $request = new Request([], [], [], [], [], [], json_encode([]));
-        $body    = json_decode($this->class->create($request)->getContent(), true);
+        $body    = json_decode((string) $this->class->create($request)->getContent(), true);
 
         $this->assertArrayHasKey('errors', $body);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
