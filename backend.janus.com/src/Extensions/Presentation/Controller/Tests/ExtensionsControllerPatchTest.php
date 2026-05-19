@@ -35,7 +35,7 @@ final class ExtensionsControllerPatchTest extends ExtensionsControllerTest
         $response   = $controller->patch('nonexistent-id', $request, $this->updateExtensionHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 

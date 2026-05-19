@@ -31,7 +31,7 @@ final class ExtensionsControllerListTest extends ExtensionsControllerTest
 
         $request  = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $response = $this->class->list($request, $this->getExtensionsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
@@ -44,7 +44,7 @@ final class ExtensionsControllerListTest extends ExtensionsControllerTest
 
         $request  = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $response = $this->class->list($request, $this->getExtensionsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('total_count', $body['meta']);
         $this->assertArrayHasKey('filter_count', $body['meta']);
@@ -57,7 +57,7 @@ final class ExtensionsControllerListTest extends ExtensionsControllerTest
 
         $request  = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $response = $this->class->list($request, $this->getExtensionsHandler);
-        $body     = json_decode($response->getContent(), true);
+        $body     = json_decode((string) $response->getContent(), true);
 
         $this->assertSame([], $body['data']);
     }

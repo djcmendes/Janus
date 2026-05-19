@@ -30,7 +30,7 @@ final class ExtensionsControllerRegisterTest extends ExtensionsControllerTest
         $request    = $this->jsonRequest(['name' => 'my-hook', 'type' => 'hook', 'version' => '1.0.0']);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->register($request, $this->registerExtensionHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -60,7 +60,7 @@ final class ExtensionsControllerRegisterTest extends ExtensionsControllerTest
         $response   = $controller->register($request, $this->registerExtensionHandler);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }
 

@@ -19,7 +19,7 @@ final class ExtensionsControllerGetTest extends ExtensionsControllerTest
         $response = $this->class->get($extension->getId(), $this->getExtensionByIdHandler);
 
         $this->assertSame(200, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
     }
 
@@ -30,7 +30,7 @@ final class ExtensionsControllerGetTest extends ExtensionsControllerTest
         $response = $this->class->get('nonexistent-id', $this->getExtensionByIdHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 

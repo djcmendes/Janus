@@ -32,7 +32,7 @@ final class ExtensionsControllerDeleteTest extends ExtensionsControllerTest
         $response   = $controller->delete('nonexistent-id', $this->deleteExtensionHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 
