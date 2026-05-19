@@ -47,7 +47,7 @@ final class VersionsControllerListTest extends VersionsControllerTest
         $request    = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->list($request, $this->getVersionsHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
         $this->assertArrayHasKey('meta', $body);
@@ -61,7 +61,7 @@ final class VersionsControllerListTest extends VersionsControllerTest
         $request    = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->list($request, $this->getVersionsHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('total_count', $body['meta']);
         $this->assertArrayHasKey('filter_count', $body['meta']);
@@ -75,7 +75,7 @@ final class VersionsControllerListTest extends VersionsControllerTest
         $request    = new Request(server: ['HTTP_X_CLIENT_TYPE' => 'web']);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->list($request, $this->getVersionsHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertSame([], $body['data']);
     }

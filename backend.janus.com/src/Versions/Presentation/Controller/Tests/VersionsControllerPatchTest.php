@@ -48,7 +48,7 @@ final class VersionsControllerPatchTest extends VersionsControllerTest
         $request    = $this->jsonRequest(['key' => 'draft']);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->patch($version->getId(), $request, $this->updateVersionHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -63,7 +63,7 @@ final class VersionsControllerPatchTest extends VersionsControllerTest
         $response   = $controller->patch('nonexistent-id', $request, $this->updateVersionHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 

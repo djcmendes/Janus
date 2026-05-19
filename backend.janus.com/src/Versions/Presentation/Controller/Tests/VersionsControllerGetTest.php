@@ -35,7 +35,7 @@ final class VersionsControllerGetTest extends VersionsControllerTest
         $response   = $controller->get($version->getId(), $this->getVersionByIdHandler);
 
         $this->assertSame(200, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertArrayHasKey('data', $body);
     }
 
@@ -47,7 +47,7 @@ final class VersionsControllerGetTest extends VersionsControllerTest
         $response   = $controller->get('nonexistent-id', $this->getVersionByIdHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 

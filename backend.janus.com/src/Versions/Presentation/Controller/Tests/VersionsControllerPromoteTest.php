@@ -47,7 +47,7 @@ final class VersionsControllerPromoteTest extends VersionsControllerTest
 
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->promote($version->getId(), $this->promoteVersionHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -60,7 +60,7 @@ final class VersionsControllerPromoteTest extends VersionsControllerTest
         $response   = $controller->promote('nonexistent-id', $this->promoteVersionHandler);
 
         $this->assertSame(404, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('NOT_FOUND', $body['errors'][0]['extensions']['code']);
     }
 
@@ -74,7 +74,7 @@ final class VersionsControllerPromoteTest extends VersionsControllerTest
         $response   = $controller->promote($version->getId(), $this->promoteVersionHandler);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('PROMOTE_ERROR', $body['errors'][0]['extensions']['code']);
     }
 

@@ -49,7 +49,7 @@ final class VersionsControllerCreateTest extends VersionsControllerTest
         $request    = $this->jsonRequest(['collection' => 'articles', 'item' => 'item-uuid-1', 'key' => 'main', 'data' => ['title' => 'Hello']]);
         $controller = $this->buildControllerWithAdminGuard();
         $response   = $controller->create($request, $this->saveVersionHandler);
-        $body       = json_decode($response->getContent(), true);
+        $body       = json_decode((string) $response->getContent(), true);
 
         $this->assertArrayHasKey('data', $body);
     }
@@ -73,7 +73,7 @@ final class VersionsControllerCreateTest extends VersionsControllerTest
         $response   = $controller->create($request, $this->saveVersionHandler);
 
         $this->assertSame(422, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('VALIDATION_ERROR', $body['errors'][0]['extensions']['code']);
     }
 
@@ -88,7 +88,7 @@ final class VersionsControllerCreateTest extends VersionsControllerTest
         $response   = $controller->create($request, $this->saveVersionHandler);
 
         $this->assertSame(409, $response->getStatusCode());
-        $body = json_decode($response->getContent(), true);
+        $body = json_decode((string) $response->getContent(), true);
         $this->assertSame('CONFLICT', $body['errors'][0]['extensions']['code']);
     }
 
