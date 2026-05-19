@@ -33,10 +33,11 @@ final readonly class GetActivityHandler
     ) {}
 
     /**
-     * Returns a page of Activity DTOs and the total matching record count.
+     * Returns a page of Activity DTOs alongside filtered and unfiltered totals.
      *
      * @param GetActivityQuery $query Pagination and filter parameters.
-     * @return array{data: ActivityDto[], total: int} Paged results alongside the unfiltered total.
+     * @return array{data: ActivityDto[], filter_total: int, unfiltered_total: int}
+     *         Paged results, total matching the applied filters, and total unfiltered.
      */
     public function handle(GetActivityQuery $query): array
     {
@@ -48,15 +49,18 @@ final readonly class GetActivityHandler
             userId:     $query->userId,
         );
 
-        $total = $this->repository->countAll(
+        $filterTotal = $this->repository->countAll(
             collection: $query->collection,
             action:     $query->action,
             userId:     $query->userId,
         );
 
+        $unfilteredTotal = $this->repository->countAll();
+
         return [
-            'data'  => array_map(callback: ActivityDto::fromEntity(...), array: $items),
-            'total' => $total,
+            'data'             => array_map(callback: ActivityDto::fromEntity(...), array: $items),
+            'filter_total'     => $filterTotal,
+            'unfiltered_total' => $unfilteredTotal,
         ];
     }
 }

@@ -33,7 +33,7 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordPersistsActivityEntityToEntityManager(): void
     {
-        $this->entityManager->expects(invocationRule: $this->once())
+        $this->entityManager->expects($this->once())
                             ->method(constraint: 'persist')
                             ->with(arguments: $this->isInstanceOf(className: ActivityEntity::class));
 
@@ -49,7 +49,7 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
     {
         $this->entityManager->method(constraint: 'persist');
 
-        $this->entityManager->expects(invocationRule: $this->once())
+        $this->entityManager->expects($this->once())
                             ->method(constraint: 'flush');
 
         $this->class->record(activity: $this->makeActivity());
@@ -60,11 +60,11 @@ final class ActivityRepositoryRecordTest extends ActivityRepositoryTest
      */
     public function testRecordPersistsAndFlushesInSingleCall(): void
     {
-        $this->entityManager->expects(invocationRule: $this->once())
+        $this->entityManager->expects($this->once())
                             ->method(constraint: 'persist')
                             ->with(arguments: $this->isInstanceOf(className: ActivityEntity::class));
 
-        $this->entityManager->expects(invocationRule: $this->once())
+        $this->entityManager->expects($this->once())
                             ->method(constraint: 'flush');
 
         $this->class->record(activity: $this->makeActivity(action: 'delete', collection: 'articles', item: '5'));

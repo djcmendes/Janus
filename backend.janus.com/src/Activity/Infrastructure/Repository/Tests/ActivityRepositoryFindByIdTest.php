@@ -81,7 +81,7 @@ final class ActivityRepositoryFindByIdTest extends ActivityRepositoryTest
      */
     public function testFindByIdPassesCorrectClassAndIdToEntityManager(): void
     {
-        $this->entityManager->expects(invocationRule: $this->once())
+        $this->entityManager->expects($this->once())
                             ->method(constraint: 'find')
                             ->with(ActivityEntity::class, self::LOOKUP_UUID)
                             ->willReturn(value: null);

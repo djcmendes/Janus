@@ -36,7 +36,7 @@ final class ActivityBaseTest extends ActivityTest
      */
     public function testConstructorSetsAction(): void
     {
-        $this->assertSame(expected: 'create', actual: $this->class->getAction());
+        $this->assertSame(expected: 'create', actual: $this->class->action);
     }
 
     /**
@@ -44,7 +44,7 @@ final class ActivityBaseTest extends ActivityTest
      */
     public function testConstructorSetsCollection(): void
     {
-        $this->assertSame(expected: 'posts', actual: $this->class->getCollection());
+        $this->assertSame(expected: 'posts', actual: $this->class->collection);
     }
 
     /**
@@ -52,7 +52,7 @@ final class ActivityBaseTest extends ActivityTest
      */
     public function testConstructorSetsItem(): void
     {
-        $this->assertSame(expected: '42', actual: $this->class->getItem());
+        $this->assertSame(expected: '42', actual: $this->class->item);
     }
 
     /**
@@ -62,7 +62,7 @@ final class ActivityBaseTest extends ActivityTest
     {
         $this->assertMatchesRegularExpression(
             pattern: '/^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i',
-            string:  $this->class,
+            string:  $this->class->id,
         );
     }
 
@@ -86,7 +86,7 @@ final class ActivityBaseTest extends ActivityTest
     {
         $activity = new Activity(action: 'login');
 
-        $this->assertNull(actual: $activity->getCollection());
+        $this->assertNull(actual: $activity->collection);
     }
 
     /**
@@ -96,7 +96,7 @@ final class ActivityBaseTest extends ActivityTest
     {
         $activity = new Activity(action: 'login');
 
-        $this->assertNull(actual: $activity->getItem());
+        $this->assertNull(actual: $activity->item);
     }
 
     /**

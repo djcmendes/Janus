@@ -3,15 +3,15 @@
 /**
  * @file ActivityLogger.php
  *
- * Domain service for recording audit-log entries from anywhere in the application.
+ * Application service for recording audit-log entries from anywhere in the application.
  *
- * @package App\Activity\Domain\Service
+ * @package App\Activity\Application\Service
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Activity\Domain\Service;
+namespace App\Activity\Application\Service;
 
 use App\Activity\Domain\Entity\Activity;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;

@@ -31,7 +31,7 @@ final class ActivitySetUserAgentTest extends ActivityTest
     {
         $this->class->setUserAgent('PHPUnit/10');
 
-        $this->assertSame('PHPUnit/10', $this->class->getUserAgent());
+        $this->assertSame('PHPUnit/10', $this->class->userAgent);
     }
 
     /**
@@ -51,6 +51,6 @@ final class ActivitySetUserAgentTest extends ActivityTest
     {
         $this->class->setUserAgent(null);
 
-        $this->assertNull($this->class->getUserAgent());
+        $this->assertNull($this->class->userAgent);
     }
 }

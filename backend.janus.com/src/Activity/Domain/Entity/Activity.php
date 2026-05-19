@@ -15,7 +15,6 @@ declare(strict_types=1);
 namespace App\Activity\Domain\Entity;
 
 use DateTimeImmutable;
-use DateTimeInterface;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -191,22 +190,4 @@ final class Activity
         return $this;
     }
 
-    /**
-     * Serialises the entity to an associative array for JSON encoding.
-     *
-     * @return array<string, string|null> Key-value map of all entity fields.
-     */
-    public function toArray(): array
-    {
-        return [
-            'id'         => $this->id,
-            'action'     => $this->action,
-            'collection' => $this->collection,
-            'item'       => $this->item,
-            'user'       => $this->userId,
-            'ip'         => $this->ip,
-            'user_agent' => $this->userAgent,
-            'timestamp'  => $this->timestamp->format(format: DateTimeInterface::ATOM),
-        ];
-    }
 }

@@ -46,9 +46,9 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
     }
 
     /**
-     * Test that handle() returns an array containing a 'total' key.
+     * Test that handle() returns an array containing a 'filter_total' key.
      */
-    public function testHandleReturnsArrayWithTotalKey(): void
+    public function testHandleReturnsArrayWithFilterTotalKey(): void
     {
         $this->repository->method(constraint: 'findPaginated')
                          ->willReturn(value: []);
@@ -58,7 +58,23 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
 
         $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
 
-        $this->assertArrayHasKey(key: 'total', array: $result);
+        $this->assertArrayHasKey(key: 'filter_total', array: $result);
+    }
+
+    /**
+     * Test that handle() returns an array containing an 'unfiltered_total' key.
+     */
+    public function testHandleReturnsArrayWithUnfilteredTotalKey(): void
+    {
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
+
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturn(value: 0);
+
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertArrayHasKey(key: 'unfiltered_total', array: $result);
     }
 
     /**
@@ -79,23 +95,39 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
     }
 
     /**
-     * Test that the total value in the result matches the count returned by countAll().
+     * Test that filter_total matches the filtered countAll() result.
      */
-    public function testHandleTotalMatchesRepositoryCountAll(): void
+    public function testHandleFilterTotalMatchesFilteredCountAll(): void
     {
         $this->repository->method(constraint: 'findPaginated')
                          ->willReturn(value: []);
 
         $this->repository->method(constraint: 'countAll')
-                         ->willReturn(value: 42);
+                         ->willReturnOnConsecutiveCalls(42, 100);
 
         $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
 
-        $this->assertSame(expected: 42, actual: $result['total']);
+        $this->assertSame(expected: 42, actual: $result['filter_total']);
     }
 
     /**
-     * Test that handle() returns an empty data array and zero total when no records exist.
+     * Test that unfiltered_total matches the unfiltered countAll() result.
+     */
+    public function testHandleUnfilteredTotalMatchesUnfilteredCountAll(): void
+    {
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
+
+        $this->repository->method(constraint: 'countAll')
+                         ->willReturnOnConsecutiveCalls(42, 100);
+
+        $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+
+        $this->assertSame(expected: 100, actual: $result['unfiltered_total']);
+    }
+
+    /**
+     * Test that handle() returns an empty data array and zero totals when no records exist.
      */
     public function testHandleReturnsEmptyDataArrayWhenNoRecords(): void
     {
@@ -108,7 +140,8 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
         $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
 
         $this->assertSame(expected: [], actual: $result['data']);
-        $this->assertSame(expected: 0, actual: $result['total']);
+        $this->assertSame(expected: 0, actual: $result['filter_total']);
+        $this->assertSame(expected: 0, actual: $result['unfiltered_total']);
     }
 
     /**
@@ -152,17 +185,43 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
     }
 
     /**
-     * Test that handle() forwards all active filters to countAll().
+     * Test that handle() calls countAll twice — once with filters, once without.
      */
-    public function testHandleForwardsFiltersToCountAll(): void
+    public function testHandleCallsCountAllTwice(): void
     {
         $this->repository->method(constraint: 'findPaginated')
                          ->willReturn(value: []);
 
-        $this->repository->expects($this->once())
+        $this->repository->expects($this->exactly(2))
                          ->method(constraint: 'countAll')
-                         ->with('posts', 'create', 'user-uuid')
                          ->willReturn(value: 0);
+
+        $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
+    }
+
+    /**
+     * Test that handle() forwards active filters to the first countAll() call.
+     */
+    public function testHandleForwardsFiltersToFilteredCountAll(): void
+    {
+        $this->repository->method(constraint: 'findPaginated')
+                         ->willReturn(value: []);
+
+        $matcher = $this->exactly(2);
+        $this->repository->expects($matcher)
+                         ->method(constraint: 'countAll')
+                         ->willReturnCallback(function (?string $collection = null, ?string $action = null, ?string $userId = null) use ($matcher): int {
+                             if ($matcher->numberOfInvocations() === 1) {
+                                 $this->assertSame('posts', $collection);
+                                 $this->assertSame('create', $action);
+                                 $this->assertSame('user-uuid', $userId);
+                             } else {
+                                 $this->assertNull($collection);
+                                 $this->assertNull($action);
+                                 $this->assertNull($userId);
+                             }
+                             return 0;
+                         });
 
         $this->class->handle(
             query: new GetActivityQuery(

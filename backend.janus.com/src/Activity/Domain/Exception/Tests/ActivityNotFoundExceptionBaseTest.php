@@ -45,7 +45,7 @@ final class ActivityNotFoundExceptionBaseTest extends ActivityNotFoundExceptionT
     public function testExceptionMessageMatchesExpectedFormat(): void
     {
         $this->assertSame(
-            expected: sprintf(format: 'Activity "%s" not found.', values: self::LOOKUP_UUID),
+            expected: sprintf('Activity "%s" not found.', self::LOOKUP_UUID),
             actual:   $this->class->getMessage(),
         );
     }
@@ -59,7 +59,7 @@ final class ActivityNotFoundExceptionBaseTest extends ActivityNotFoundExceptionT
         $exception = new ActivityNotFoundException(id: $uuid);
 
         $this->assertSame(
-            expected: sprintf(format: 'Activity "%s" not found.', values: $uuid),
+            expected: sprintf('Activity "%s" not found.', $uuid),
             actual:   $exception->getMessage()
         );
     }

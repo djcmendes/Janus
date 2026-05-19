@@ -5,16 +5,16 @@
  *
  * Tests for ActivityLogger::log().
  *
- * @package App\Activity\Domain\Service\Tests
+ * @package App\Activity\Application\Service\Tests
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Activity\Domain\Service\Tests;
+namespace App\Activity\Application\Service\Tests;
 
+use App\Activity\Application\Service\ActivityLogger;
 use App\Activity\Domain\Entity\Activity;
-use App\Activity\Domain\Service\ActivityLogger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\CoversMethod;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,7 +46,7 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
     }
 
     /**
-     * Test that log() returns void and produces no output.
+     * Test that log() completes without throwing.
      */
     public function testLogReturnsVoid(): void
     {
@@ -55,9 +55,9 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->repository->method('record');
 
-        $result = $this->class->log('create');
+        $this->class->log('create');
 
-        $this->assertNull($result);
+        $this->addToAssertionCount(1);
     }
 
     /**
@@ -77,7 +77,8 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('create', null, null, 'user-uuid');
 
-        $this->assertSame('user-uuid', $captured->getUserId());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertSame('user-uuid', $captured->userId);
     }
 
     /**
@@ -97,9 +98,10 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('delete', 'posts', '5');
 
-        $this->assertSame('delete', $captured->getAction());
-        $this->assertSame('posts', $captured->getCollection());
-        $this->assertSame('5', $captured->getItem());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertSame('delete', $captured->action);
+        $this->assertSame('posts', $captured->collection);
+        $this->assertSame('5', $captured->item);
     }
 
     /**
@@ -120,7 +122,8 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('create');
 
-        $this->assertSame('192.168.1.1', $captured->getIp());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertSame('192.168.1.1', $captured->ip);
     }
 
     /**
@@ -142,7 +145,8 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('create');
 
-        $this->assertSame('TestBrowser/1.0', $captured->getUserAgent());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertSame('TestBrowser/1.0', $captured->userAgent);
     }
 
     /**
@@ -162,7 +166,8 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('create');
 
-        $this->assertNull($captured->getIp());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertNull($captured->ip);
     }
 
     /**
@@ -182,6 +187,7 @@ final class ActivityLoggerLogTest extends ActivityLoggerTest
 
         $this->class->log('create');
 
-        $this->assertNull($captured->getUserAgent());
+        $this->assertInstanceOf(Activity::class, $captured);
+        $this->assertNull($captured->userAgent);
     }
 }

@@ -103,18 +103,18 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
                    ->setFirstResult(firstResult: $offset);
 
         if ($collection !== null) {
-            $qb->andWhere(where: 'a.collection = :collection')
-               ->setParameter(key: 'collection', value: $collection);
+            $qb->andWhere('a.collection = :collection')
+               ->setParameter('collection', $collection);
         }
 
         if ($action !== null) {
-            $qb->andWhere(where: 'a.action = :action')
-               ->setParameter(key: 'action', value: $action);
+            $qb->andWhere('a.action = :action')
+               ->setParameter('action', $action);
         }
 
         if ($userId !== null) {
-            $qb->andWhere(where: 'a.userId = :userId')
-               ->setParameter(key: 'userId', value: $userId);
+            $qb->andWhere('a.userId = :userId')
+               ->setParameter('userId', $userId);
         }
 
         $results = $qb->getQuery()
@@ -143,16 +143,16 @@ final class ActivityRepository extends ServiceEntityRepository implements Activi
                    ->select(select: 'COUNT(a.id)');
 
         if ($collection !== null) {
-            $qb->andWhere(where: 'a.collection = :collection')
-               ->setParameter(key: 'collection', value: $collection);
+            $qb->andWhere('a.collection = :collection')
+               ->setParameter('collection', $collection);
         }
         if ($action !== null) {
-            $qb->andWhere(where: 'a.action = :action')
-               ->setParameter(key: 'action', value: $action);
+            $qb->andWhere('a.action = :action')
+               ->setParameter('action', $action);
         }
         if ($userId !== null) {
-            $qb->andWhere(where: 'a.userId = :userId')
-               ->setParameter(key: 'userId', value: $userId);
+            $qb->andWhere('a.userId = :userId')
+               ->setParameter('userId', $userId);
         }
 
         return (int) $qb->getQuery()

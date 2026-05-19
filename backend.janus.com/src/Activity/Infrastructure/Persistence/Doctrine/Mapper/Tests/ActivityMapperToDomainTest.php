@@ -41,7 +41,7 @@ final class ActivityMapperToDomainTest extends ActivityMapperTest
     {
         $this->assertSame(
             expected: self::FIXED_UUID,
-            actual:   $this->class
+            actual:   $this->class->toDomain(entity: $this->makeEntity())->id,
         );
     }
 
@@ -122,7 +122,7 @@ final class ActivityMapperToDomainTest extends ActivityMapperTest
 
         $this->assertEquals(
             expected: $ts,
-            actual:   $this->class
+            actual:   $this->class->toDomain(entity: $entity)->timestamp,
         );
     }
 

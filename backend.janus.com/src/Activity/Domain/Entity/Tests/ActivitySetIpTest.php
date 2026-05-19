@@ -31,7 +31,7 @@ final class ActivitySetIpTest extends ActivityTest
     {
         $this->class->setIp('127.0.0.1');
 
-        $this->assertSame('127.0.0.1', $this->class->getIp());
+        $this->assertSame('127.0.0.1', $this->class->ip);
     }
 
     /**
@@ -51,6 +51,6 @@ final class ActivitySetIpTest extends ActivityTest
     {
         $this->class->setIp(null);
 
-        $this->assertNull($this->class->getIp());
+        $this->assertNull($this->class->ip);
     }
 }

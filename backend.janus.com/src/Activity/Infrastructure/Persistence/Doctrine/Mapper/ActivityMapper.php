@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
  * Translates between the pure Activity domain entity and the Doctrine
  * ActivityEntity persistence model in both directions.
  */
-final class ActivityMapper
+final readonly class ActivityMapper
 {
     /**
      * Converts a Doctrine ActivityEntity to a pure domain Activity.

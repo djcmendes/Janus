@@ -5,16 +5,16 @@
  *
  * Tests for ActivityLogger construction and dependency wiring.
  *
- * @package App\Activity\Domain\Service\Tests
+ * @package App\Activity\Application\Service\Tests
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Activity\Domain\Service\Tests;
+namespace App\Activity\Application\Service\Tests;
 
+use App\Activity\Application\Service\ActivityLogger;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
-use App\Activity\Domain\Service\ActivityLogger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use Symfony\Component\HttpFoundation\RequestStack;
 

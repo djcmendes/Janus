@@ -46,7 +46,7 @@ abstract class ActivityDtoTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->class      = ActivityDto::fromEntity(a: $this->makeActivity());
+        $this->class      = ActivityDto::fromEntity(activity: $this->makeActivity());
         $this->reflection = new ReflectionClass(objectOrClass: ActivityDto::class);
     }
 
@@ -72,9 +72,9 @@ abstract class ActivityDtoTest extends TestCase
     protected function makeActivity(): Activity
     {
         $activity = new Activity(action: 'create', collection: 'posts', item: '42');
-        $activity->setUserId(v: 'bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp(v: '127.0.0.1');
-        $activity->setUserAgent(v: 'PHPUnit');
+        $activity->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(ip: '127.0.0.1');
+        $activity->setUserAgent(userAgent: 'PHPUnit');
 
         return $activity;
     }

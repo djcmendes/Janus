@@ -31,7 +31,7 @@ final class ActivitySetUserIdTest extends ActivityTest
     {
         $this->class->setUserId('user-uuid');
 
-        $this->assertSame('user-uuid', $this->class->getUserId());
+        $this->assertSame('user-uuid', $this->class->userId);
     }
 
     /**
@@ -51,6 +51,6 @@ final class ActivitySetUserIdTest extends ActivityTest
     {
         $this->class->setUserId(null);
 
-        $this->assertNull($this->class->getUserId());
+        $this->assertNull($this->class->userId);
     }
 }

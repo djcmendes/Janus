@@ -73,12 +73,12 @@ final class ActivityReconstituteTest extends ActivityTest
             timestamp:  new DateTimeImmutable(),
         );
 
-        $this->assertSame('delete', $activity->getAction());
-        $this->assertSame('articles', $activity->getCollection());
-        $this->assertSame('99', $activity->getItem());
-        $this->assertSame('user-uuid', $activity->getUserId());
-        $this->assertSame('10.0.0.1', $activity->getIp());
-        $this->assertSame('Bot/1.0', $activity->getUserAgent());
+        $this->assertSame('delete', $activity->action);
+        $this->assertSame('articles', $activity->collection);
+        $this->assertSame('99', $activity->item);
+        $this->assertSame('user-uuid', $activity->userId);
+        $this->assertSame('10.0.0.1', $activity->ip);
+        $this->assertSame('Bot/1.0', $activity->userAgent);
     }
 
     /**
@@ -91,10 +91,10 @@ final class ActivityReconstituteTest extends ActivityTest
             new DateTimeImmutable(),
         );
 
-        $this->assertNull($activity->getCollection());
-        $this->assertNull($activity->getItem());
-        $this->assertNull($activity->getUserId());
-        $this->assertNull($activity->getIp());
-        $this->assertNull($activity->getUserAgent());
+        $this->assertNull($activity->collection);
+        $this->assertNull($activity->item);
+        $this->assertNull($activity->userId);
+        $this->assertNull($activity->ip);
+        $this->assertNull($activity->userAgent);
     }
 }

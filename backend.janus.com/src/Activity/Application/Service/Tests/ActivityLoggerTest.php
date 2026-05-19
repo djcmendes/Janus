@@ -10,16 +10,16 @@
  * It is instantiated as a real object. Its dependencies — ActivityRepositoryInterface
  * (an interface) and RequestStack (a non-final Symfony class) — are mocked normally.
  *
- * @package App\Activity\Domain\Service\Tests
+ * @package App\Activity\Application\Service\Tests
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Activity\Domain\Service\Tests;
+namespace App\Activity\Application\Service\Tests;
 
+use App\Activity\Application\Service\ActivityLogger;
 use App\Activity\Domain\Repository\ActivityRepositoryInterface;
-use App\Activity\Domain\Service\ActivityLogger;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\Exception;
 use PHPUnit\Framework\MockObject\MockObject;

@@ -32,7 +32,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
     public function testFromEntityMapsId(): void
     {
         $activity = $this->makeActivity();
-        $dto      = ActivityDto::fromEntity(a: $activity);
+        $dto      = ActivityDto::fromEntity(activity: $activity);
 
         $this->assertSame(expected: (string)$activity->id, actual: $dto->id);
     }
@@ -91,7 +91,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
     public function testFromEntityMapsTimestampAsAtomString(): void
     {
         $activity = $this->makeActivity();
-        $dto      = ActivityDto::fromEntity(a: $activity);
+        $dto      = ActivityDto::fromEntity(activity: $activity);
 
         $this->assertSame(
             expected: $activity->timestamp->format(format: DateTimeInterface::ATOM),
@@ -104,7 +104,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
      */
     public function testFromEntityMapsNullCollectionAndItem(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $dto = ActivityDto::fromEntity(activity: new Activity(action: 'login'));
 
         $this->assertNull(actual: $dto->collection);
         $this->assertNull(actual: $dto->item);
@@ -115,7 +115,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
      */
     public function testFromEntityMapsNullUserId(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $dto = ActivityDto::fromEntity(activity: new Activity(action: 'login'));
 
         $this->assertNull(actual: $dto->userId);
     }
@@ -125,7 +125,7 @@ final class ActivityDtoFromEntityTest extends ActivityDtoTest
      */
     public function testFromEntityMapsNullIpAndUserAgent(): void
     {
-        $dto = ActivityDto::fromEntity(a: new Activity(action: 'login'));
+        $dto = ActivityDto::fromEntity(activity: new Activity(action: 'login'));
 
         $this->assertNull(actual: $dto->ip);
         $this->assertNull(actual: $dto->userAgent);

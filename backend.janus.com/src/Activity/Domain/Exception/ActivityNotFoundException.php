@@ -27,6 +27,6 @@ final class ActivityNotFoundException extends RuntimeException
      */
     public function __construct(string $id)
     {
-        parent::__construct(sprintf(format: 'Activity "%s" not found.', values: $id));
+        parent::__construct(sprintf('Activity "%s" not found.', $id));
     }
 }

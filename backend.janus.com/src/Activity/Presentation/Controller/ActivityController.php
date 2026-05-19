@@ -98,8 +98,8 @@ final class ActivityController extends AbstractController
                 array: $result['data']
             ),
             'meta' => [
-                'total_count'  => $result['total'],
-                'filter_count' => count($result['data'])
+                'total_count'  => $result['unfiltered_total'],
+                'filter_count' => $result['filter_total'],
             ],
         ]);
     }

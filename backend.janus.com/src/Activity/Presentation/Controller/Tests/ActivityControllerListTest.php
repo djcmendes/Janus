@@ -134,26 +134,26 @@ final class ActivityControllerListTest extends ActivityControllerTest
     }
 
     /**
-     * Test that list() sets total_count from the repository count and filter_count from the result set size.
+     * Test that list() sets total_count from unfiltered countAll and filter_count from filtered countAll.
      */
     public function testListMetaReflectsTotalAndFilterCount(): void
     {
-        $this->listRepository->method(constraint:'findPaginated')
+        $this->listRepository->method(constraint: 'findPaginated')
                              ->willReturn(value: [
                                  $this->makeActivity(),
                                  $this->makeActivity()
                              ]);
 
         $this->listRepository->method(constraint: 'countAll')
-                             ->willReturn(value: 50);
+                             ->willReturnOnConsecutiveCalls(30, 200);
 
         $body = json_decode(
             json:        $this->class->list(Request::create(uri: '/activity', method: 'GET'))->getContent(),
             associative: true
         );
 
-        $this->assertSame(expected: 50, actual: $body['meta']['total_count']);
-        $this->assertSame(expected: 2, actual: $body['meta']['filter_count']);
+        $this->assertSame(expected: 200, actual: $body['meta']['total_count']);
+        $this->assertSame(expected: 30, actual: $body['meta']['filter_count']);
     }
 
     /**
