@@ -41,7 +41,7 @@ services:
         arguments:
             $appBaseUrl: '%env(APP_BASE_URL)%'
 
-    App\Server\Domain\Service\ServerService:
+    App\Server\Application\Service\ServerService:
         arguments:
             $redisUrl:    '%env(REDIS_URL)%'
             $rabbitmqDsn: '%env(RABBITMQ_DSN)%'

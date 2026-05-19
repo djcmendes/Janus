@@ -8,7 +8,7 @@ use App\Flows\Application\Command\TriggerFlowCommand;
 use App\Flows\Domain\Exception\FlowInactiveException;
 use App\Flows\Domain\Exception\FlowNotFoundException;
 use App\Flows\Domain\Repository\FlowRepositoryInterface;
-use App\Flows\Domain\Service\FlowRunnerService;
+use App\Flows\Application\Service\FlowRunnerService;
 
 final class TriggerFlowHandler
 {

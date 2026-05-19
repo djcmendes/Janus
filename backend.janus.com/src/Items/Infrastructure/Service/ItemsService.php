@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Items\Domain\Service;
+namespace App\Items\Infrastructure\Service;
 
 use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Fields\Domain\Repository\FieldMetaRepositoryInterface;

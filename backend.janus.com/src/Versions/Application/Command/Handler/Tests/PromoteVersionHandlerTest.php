@@ -16,7 +16,7 @@ namespace App\Versions\Application\Command\Handler\Tests;
 use App\Versions\Application\Command\Handler\PromoteVersionHandler;
 use App\Versions\Domain\Entity\Version;
 use App\Versions\Domain\Repository\VersionRepositoryInterface;
-use App\Versions\Domain\Service\VersionService;
+use App\Versions\Infrastructure\Service\VersionService;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -26,7 +26,7 @@ use ReflectionClass;
 /**
  * Abstract base for PromoteVersionHandler tests.
  */
-#[CoversClass(PromoteVersionHandler::class)]
+#[CoversClass(className: PromoteVersionHandler::class)]
 abstract class PromoteVersionHandlerTest extends TestCase
 {
     /** @var string */

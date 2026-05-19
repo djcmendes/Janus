@@ -31,7 +31,7 @@ use App\Versions\Application\Query\Handler\GetVersionByIdHandler;
 use App\Versions\Application\Query\Handler\GetVersionsHandler;
 use App\Versions\Domain\Entity\Version;
 use App\Versions\Domain\Repository\VersionRepositoryInterface;
-use App\Versions\Domain\Service\VersionService;
+use App\Versions\Infrastructure\Service\VersionService;
 use App\Versions\Presentation\Controller\VersionsController;
 use App\Versions\Presentation\DTO\SaveVersionRequest;
 use App\Versions\Presentation\DTO\UpdateVersionRequest;
@@ -70,7 +70,7 @@ interface VersionsValidatorStub
  * Common setup, teardown, shared instances, and scenario-builder helpers
  * for all VersionsController test suites.
  */
-#[CoversClass(VersionsController::class)]
+#[CoversClass(className: VersionsController::class)]
 abstract class VersionsControllerTest extends TestCase
 {
     /** @var string UUID returned by the fake authenticated user's getId() method. */
@@ -250,7 +250,7 @@ abstract class VersionsControllerTest extends TestCase
 
     /**
      * Returns a controller backed by a guard whose token storage returns no token,
-     * causing validate_webservice_request() to throw UnauthorizedException.
+     * causing validateWebserviceRequest() to throw UnauthorizedException.
      *
      * @return VersionsController A controller instance pre-wired to fail on authentication.
      */

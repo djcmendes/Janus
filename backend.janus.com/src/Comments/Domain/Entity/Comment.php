@@ -216,21 +216,4 @@ final class Comment
         return $this->userId === $userId;
     }
 
-    /**
-     * Serialises the entity to an associative array for JSON encoding.
-     *
-     * @return array<string, string|null> Key-value map of all entity fields.
-     */
-    public function toArray(): array
-    {
-        return [
-            'id'         => $this->id,
-            'collection' => $this->collection,
-            'item'       => $this->item,
-            'comment'    => $this->comment,
-            'user'       => $this->userId,
-            'created_at' => $this->createdAt->format(DateTimeInterface::ATOM),
-            'updated_at' => $this->updatedAt?->format(DateTimeInterface::ATOM),
-        ];
-    }
 }

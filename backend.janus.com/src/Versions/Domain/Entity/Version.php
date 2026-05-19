@@ -261,26 +261,6 @@ final class Version
     }
 
     /**
-     * Serialises the entity to an associative array for JSON encoding.
-     *
-     * @return array<string, mixed> Key-value map of all entity fields.
-     */
-    public function toArray(): array
-    {
-        return [
-            'id'         => $this->id,
-            'collection' => $this->collection,
-            'item'       => $this->item,
-            'key'        => $this->key,
-            'data'       => $this->data,
-            'delta'      => $this->delta,
-            'userId'     => $this->userId,
-            'createdAt'  => $this->createdAt->format(DateTimeInterface::ATOM),
-            'updatedAt'  => $this->updatedAt?->format(DateTimeInterface::ATOM),
-        ];
-    }
-
-    /**
      * Updates the updatedAt timestamp to reflect a mutation to mutable fields.
      *
      * @return static

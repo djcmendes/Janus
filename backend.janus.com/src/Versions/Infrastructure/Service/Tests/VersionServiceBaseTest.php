@@ -5,26 +5,23 @@
  *
  * Tests for VersionService construction and interface compliance.
  *
- * @package App\Versions\Domain\Service\Tests
+ * @package App\Versions\Infrastructure\Service\Tests
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Versions\Domain\Service\Tests;
+namespace App\Versions\Infrastructure\Service\Tests;
 
-use App\Versions\Domain\Service\VersionService;
+use App\Versions\Infrastructure\Service\VersionService;
 use PHPUnit\Framework\Attributes\CoversClass;
 
 /**
  * Verifies that VersionService is constructed correctly with the DBAL connection.
  */
-#[CoversClass(VersionService::class)]
+#[CoversClass(className: VersionService::class)]
 final class VersionServiceBaseTest extends VersionServiceTest
 {
-    /**
-     * Test that the SUT is an instance of VersionService.
-     */
     public function testIsInstanceOfVersionService(): void
     {
         $this->assertInstanceOf(VersionService::class, $this->class);

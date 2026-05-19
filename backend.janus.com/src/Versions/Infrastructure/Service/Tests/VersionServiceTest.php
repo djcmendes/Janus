@@ -8,16 +8,16 @@
  * Strategy: VersionService is final, so it is instantiated as a real object
  * backed by a mocked Doctrine DBAL Connection.
  *
- * @package App\Versions\Domain\Service\Tests
+ * @package App\Versions\Infrastructure\Service\Tests
  * @author  David Mendes
  */
 
 declare(strict_types=1);
 
-namespace App\Versions\Domain\Service\Tests;
+namespace App\Versions\Infrastructure\Service\Tests;
 
 use App\Versions\Domain\Entity\Version;
-use App\Versions\Domain\Service\VersionService;
+use App\Versions\Infrastructure\Service\VersionService;
 use Doctrine\DBAL\Connection;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\MockObject\MockObject;
@@ -27,7 +27,7 @@ use ReflectionClass;
 /**
  * Common setup, teardown, and factory helpers for all VersionService test suites.
  */
-#[CoversClass(VersionService::class)]
+#[CoversClass(className: VersionService::class)]
 abstract class VersionServiceTest extends TestCase
 {
     /**

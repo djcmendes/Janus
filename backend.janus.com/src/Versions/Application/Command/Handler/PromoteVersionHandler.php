@@ -8,7 +8,7 @@ use App\Versions\Application\Command\PromoteVersionCommand;
 use App\Versions\Application\DTO\VersionDto;
 use App\Versions\Domain\Exception\VersionNotFoundException;
 use App\Versions\Domain\Repository\VersionRepositoryInterface;
-use App\Versions\Domain\Service\VersionService;
+use App\Versions\Infrastructure\Service\VersionService;
 
 final class PromoteVersionHandler
 {

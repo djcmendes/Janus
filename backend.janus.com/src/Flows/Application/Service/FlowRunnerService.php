@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Flows\Domain\Service;
+namespace App\Flows\Application\Service;
 
 use App\Flows\Domain\Entity\Flow;
 use App\Flows\Domain\Message\RunFlowMessage;

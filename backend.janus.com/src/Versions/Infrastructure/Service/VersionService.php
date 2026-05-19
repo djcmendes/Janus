@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Versions\Domain\Service;
+namespace App\Versions\Infrastructure\Service;
 
 use App\Versions\Domain\Entity\Version;
 use Doctrine\DBAL\Connection;

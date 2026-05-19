@@ -8,7 +8,7 @@ use App\Collections\Domain\Exception\CollectionNotFoundException;
 use App\Collections\Domain\Repository\CollectionMetaRepositoryInterface;
 use App\Items\Application\Query\GetItemByIdQuery;
 use App\Items\Domain\Exception\ItemNotFoundException;
-use App\Items\Domain\Service\ItemsService;
+use App\Items\Infrastructure\Service\ItemsService;
 
 final class GetItemByIdHandler
 {

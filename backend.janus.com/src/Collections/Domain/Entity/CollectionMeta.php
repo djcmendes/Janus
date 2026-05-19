@@ -317,27 +317,6 @@ final class CollectionMeta
     }
 
     /**
-     * Serialises the entity to an associative array for JSON encoding.
-     *
-     * @return array<string, mixed> Key-value map of all entity fields.
-     */
-    public function toArray(): array
-    {
-        return [
-            'id'         => $this->id,
-            'name'       => $this->name,
-            'label'      => $this->label,
-            'icon'       => $this->icon,
-            'note'       => $this->note,
-            'hidden'     => $this->hidden,
-            'singleton'  => $this->singleton,
-            'sort_field' => $this->sortField,
-            'created_at' => $this->createdAt->format(DateTimeInterface::ATOM),
-            'updated_at' => $this->updatedAt?->format(DateTimeInterface::ATOM),
-        ];
-    }
-
-    /**
      * Updates the updatedAt timestamp to the current time.
      *
      * @return static

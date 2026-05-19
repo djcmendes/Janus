@@ -90,7 +90,7 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
 
         $result = $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
 
-        $this->assertCount( expectedCount: 1, haystack: $result['data']);
+        $this->assertCount(expectedCount: 1, haystack: $result['data']);
         $this->assertInstanceOf(expected: ActivityDto::class, actual: $result['data'][0]);
     }
 
@@ -166,20 +166,20 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
     public function testHandleForwardsFiltersToFindPaginated(): void
     {
         $this->repository->expects($this->once())
-                         ->method(constraint: 'findPaginated')
+                         ->method('findPaginated')
                          ->with(25, 0, 'posts', 'create', 'user-uuid')
-                         ->willReturn(value: []);
+                         ->willReturn([]);
 
-        $this->repository->method(constraint: 'countAll')
-                         ->willReturn(value: 0);
+        $this->repository->method('countAll')
+                         ->willReturn(0);
 
         $this->class->handle(
             query: new GetActivityQuery(
-                limit: 25,
-                offset: 0,
+                limit:      25,
+                offset:     0,
                 collection: 'posts',
-                action: 'create',
-                userId: 'user-uuid'
+                action:     'create',
+                userId:     'user-uuid'
             )
         );
     }
@@ -189,12 +189,12 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleCallsCountAllTwice(): void
     {
-        $this->repository->method(constraint: 'findPaginated')
-                         ->willReturn(value: []);
+        $this->repository->method('findPaginated')
+                         ->willReturn([]);
 
         $this->repository->expects($this->exactly(2))
-                         ->method(constraint: 'countAll')
-                         ->willReturn(value: 0);
+                         ->method('countAll')
+                         ->willReturn(0);
 
         $this->class->handle(query: new GetActivityQuery(limit: 25, offset: 0));
     }
@@ -204,32 +204,38 @@ final class GetActivityHandlerHandleTest extends GetActivityHandlerTest
      */
     public function testHandleForwardsFiltersToFilteredCountAll(): void
     {
-        $this->repository->method(constraint: 'findPaginated')
-                         ->willReturn(value: []);
+        $this->repository->method('findPaginated')
+                         ->willReturn([]);
 
         $matcher = $this->exactly(2);
         $this->repository->expects($matcher)
-                         ->method(constraint: 'countAll')
-                         ->willReturnCallback(function (?string $collection = null, ?string $action = null, ?string $userId = null) use ($matcher): int {
-                             if ($matcher->numberOfInvocations() === 1) {
-                                 $this->assertSame('posts', $collection);
-                                 $this->assertSame('create', $action);
-                                 $this->assertSame('user-uuid', $userId);
-                             } else {
-                                 $this->assertNull($collection);
-                                 $this->assertNull($action);
-                                 $this->assertNull($userId);
+                         ->method('countAll')
+                         ->willReturnCallback(
+                             function (
+                                 ?string $collection = null,
+                                 ?string $action = null,
+                                 ?string $userId = null
+                             ) use ($matcher): int {
+                                 if ($matcher->numberOfInvocations() === 1) {
+                                     $this->assertSame('posts',     $collection);
+                                     $this->assertSame('create',    $action);
+                                     $this->assertSame('user-uuid', $userId);
+                                 } else {
+                                     $this->assertNull($collection);
+                                     $this->assertNull($action);
+                                     $this->assertNull($userId);
+                                 }
+                                 return 0;
                              }
-                             return 0;
-                         });
+                         );
 
         $this->class->handle(
             query: new GetActivityQuery(
-                limit: 25,
-                offset: 0,
+                limit:      25,
+                offset:     0,
                 collection: 'posts',
-                action: 'create',
-                userId: 'user-uuid'
+                action:     'create',
+                userId:     'user-uuid'
             )
         );
     }
