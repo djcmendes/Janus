@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
  * Translates between the pure Version domain entity and the Doctrine
  * VersionEntity persistence model in both directions.
  */
-final class VersionMapper
+final readonly class VersionMapper
 {
     /**
      * Converts a Doctrine VersionEntity to a pure domain Version.

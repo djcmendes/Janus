@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
  * Translates between the pure CollectionMeta domain entity and the Doctrine
  * CollectionMetaEntity persistence model in both directions.
  */
-final class CollectionMetaMapper
+final readonly class CollectionMetaMapper
 {
     /**
      * Converts a Doctrine CollectionMetaEntity to a pure domain CollectionMeta.

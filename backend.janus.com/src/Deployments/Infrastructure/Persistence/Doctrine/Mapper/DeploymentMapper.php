@@ -23,7 +23,7 @@ use Symfony\Component\Uid\Uuid;
  * toDomain() uses Deployment::reconstitute() to avoid side-effects (no new UUID, no timestamp reset).
  * toPersistence() builds a fresh DeploymentEntity hydrated from the domain object's current state.
  */
-final class DeploymentMapper
+final readonly class DeploymentMapper
 {
     /**
      * Converts a Doctrine DeploymentEntity to a domain Deployment.

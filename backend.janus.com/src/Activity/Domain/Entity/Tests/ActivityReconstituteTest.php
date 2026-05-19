@@ -25,8 +25,15 @@ use PHPUnit\Framework\Attributes\CoversMethod;
 #[CoversMethod(className: Activity::class, methodName: 'reconstitute')]
 final class ActivityReconstituteTest extends ActivityTest
 {
+    /**
+     * UUID used as the lookup identifier in all get() test scenarios.
+     * @var string
+     */
     private const string FIXED_UUID = 'aaaaaaaa-0000-7000-8000-000000000001';
 
+    /**
+     * Test that reconstitute() uses the provided id instead of generating one.
+     */
     public function testReconstituteUsesSuppliedId(): void
     {
         $activity = Activity::reconstitute(
@@ -40,12 +47,15 @@ final class ActivityReconstituteTest extends ActivityTest
             timestamp:  new DateTimeImmutable(),
         );
 
-        $this->assertSame(self::FIXED_UUID, $activity->id);
+        $this->assertSame(expected: self::FIXED_UUID, actual: $activity->id);
     }
 
+    /**
+     * Test that reconstitute() uses the provided timestamp instead of generating one.
+     */
     public function testReconstituteUsesSuppliedTimestamp(): void
     {
-        $ts       = new DateTimeImmutable('2020-01-01T00:00:00+00:00');
+        $ts       = new DateTimeImmutable(datetime: '2020-01-01T00:00:00+00:00');
         $activity = Activity::reconstitute(
             id:         self::FIXED_UUID,
             action:     'create',
@@ -57,9 +67,12 @@ final class ActivityReconstituteTest extends ActivityTest
             timestamp:  $ts,
         );
 
-        $this->assertSame($ts, $activity->timestamp);
+        $this->assertSame(expected: $ts, actual: $activity->timestamp);
     }
 
+    /**
+     * Test that reconstitute() populates all fields when all arguments are provided.
+     */
     public function testReconstitutePopulatesAllFields(): void
     {
         $activity = Activity::reconstitute(
@@ -73,14 +86,17 @@ final class ActivityReconstituteTest extends ActivityTest
             timestamp:  new DateTimeImmutable(),
         );
 
-        $this->assertSame('delete', $activity->action);
-        $this->assertSame('articles', $activity->collection);
-        $this->assertSame('99', $activity->item);
-        $this->assertSame('user-uuid', $activity->userId);
-        $this->assertSame('10.0.0.1', $activity->ip);
-        $this->assertSame('Bot/1.0', $activity->userAgent);
+        $this->assertSame(expected: 'delete',    actual: $activity->action);
+        $this->assertSame(expected: 'articles',  actual: $activity->collection);
+        $this->assertSame(expected: '99',        actual: $activity->item);
+        $this->assertSame(expected: 'user-uuid', actual: $activity->userId);
+        $this->assertSame(expected: '10.0.0.1',  actual: $activity->ip);
+        $this->assertSame(expected: 'Bot/1.0',   actual: $activity->userAgent);
     }
 
+    /**
+     * Test that reconstitute() accepts null for all optional fields.
+     */
     public function testReconstituteAcceptsNullForAllOptionalFields(): void
     {
         $activity = Activity::reconstitute(
@@ -94,10 +110,10 @@ final class ActivityReconstituteTest extends ActivityTest
             timestamp:  new DateTimeImmutable(),
         );
 
-        $this->assertNull($activity->collection);
-        $this->assertNull($activity->item);
-        $this->assertNull($activity->userId);
-        $this->assertNull($activity->ip);
-        $this->assertNull($activity->userAgent);
+        $this->assertNull(actual: $activity->collection);
+        $this->assertNull(actual: $activity->item);
+        $this->assertNull(actual: $activity->userId);
+        $this->assertNull(actual: $activity->ip);
+        $this->assertNull(actual: $activity->userAgent);
     }
 }

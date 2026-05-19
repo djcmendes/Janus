@@ -21,7 +21,7 @@ use App\Extensions\Infrastructure\Persistence\Doctrine\Entity\ExtensionEntity;
  * Translates between the pure Extension domain entity and the Doctrine
  * ExtensionEntity persistence model in both directions.
  */
-final class ExtensionMapper
+final readonly class ExtensionMapper
 {
     /**
      * Converts a Doctrine ExtensionEntity to a pure domain Extension.

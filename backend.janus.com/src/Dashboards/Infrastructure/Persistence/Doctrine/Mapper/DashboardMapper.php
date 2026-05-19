@@ -22,7 +22,7 @@ use App\Dashboards\Infrastructure\Persistence\Doctrine\Entity\DashboardEntity;
  * toDomain() uses Dashboard::reconstitute() to avoid side-effects (no new UUID, no timestamp reset).
  * toPersistence() builds a fresh DashboardEntity hydrated from the domain object's current state.
  */
-final class DashboardMapper
+final readonly class DashboardMapper
 {
     /**
      * Converts a Doctrine DashboardEntity to a domain Dashboard.

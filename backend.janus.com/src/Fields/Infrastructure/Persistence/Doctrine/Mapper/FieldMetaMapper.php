@@ -22,7 +22,7 @@ use App\Fields\Infrastructure\Persistence\Doctrine\Entity\FieldMetaEntity;
  * toDomain() uses FieldMeta::reconstitute() to avoid side effects (no new UUID, no timestamp reset).
  * toPersistence() builds a fresh FieldMetaEntity hydrated from the domain object's current state.
  */
-final class FieldMetaMapper
+final readonly class FieldMetaMapper
 {
     /**
      * Converts a Doctrine FieldMetaEntity to a domain FieldMeta.

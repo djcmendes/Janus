@@ -22,7 +22,7 @@ use Symfony\Component\Uid\Uuid;
  * Translates between the pure Comment domain entity and the Doctrine
  * CommentEntity persistence model in both directions.
  */
-final class CommentMapper
+final readonly class CommentMapper
 {
     /**
      * Converts a Doctrine CommentEntity to a pure domain Comment.
