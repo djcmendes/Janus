@@ -1,0 +1,133 @@
+<?xml version="1.0"?>
+<!--
+    NECROCON — Janus PHP_CodeSniffer ruleset.
+    Uses built-in PSR-12 + Generic/Squiz sniffs only — no extra dependencies.
+
+    To import in another project's .phpcs.xml:
+        <rule ref="path/to/necrocon/phpcs/ruleset.xml"/>
+-->
+<ruleset name="Janus">
+
+    <description>Janus coding standard — PSR-12 base with strict additional sniffs.</description>
+
+    <!-- ── Base standard ─────────────────────────────────────────────── -->
+    <rule ref="PSR12"/>
+
+    <!-- ── Enforce vertical alignment on chained methods (->) ──────── -->
+    <!-- Forces multi-line operators to match the visual column indentation of the first call -->
+    <rule ref="PEAR.ControlStructures.MultiLineCondition.Alignment"/>
+
+    <!-- Ensures that when a method chain breaks across lines, the arrow begins the line -->
+    <rule ref="Squiz.WhiteSpace.ObjectOperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true" />
+        </properties>
+    </rule>
+
+    <!-- ── Array Spacing Customizations ──────────────────────────────── -->
+
+    <!-- 2. Prevent Squiz standard from stripping spaces when brackets are side-by-side -->
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing.SpaceAfterOpen">
+        <severity>0</severity>
+    </rule>
+    <rule ref="Squiz.Arrays.ArrayBracketSpacing.SpaceBeforeClose">
+        <severity>0</severity>
+    </rule>
+
+    <!-- 3. Enforce exactly 1 space padding for single-line arrays -->
+    <rule ref="Squiz.Arrays.ArrayDeclaration">
+        <properties>
+            <!-- Keeps [] compact while padding populated arrays -->
+            <property name="spaceBeforeClose" value="1" />
+        </properties>
+    </rule>
+
+    <!-- ── No whitespace before comma in function calls ─────────────── -->
+    <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+
+    <!-- ── Disallow multiple statements on same line ─────────────────── -->
+    <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+
+    <!-- ── Require single space after cast operators ─────────────────── -->
+    <rule ref="Generic.Formatting.SpaceAfterCast"/>
+
+    <!-- ── No space before semicolons ────────────────────────────────── -->
+    <rule ref="Squiz.WhiteSpace.SemicolonSpacing"/>
+
+    <!-- ── No whitespace at end of line ──────────────────────────────── -->
+    <rule ref="Squiz.WhiteSpace.SuperfluousWhitespace">
+        <properties>
+            <property name="ignoreBlankLines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- ── Operator spacing ───────────────────────────────────────────── -->
+    <rule ref="Squiz.WhiteSpace.OperatorSpacing">
+        <properties>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- ── Logical operators: use && and || not and/or ────────────────── -->
+    <rule ref="Squiz.Operators.ValidLogicalOperators"/>
+
+    <!-- ── No increment in complex expressions ────────────────────────── -->
+    <rule ref="Squiz.Operators.IncrementDecrementUsage"/>
+
+    <!-- ── Concatenation spacing ──────────────────────────────────────── -->
+    <rule ref="Squiz.Strings.ConcatenationSpacing">
+        <properties>
+            <property name="spacing" value="1"/>
+            <property name="ignoreNewlines" value="true"/>
+        </properties>
+    </rule>
+
+    <!-- ── No empty catch blocks ──────────────────────────────────────── -->
+    <rule ref="Generic.CodeAnalysis.EmptyStatement">
+        <exclude name="Generic.CodeAnalysis.EmptyStatement.DetectedCATCH"/>
+    </rule>
+
+    <!-- ── No unused function parameters ──────────────────────────────── -->
+    <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+
+    <!-- ── Complexity threshold ────────────────────────────────────────── -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="20"/>
+        </properties>
+    </rule>
+
+    <!-- ── Nesting depth ───────────────────────────────────────────────── -->
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="4"/>
+            <property name="absoluteNestingLevel" value="8"/>
+        </properties>
+    </rule>
+
+    <!-- ── Inline control structures disallowed ────────────────────────── -->
+    <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+
+    <!-- ── PHP opening tag must be first in file ───────────────────────── -->
+    <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+
+    <!-- ── No short PHP open tags ──────────────────────────────────────── -->
+    <rule ref="Generic.PHP.DisallowShortOpenTag"/>
+
+    <!-- ── No silenced errors with @ ───────────────────────────────────── -->
+    <rule ref="Generic.PHP.NoSilencedErrors"/>
+
+    <!-- ── Exclude auto-generated and vendor paths ───────────────────── -->
+    <exclude-pattern>*/vendor/*</exclude-pattern>
+    <exclude-pattern>*/var/*</exclude-pattern>
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+    <exclude-pattern>*/Infrastructure/Persistence/Migrations/*</exclude-pattern>
+    <exclude-pattern>necrocon/</exclude-pattern>
+
+    <!-- ── File extensions to check ─────────────────────────────────── -->
+    <arg name="extensions" value="php"/>
+    <arg name="colors"/>
+    <arg value="sp"/>
+
+</ruleset>
