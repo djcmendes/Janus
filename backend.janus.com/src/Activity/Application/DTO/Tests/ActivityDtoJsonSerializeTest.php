@@ -31,6 +31,7 @@ final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
      */
     public function testJsonSerializeReturnsArray(): void
     {
+        /** @phpstan-ignore method.alreadyNarrowedType */
         $this->assertIsArray(actual: $this->class->jsonSerialize());
     }
 
@@ -62,7 +63,7 @@ final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
      */
     public function testJsonEncodeContainsAllExpectedKeys(): void
     {
-        $decoded = (array) json_decode(json: json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
+        $decoded = (array) json_decode(json: (string) json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
 
         foreach (['id', 'action', 'collection', 'item', 'user', 'ip', 'user_agent', 'timestamp'] as $key) {
             $this->assertArrayHasKey(key: $key, array: $decoded);
@@ -75,7 +76,8 @@ final class ActivityDtoJsonSerializeTest extends ActivityDtoTest
      */
     public function testJsonEncodeValuesMatchDtoProperties(): void
     {
-        $decoded = json_decode(json: json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
+        /** @var array{id: string|null, action: string, timestamp: string} $decoded */
+        $decoded = json_decode(json: (string) json_encode(value: $this->class, flags: JSON_THROW_ON_ERROR), associative: true);
 
         $this->assertSame(expected: $this->class->id,        actual: $decoded['id']);
         $this->assertSame(expected: $this->class->action,    actual: $decoded['action']);

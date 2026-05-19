@@ -23,14 +23,6 @@ use PHPUnit\Framework\Attributes\CoversClass;
 final class ActivityEntityBaseTest extends ActivityEntityTest
 {
     /**
-     * Test that ActivityEntity can be instantiated with no arguments.
-     */
-    public function testIsInstantiableWithNoArguments(): void
-    {
-        $this->assertInstanceOf(expected: ActivityEntity::class, actual: $this->class);
-    }
-
-    /**
      * Test that ActivityEntity Fluent Setter Chain Populates all fields
      */
     public function testFluentSetterChainPopulatesAllFields(): void

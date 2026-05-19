@@ -98,7 +98,7 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
 
         $result = $this->class->findPaginated(limit: 25, offset: 0);
 
-        $this->assertSame(expected: 'delete', actual: $result[0]->action);
+        $this->assertSame(expected: 'delete',   actual: $result[0]->action);
         $this->assertSame(expected: 'articles', actual: $result[0]->collection);
     }
 
@@ -120,7 +120,7 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedSetsMaxResultsFromLimit(): void
     {
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'setMaxResults')
                            ->with(10)
                            ->willReturn(value: $this->queryBuilder);
@@ -136,7 +136,7 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedSetsFirstResultFromOffset(): void
     {
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'setFirstResult')
                            ->with(50)
                            ->willReturn(value: $this->queryBuilder);
@@ -152,7 +152,7 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedDoesNotApplyWhereClauseWhenNoFilters(): void
     {
-        $this->queryBuilder->expects($this->never())
+        $this->queryBuilder->expects(invocationRule: $this->never())
                            ->method(constraint: 'andWhere');
 
         $this->query->method(constraint: 'getResult')
@@ -180,12 +180,12 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
         string  $expectedParam,
         string  $expectedValue,
     ): void {
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'andWhere')
                            ->with(arguments: $expectedWhere)
                            ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'setParameter')
                            ->with($expectedParam, $expectedValue)
                            ->willReturn(value: $this->queryBuilder);
@@ -201,7 +201,7 @@ final class ActivityRepositoryFindPaginatedTest extends ActivityRepositoryTest
      */
     public function testFindPaginatedAppliesAllFiltersWhenAllProvided(): void
     {
-        $this->queryBuilder->expects($this->exactly(3))
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
                            ->method(constraint: 'andWhere')
                            ->willReturn(value: $this->queryBuilder);
 

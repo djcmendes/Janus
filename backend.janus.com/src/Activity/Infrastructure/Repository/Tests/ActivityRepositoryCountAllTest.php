@@ -115,7 +115,7 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
      */
     public function testCountAllDoesNotApplyWhereClauseWhenNoFilters(): void
     {
-        $this->queryBuilder->expects($this->never())
+        $this->queryBuilder->expects(invocationRule: $this->never())
                            ->method(constraint: 'andWhere');
 
         $this->query->method(constraint: 'getSingleScalarResult')
@@ -143,12 +143,12 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
         string  $expectedParam,
         string  $expectedValue,
     ): void {
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'andWhere')
                            ->with(arguments: $expectedWhere)
                            ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder->expects($this->once())
+        $this->queryBuilder->expects(invocationRule: $this->once())
                            ->method(constraint: 'setParameter')
                            ->with($expectedParam, $expectedValue)
                            ->willReturn(value: $this->queryBuilder);
@@ -164,11 +164,11 @@ final class ActivityRepositoryCountAllTest extends ActivityRepositoryTest
      */
     public function testCountAllAppliesAllFiltersWhenAllProvided(): void
     {
-        $this->queryBuilder->expects($this->exactly(3))
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
                            ->method(constraint: 'andWhere')
                            ->willReturn(value: $this->queryBuilder);
 
-        $this->queryBuilder->expects($this->exactly(3))
+        $this->queryBuilder->expects(invocationRule: $this->exactly(count: 3))
                            ->method(constraint: 'setParameter')
                            ->willReturn(value: $this->queryBuilder);
 

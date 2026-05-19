@@ -45,7 +45,8 @@ final class ActivityControllerGetTest extends ActivityControllerTest
                                 ->willReturn(value: $this->makeActivity());
 
         $response = $this->class->get(id: self::LOOKUP_UUID);
-        $body     = json_decode(json: $response->getContent(), associative: true);
+        /** @var array{data: array<string, mixed>} $body */
+        $body     = json_decode(json: (string) $response->getContent(), associative: true);
 
         $this->assertSame(expected: Response::HTTP_OK, actual: $response->getStatusCode());
         $this->assertArrayHasKey(key: 'data', array: $body);
@@ -60,8 +61,9 @@ final class ActivityControllerGetTest extends ActivityControllerTest
         $this->getByIdRepository->method(constraint: 'findById')
                                 ->willReturn(value: $activity);
 
+        /** @var array{data: array<string, mixed>} $body */
         $body = json_decode(
-            json: $this->class->get(id: self::LOOKUP_UUID)->getContent(),
+            json: (string) $this->class->get(id: self::LOOKUP_UUID)->getContent(),
             associative: true
         );
 
@@ -80,7 +82,7 @@ final class ActivityControllerGetTest extends ActivityControllerTest
      */
     public function testGetPassesUuidToRepository(): void
     {
-        $this->getByIdRepository->expects($this->once())
+        $this->getByIdRepository->expects(invocationRule: $this->once())
                                 ->method(constraint: 'findById')
                                 ->with(self::LOOKUP_UUID)
                                 ->willReturn(value: $this->makeActivity());
@@ -109,8 +111,9 @@ final class ActivityControllerGetTest extends ActivityControllerTest
         $this->getByIdRepository->method(constraint: 'findById')
                                 ->willReturn(value: null);
 
+        /** @var array{errors: list<array{message: string, extensions: array{code: string}}>} $body */
         $body = json_decode(
-            json: $this->class->get(id: self::LOOKUP_UUID)->getContent(),
+            json: (string) $this->class->get(id: self::LOOKUP_UUID)->getContent(),
             associative: true
         );
 
@@ -127,7 +130,8 @@ final class ActivityControllerGetTest extends ActivityControllerTest
         $this->getByIdRepository->method(constraint: 'findById')
                                 ->willReturn(value: null);
 
-        $body = json_decode(json: $this->class->get(id: self::LOOKUP_UUID)->getContent(), associative: true);
+        /** @var array{errors: list<array{message: string, extensions: array{code: string}}>} $body */
+        $body = json_decode(json: (string) $this->class->get(id: self::LOOKUP_UUID)->getContent(), associative: true);
 
         $this->assertStringContainsString(needle: self::LOOKUP_UUID, haystack: $body['errors'][0]['message']);
     }
@@ -140,7 +144,8 @@ final class ActivityControllerGetTest extends ActivityControllerTest
         $this->expectException(exception: UnauthorizedException::class);
         $this->expectExceptionMessage(message: 'This endpoint requires authentication.');
 
-        $this->buildControllerWithUnauthenticatedGuard()->get(id: self::LOOKUP_UUID);
+        $this->buildControllerWithUnauthenticatedGuard()
+             ->get(id: self::LOOKUP_UUID);
     }
 
     /**
@@ -150,7 +155,8 @@ final class ActivityControllerGetTest extends ActivityControllerTest
     {
         $this->expectException(exception: UnauthorizedException::class);
 
-        $this->buildControllerWithUnauthorizedClient()->get(id: self::LOOKUP_UUID);
+        $this->buildControllerWithUnauthorizedClient()
+             ->get(id: self::LOOKUP_UUID);
     }
 
     /**
@@ -160,6 +166,7 @@ final class ActivityControllerGetTest extends ActivityControllerTest
     {
         $this->expectException(exception: AccessDeniedException::class);
 
-        $this->buildControllerWithAccessDenied()->get(id: self::LOOKUP_UUID);
+        $this->buildControllerWithAccessDenied()
+             ->get(id: self::LOOKUP_UUID);
     }
 }

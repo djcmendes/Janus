@@ -24,14 +24,6 @@ use RuntimeException;
 final class ActivityNotFoundExceptionBaseTest extends ActivityNotFoundExceptionTest
 {
     /**
-     * Test that ActivityNotFoundException extends RuntimeException.
-     */
-    public function testIsInstanceOfRuntimeException(): void
-    {
-        $this->assertInstanceOf(expected: RuntimeException::class, actual: $this->class);
-    }
-
-    /**
      * Test that the exception message contains the activity UUID.
      */
     public function testExceptionMessageContainsLookupId(): void

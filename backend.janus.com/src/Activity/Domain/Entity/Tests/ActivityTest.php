@@ -47,8 +47,8 @@ abstract class ActivityTest extends TestCase
      */
     protected function setUp(): void
     {
-        $this->class      = new Activity('create', 'posts', '42');
-        $this->reflection = new ReflectionClass(Activity::class);
+        $this->class      = new Activity(action: 'create', collection: 'posts', item: '42');
+        $this->reflection = new ReflectionClass(objectOrClass: Activity::class);
     }
 
     /**
@@ -72,10 +72,10 @@ abstract class ActivityTest extends TestCase
      */
     protected function makeActivity(): Activity
     {
-        $activity = new Activity('create', 'posts', '42');
-        $activity->setUserId('bbbbbbbb-0000-7000-8000-000000000002');
-        $activity->setIp('127.0.0.1');
-        $activity->setUserAgent('PHPUnit');
+        $activity = new Activity(action: 'create', collection: 'posts', item: '42');
+        $activity->setUserId(userId: 'bbbbbbbb-0000-7000-8000-000000000002');
+        $activity->setIp(ip: '127.0.0.1');
+        $activity->setUserAgent(userAgent: 'PHPUnit');
 
         return $activity;
     }

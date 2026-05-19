@@ -29,9 +29,9 @@ final class ActivitySetUserIdTest extends ActivityTest
      */
     public function testSetUserIdStoresValue(): void
     {
-        $this->class->setUserId('user-uuid');
+        $this->class->setUserId(userId: 'user-uuid');
 
-        $this->assertSame('user-uuid', $this->class->userId);
+        $this->assertSame(expected: 'user-uuid', actual: $this->class->userId);
     }
 
     /**
@@ -39,9 +39,9 @@ final class ActivitySetUserIdTest extends ActivityTest
      */
     public function testSetUserIdReturnsStaticInstance(): void
     {
-        $result = $this->class->setUserId('user-uuid');
+        $result = $this->class->setUserId(userId: 'user-uuid');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
     /**
@@ -49,8 +49,8 @@ final class ActivitySetUserIdTest extends ActivityTest
      */
     public function testSetUserIdAcceptsNull(): void
     {
-        $this->class->setUserId(null);
+        $this->class->setUserId(userId: null);
 
-        $this->assertNull($this->class->userId);
+        $this->assertNull(actual: $this->class->userId);
     }
 }

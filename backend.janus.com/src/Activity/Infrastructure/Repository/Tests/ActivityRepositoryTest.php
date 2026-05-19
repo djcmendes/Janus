@@ -122,7 +122,7 @@ abstract class ActivityRepositoryTest extends TestCase
         $this->entityManager = $this->createMock(type: EntityManagerInterface::class);
 
         $this->entityManager->method(constraint: 'createQueryBuilder')
-                            ->willReturn($this->queryBuilder);
+                            ->willReturn(value: $this->queryBuilder);
 
         $this->entityManager->method(constraint: 'getClassMetadata')
                             ->willReturn(value: $this->classMetadata);

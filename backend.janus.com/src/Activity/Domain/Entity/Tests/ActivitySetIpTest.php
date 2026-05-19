@@ -29,9 +29,9 @@ final class ActivitySetIpTest extends ActivityTest
      */
     public function testSetIpStoresValue(): void
     {
-        $this->class->setIp('127.0.0.1');
+        $this->class->setIp(ip: '127.0.0.1');
 
-        $this->assertSame('127.0.0.1', $this->class->ip);
+        $this->assertSame(expected: '127.0.0.1', actual: $this->class->ip);
     }
 
     /**
@@ -39,9 +39,9 @@ final class ActivitySetIpTest extends ActivityTest
      */
     public function testSetIpReturnsStaticInstance(): void
     {
-        $result = $this->class->setIp('127.0.0.1');
+        $result = $this->class->setIp(ip: '127.0.0.1');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
     /**
@@ -49,8 +49,8 @@ final class ActivitySetIpTest extends ActivityTest
      */
     public function testSetIpAcceptsNull(): void
     {
-        $this->class->setIp(null);
+        $this->class->setIp(ip: null);
 
-        $this->assertNull($this->class->ip);
+        $this->assertNull(actual: $this->class->ip);
     }
 }

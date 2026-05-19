@@ -101,7 +101,8 @@ final class ActivityControllerListTest extends ActivityControllerTest
                              ->willReturn(value: 1);
 
         $response = $this->class->list(Request::create(uri: '/activity', method: 'GET'));
-        $body     = json_decode(json: $response->getContent(), associative: true);
+        /** @var array{data: list<array<string, mixed>>, meta: array{total_count: int, filter_count: int}} $body */
+        $body     = json_decode(json: (string) $response->getContent(), associative: true);
 
         $this->assertSame(expected: Response::HTTP_OK, actual: $response->getStatusCode());
         $this->assertArrayHasKey(key: 'data', array: $body);
@@ -121,9 +122,10 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->listRepository->method(constraint: 'countAll')
                              ->willReturn(value: 1);
 
-        $result = $this->class->list(request: Request::create(uri: '/activity', method: 'GET'))
-                              ->getContent();
+        $result = (string) $this->class->list(request: Request::create(uri: '/activity', method: 'GET'))
+                                       ->getContent();
 
+        /** @var array{data: list<array<string, mixed>>} $body */
         $body = json_decode(json: $result, associative: true);
 
         $this->assertCount(expectedCount: 1, haystack: $body['data']);
@@ -147,13 +149,14 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->listRepository->method(constraint: 'countAll')
                              ->willReturnOnConsecutiveCalls(30, 200);
 
+        /** @var array{data: list<array<string, mixed>>, meta: array{total_count: int, filter_count: int}} $body */
         $body = json_decode(
-            json:        $this->class->list(Request::create(uri: '/activity', method: 'GET'))->getContent(),
+            json:        (string) $this->class->list(Request::create(uri: '/activity', method: 'GET'))->getContent(),
             associative: true
         );
 
         $this->assertSame(expected: 200, actual: $body['meta']['total_count']);
-        $this->assertSame(expected: 30, actual: $body['meta']['filter_count']);
+        $this->assertSame(expected: 30,  actual: $body['meta']['filter_count']);
     }
 
     /**
@@ -167,8 +170,9 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->listRepository->method(constraint: 'countAll')
                              ->willReturn(value: 0);
 
+        /** @var array{data: list<array<string, mixed>>, meta: array{total_count: int, filter_count: int}} $body */
         $body = json_decode(
-            json:        $this->class->list(request: Request::create(uri: '/activity', method: 'GET'))->getContent(),
+            json:        (string) $this->class->list(request: Request::create(uri: '/activity'))->getContent(),
             associative: true
         );
 
@@ -182,6 +186,13 @@ final class ActivityControllerListTest extends ActivityControllerTest
      *
      * Asserts at the repository layer rather than the query object, exercising
      * the full controller → handler → repository call chain.
+     *
+     * @param array<string, string> $params             Query parameters forwarded to the request.
+     * @param int                   $expectedLimit      Expected limit passed to findPaginated().
+     * @param int                   $expectedOffset     Expected offset passed to findPaginated().
+     * @param string|null           $expectedCollection Expected collection filter, or null.
+     * @param string|null           $expectedAction     Expected action filter, or null.
+     * @param string|null           $expectedUserId     Expected user ID filter, or null.
      */
     #[DataProvider('queryParameterProvider')]
     public function testListForwardsQueryParametersToRepository(
@@ -192,16 +203,15 @@ final class ActivityControllerListTest extends ActivityControllerTest
         ?string $expectedAction,
         ?string $expectedUserId,
     ): void {
-        $this->listRepository
-             ->expects($this->once())
-             ->method(constraint: 'findPaginated')
-             ->with($expectedLimit, $expectedOffset, $expectedCollection, $expectedAction, $expectedUserId)
-             ->willReturn(value: []);
+        $this->listRepository->expects(invocationRule: $this->once())
+                             ->method(constraint: 'findPaginated')
+                             ->with($expectedLimit, $expectedOffset, $expectedCollection, $expectedAction, $expectedUserId)
+                             ->willReturn(value: []);
 
         $this->listRepository->method(constraint: 'countAll')
                              ->willReturn(value: 0);
 
-        $this->class->list(Request::create(uri: '/activity', method: 'GET', parameters: $params));
+        $this->class->list(Request::create(uri: '/activity', parameters: $params));
     }
 
     /**
@@ -213,7 +223,7 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->expectExceptionMessage(message: 'This endpoint requires authentication.');
 
         $this->buildControllerWithUnauthenticatedGuard()
-             ->list(request: Request::create(uri: '/activity', method: 'GET'));
+             ->list(request: Request::create(uri: '/activity'));
     }
 
     /**
@@ -224,7 +234,7 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->expectException(exception: UnauthorizedException::class);
 
         $this->buildControllerWithUnauthorizedClient()
-             ->list(request: Request::create(uri: '/activity', method: 'GET'));
+             ->list(request: Request::create(uri: '/activity'));
     }
 
     /**
@@ -235,6 +245,6 @@ final class ActivityControllerListTest extends ActivityControllerTest
         $this->expectException(exception: AccessDeniedException::class);
 
         $this->buildControllerWithAccessDenied()
-             ->list(request: Request::create(uri: '/activity', method: 'GET'));
+             ->list(request: Request::create(uri: '/activity'));
     }
 }

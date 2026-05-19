@@ -29,9 +29,9 @@ final class ActivitySetUserAgentTest extends ActivityTest
      */
     public function testSetUserAgentStoresValue(): void
     {
-        $this->class->setUserAgent('PHPUnit/10');
+        $this->class->setUserAgent(userAgent: 'PHPUnit/10');
 
-        $this->assertSame('PHPUnit/10', $this->class->userAgent);
+        $this->assertSame(expected: 'PHPUnit/10', actual: $this->class->userAgent);
     }
 
     /**
@@ -39,9 +39,9 @@ final class ActivitySetUserAgentTest extends ActivityTest
      */
     public function testSetUserAgentReturnsStaticInstance(): void
     {
-        $result = $this->class->setUserAgent('PHPUnit/10');
+        $result = $this->class->setUserAgent(userAgent: 'PHPUnit/10');
 
-        $this->assertSame($this->class, $result);
+        $this->assertSame(expected: $this->class, actual: $result);
     }
 
     /**
@@ -49,8 +49,8 @@ final class ActivitySetUserAgentTest extends ActivityTest
      */
     public function testSetUserAgentAcceptsNull(): void
     {
-        $this->class->setUserAgent(null);
+        $this->class->setUserAgent(userAgent: null);
 
-        $this->assertNull($this->class->userAgent);
+        $this->assertNull(actual: $this->class->userAgent);
     }
 }
